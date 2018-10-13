@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import butterknife.BindView
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.Pokemon
 import piedel.piotr.thesis.data.model.Statistic
 import piedel.piotr.thesis.features.base.BaseActivity

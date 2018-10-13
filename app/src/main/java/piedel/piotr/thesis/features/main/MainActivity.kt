@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.features.main
 
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.features.base.BaseActivity
 import piedel.piotr.thesis.features.common.ErrorView
 import piedel.piotr.thesis.features.detail.DetailActivity

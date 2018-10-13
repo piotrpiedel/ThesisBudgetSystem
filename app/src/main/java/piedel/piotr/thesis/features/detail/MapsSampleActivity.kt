@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.features.detail
 
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.features.base.BaseActivity
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory

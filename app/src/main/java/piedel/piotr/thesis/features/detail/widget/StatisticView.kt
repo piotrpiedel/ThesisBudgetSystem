@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.features.detail.widget
 
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.Statistic
 import android.annotation.SuppressLint
 import android.annotation.TargetApi

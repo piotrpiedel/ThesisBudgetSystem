@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.features.common
 
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build

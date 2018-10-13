@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import piedel.piotr.thesis.MvpStarterApplication
 import piedel.piotr.thesis.injection.component.ConfigPersistentComponent
-import piedel.thesis.injection.component.DaggerConfigPersistentComponent
+import piedel.piotr.thesis.injection.component.DaggerConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.FragmentComponent
 import piedel.piotr.thesis.injection.module.FragmentModule
 import timber.log.Timber

@@ -7,10 +7,10 @@ import com.singhajit.sherlock.core.Sherlock
 import com.squareup.leakcanary.LeakCanary
 import com.tspoon.traceur.Traceur
 import piedel.piotr.thesis.injection.component.AppComponent
-import piedel.thesis.injection.component.DaggerAppComponent
+import piedel.piotr.thesis.injection.component.DaggerAppComponent
 import piedel.piotr.thesis.injection.module.AppModule
 import piedel.piotr.thesis.injection.module.NetworkModule
-import piedel.thesis.BuildConfig
+import piedel.piotr.thesis.BuildConfig
 import timber.log.Timber
 
 class MvpStarterApplication : MultiDexApplication() {

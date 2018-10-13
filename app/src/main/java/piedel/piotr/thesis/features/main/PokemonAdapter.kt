@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.features.main
 
-import piedel.thesis.R
+import piedel.piotr.thesis.R
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

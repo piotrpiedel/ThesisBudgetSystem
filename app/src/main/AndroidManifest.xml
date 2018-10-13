@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="piedel.piotr.thesis">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,13 +14,15 @@
 
     <application
         android:name="piedel.piotr.thesis.MvpStarterApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="false"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="piedel.piedel.piotr.thesis.features.main.MainActivity"
+            android:name="piedel.piotr.thesis.features.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="piedel.piedel.piotr.thesis.features.detail.DetailActivity"
+            android:name="piedel.piotr.thesis.features.detail.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!--
@@ -45,7 +48,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="piedel.piedel.piotr.thesis.features.detail.MapsSampleActivity"
+            android:name="piedel.piotr.thesis.features.detail.MapsSampleActivity"
             android:label="@string/title_activity_maps_sample" />
     </application>
 
