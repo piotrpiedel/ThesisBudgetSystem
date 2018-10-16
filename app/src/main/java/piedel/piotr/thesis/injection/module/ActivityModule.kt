@@ -5,19 +5,19 @@ import android.content.Context
 
 import dagger.Module
 import dagger.Provides
-import piedel.piotr.thesis.injection.ActivityContext
+import piedel.piotr.thesis.injection.scopes.ActivityContext
 
 @Module
-class ActivityModule(private val mActivity: Activity) {
+class ActivityModule(private val activity: Activity) {
 
     @Provides
     internal fun provideActivity(): Activity {
-        return mActivity
+        return activity
     }
 
     @Provides
     @ActivityContext
     internal fun providesContext(): Context {
-        return mActivity
+        return activity
     }
 }

@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.common
 
-import piedel.piotr.thesis.MvpStarterApplication
+import piedel.piotr.thesis.MyApplication
 import piedel.piotr.thesis.common.injection.component.DaggerTestComponent
 import piedel.piotr.thesis.common.injection.component.TestComponent
 import piedel.piotr.thesis.common.injection.module.ApplicationTestModule
@@ -22,7 +22,7 @@ class TestComponentRule(val context: Context) : TestRule {
     val testComponent: TestComponent
 
     init {
-        val application = MvpStarterApplication.get(context)
+        val application = MyApplication.get(context)
         testComponent= DaggerTestComponent.builder()
                .applicationTestModule(ApplicationTestModule(application))
               .build()
@@ -35,7 +35,7 @@ class TestComponentRule(val context: Context) : TestRule {
         return object : Statement() {
             @Throws(Throwable::class)
             override fun evaluate() {
-                val application = MvpStarterApplication.get(context)
+                val application = MyApplication.get(context)
                 application.component = testComponent
                 base.evaluate()
             }

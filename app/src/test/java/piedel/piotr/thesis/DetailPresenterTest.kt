@@ -3,8 +3,8 @@ package piedel.thesis
 import piedel.piotr.thesis.common.TestDataFactory
 import piedel.piotr.thesis.data.DataManager
 import piedel.piotr.thesis.data.model.Pokemon
-import piedel.piotr.thesis.features.detail.DetailMvpView
-import piedel.piotr.thesis.features.detail.DetailPresenter
+import piedel.piotr.thesis.ui.detail.DetailMvpView
+import piedel.piotr.thesis.ui.detail.DetailPresenter
 import piedel.thesis.util.RxSchedulersOverrideRule
 import io.reactivex.Single
 import org.junit.After

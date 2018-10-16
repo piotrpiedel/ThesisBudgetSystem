@@ -2,8 +2,8 @@ package piedel.thesis
 
 import piedel.piotr.thesis.common.TestDataFactory
 import piedel.piotr.thesis.data.DataManager
-import piedel.piotr.thesis.features.main.MainMvpView
-import piedel.piotr.thesis.features.main.MainPresenter
+import piedel.piotr.thesis.ui.main.MainMvpView
+import piedel.piotr.thesis.ui.main.MainPresenter
 import piedel.thesis.util.RxSchedulersOverrideRule
 import io.reactivex.Single
 import org.junit.After

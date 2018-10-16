@@ -3,15 +3,15 @@ package piedel.piotr.thesis.data
 import piedel.piotr.thesis.data.model.Pokemon
 import piedel.piotr.thesis.data.remote.PokemonApi
 import io.reactivex.Single
+import piedel.piotr.thesis.injection.scopes.ApplicationScope
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScope
 class DataManager @Inject
-constructor(private val mPokemonApi: PokemonApi) {
+constructor(private val pokemonApi: PokemonApi) {
 
     fun getPokemonList(limit: Int): Single<List<String>> {
-        return mPokemonApi.getPokemonList(limit)
+        return pokemonApi.getPokemonList(limit)
                 .toObservable()
                 .flatMapIterable { (results) -> results }
                 .map { (name) -> name }
@@ -19,7 +19,7 @@ constructor(private val mPokemonApi: PokemonApi) {
     }
 
     fun getPokemon(name: String): Single<Pokemon> {
-        return mPokemonApi.getPokemon(name)
+        return pokemonApi.getPokemon(name)
     }
 
 }

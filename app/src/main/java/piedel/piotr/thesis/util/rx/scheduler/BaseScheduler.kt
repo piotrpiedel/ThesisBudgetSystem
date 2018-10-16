@@ -7,7 +7,8 @@ import org.reactivestreams.Publisher
  * Created by lam on 2/6/17.
  */
 
-abstract class BaseScheduler<T> protected constructor(private val mSubscribeOnScheduler: Scheduler, private val mObserveOnScheduler: Scheduler) : ObservableTransformer<T, T>, SingleTransformer<T, T>, MaybeTransformer<T, T>, CompletableTransformer, FlowableTransformer<T, T> {
+abstract class BaseScheduler<T> protected constructor(private val mSubscribeOnScheduler: Scheduler, private val mObserveOnScheduler: Scheduler) :
+        ObservableTransformer<T, T>, SingleTransformer<T, T>, MaybeTransformer<T, T>, CompletableTransformer, FlowableTransformer<T, T> {
 
     override fun apply(upstream: Completable): CompletableSource {
         return upstream.subscribeOn(mSubscribeOnScheduler)

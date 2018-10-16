@@ -3,7 +3,7 @@ package piedel.piotr.thesis
 import piedel.piotr.thesis.common.TestComponentRule
 import piedel.piotr.thesis.common.TestDataFactory
 import piedel.piotr.thesis.data.model.Pokemon
-import piedel.piotr.thesis.features.detail.DetailActivity
+import piedel.piotr.thesis.ui.detail.DetailActivity
 import piedel.piotr.thesis.util.ErrorTestUtil
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView

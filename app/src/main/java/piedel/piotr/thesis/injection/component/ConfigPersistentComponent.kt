@@ -1,9 +1,9 @@
 package piedel.piotr.thesis.injection.component
 
 import dagger.Component
-import piedel.piotr.thesis.features.base.BaseActivity
-import piedel.piotr.thesis.features.base.BaseFragment
-import piedel.piotr.thesis.injection.ConfigPersistent
+import piedel.piotr.thesis.ui.base.BaseActivity
+import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.injection.module.ActivityModule
 import piedel.piotr.thesis.injection.module.FragmentModule
 
@@ -15,7 +15,7 @@ import piedel.piotr.thesis.injection.module.FragmentModule
  * configuration changes (for example Presenters).
  */
 @ConfigPersistent
-@Component(dependencies = arrayOf(AppComponent::class))
+@Component(dependencies = arrayOf(ApplicationComponent::class))
 interface ConfigPersistentComponent {
 
     fun activityComponent(activityModule: ActivityModule): ActivityComponent

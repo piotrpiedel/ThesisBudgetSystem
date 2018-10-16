@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import piedel.piotr.thesis.data.DataManager
 import piedel.piotr.thesis.data.remote.PokemonApi
-import piedel.piotr.thesis.injection.ApplicationContext
+import piedel.piotr.thesis.injection.scopes.ApplicationContext
 import org.mockito.Mockito.mock
 import javax.inject.Singleton
 
