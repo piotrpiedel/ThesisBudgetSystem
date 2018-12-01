@@ -1,6 +1,7 @@
 package piedel.piotr.thesis.ui.base
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.util.LongSparseArray
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -45,7 +46,8 @@ abstract class BaseActivity : AppCompatActivity() {
             Timber.i("Reusing ConfigPersistentComponent id=%d", activityId)
             configPersistentComponent = componentsArray.get(activityId)
         }
-        activityComponent = configPersistentComponent.activityComponent(ActivityModule(this))
+        activityComponent = configPersistentComponent
+                .activityComponent(ActivityModule(this))
         activityComponent?.inject(this)
     }
 
@@ -76,6 +78,32 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getActivityComponent(): ActivityComponent {
         return activityComponent as ActivityComponent
+    }
+
+    fun fragmentAdd(layoutResId: Int, fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+                .add(layoutResId, fragment, tag)
+                .commit()
+    }
+
+    fun fragmentAddWithBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+        supportFragmentManager.beginTransaction()
+                .add(layoutResId, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+    }
+
+    fun fragmentReplaceWithBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+        supportFragmentManager.beginTransaction()
+                .replace(layoutResId, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+    }
+
+    fun fragmentReplaceWithoutBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+        supportFragmentManager.beginTransaction()
+                .replace(layoutResId, fragment, tag)
+                .commit()
     }
 
     companion object {

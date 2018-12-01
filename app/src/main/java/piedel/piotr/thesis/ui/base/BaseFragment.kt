@@ -31,44 +31,59 @@ abstract class BaseFragment : Fragment() {
         // Create the FragmentComponent and reuses cached ConfigPersistentComponent if this is
         // being called after a configuration change.
         fragmentId = savedInstanceState?.getLong(KEY_FRAGMENT_ID) ?: NEXT_ID.getAndIncrement()
+
         val configPersistentComponent: ConfigPersistentComponent
+
         if (sComponentsArray.get(fragmentId) == null) {
+
             Timber.i("Creating new ConfigPersistentComponent id=%d", fragmentId)
+
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MyApplication[activity].component)
+                    .applicationComponent(MyApplication[requireContext()].component)
                     .build()
+
             sComponentsArray.put(fragmentId, configPersistentComponent)
+
         } else {
+
             Timber.i("Reusing ConfigPersistentComponent id=%d", fragmentId)
+
             configPersistentComponent = sComponentsArray.get(fragmentId)
         }
+
         fragmentComponent = configPersistentComponent.fragmentComponent(FragmentModule(this))
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view: View? = inflater?.inflate(layout, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View? = inflater.inflate(layout, container, false)
         ButterKnife.bind(this, view as View)
         return view
     }
 
     abstract val layout: Int
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
+
         super.onSaveInstanceState(outState)
-        outState?.putLong(KEY_FRAGMENT_ID, fragmentId)
+
+        outState.putLong(KEY_FRAGMENT_ID, fragmentId)
+
     }
 
     override fun onDestroy() {
-        if (!activity.isChangingConfigurations) {
+        if (!requireActivity().isChangingConfigurations) {
             Timber.i("Clearing ConfigPersistentComponent id=%d", fragmentId)
             sComponentsArray.remove(fragmentId)
         }
         super.onDestroy()
     }
 
-    fun fragmentComponent(): FragmentComponent {
+    fun getFragmentComponent(): FragmentComponent {
         return fragmentComponent as FragmentComponent
+    }
+
+    fun getBaseActivity(): BaseActivity {
+        return requireActivity() as BaseActivity
     }
 
     companion object {

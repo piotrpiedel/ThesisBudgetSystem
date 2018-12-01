@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categories_list_expandable_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/expandable_list_item_height"
+    android:orientation="vertical"
+    android:gravity="start"
+    android:layoutDirection="ltr"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/categories_list_expandable_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/categories_list_expandable_item_title_min_height"
+        tools:text= "dasdafasfsffasf asfsa fas f"/>
+</LinearLayout>

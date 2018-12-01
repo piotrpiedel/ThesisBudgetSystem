@@ -8,8 +8,8 @@ import com.squareup.leakcanary.LeakCanary
 import com.tspoon.traceur.Traceur
 import piedel.piotr.thesis.injection.component.ApplicationComponent
 import piedel.piotr.thesis.injection.component.DaggerApplicationComponent
-import piedel.piotr.thesis.injection.module.ApplicationModule.AppModule
-import piedel.piotr.thesis.injection.module.ApplicationModule.NetworkModule
+import piedel.piotr.thesis.injection.module.applicationmodule.AppModule
+import piedel.piotr.thesis.injection.module.applicationmodule.RoomModule
 import timber.log.Timber
 
 class MyApplication : MultiDexApplication() {
@@ -34,7 +34,7 @@ class MyApplication : MultiDexApplication() {
             if (applicationComponent == null) {
                 applicationComponent = DaggerApplicationComponent.builder()
                         .appModule(AppModule(this))
-                        .networkModule(NetworkModule(this))
+                        .roomModule(RoomModule(this))
                         .build()
             }
             return applicationComponent as ApplicationComponent

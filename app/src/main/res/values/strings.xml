@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">MvpStarter</string>
+    <string name="app_name">Thesis Budget System</string>
+    <string name="activity_drawer_layout_open">Open Navigation Side Bar</string>
+    <string name="activity_drawer_layout_close">Close Navigation Side Bar</string>
+
 
     <string name="dialog_action_ok">OK</string>
     <!--<string name="dialog_action_cancel">Cancel</string>-->
@@ -15,4 +18,14 @@
     <string name="error_message">There was a problem loading the pokemon, please try again!</string>
     <string name="error_reload">Reload</string>
     <string name="title_activity_maps_sample">Map</string>
+    <string name="operation_input_text_view_plus_text">Income</string>
+    <string name="operation_input_text_view_minus_text">Outcome</string>
+    <string name="operation_input_button_save_text">Save</string>
+    <string name="operation_input_button_add_receipt_text">Add receipt (optional)</string>
+    <string name="operation_input_value_hint">0</string>
+    <string name="operation_input_category_hint">Type category</string>
+    <string name="operation_input_title_text">Type title</string>
+    <string name="operations">Operations</string>
+    <string name="categories">Categories</string>
+    <string name="navigation_import_operations">Import your operations</string>
 </resources>

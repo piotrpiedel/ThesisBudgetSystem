@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_operation_add_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_operation_add_container_margin">
+
+    <EditText
+        android:id="@+id/operation_input_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:hint="@string/operation_input_value_hint"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/operation_input_category"
+        style="@android:style/Widget.Holo.Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/operation_input_value"
+        android:layout_alignParentStart="true"
+        android:text="TODO: set Spinner Here" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/operation_input_category"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+
+        <RadioButton
+            android:id="@+id/operation_input_income"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/operation_input_text_view_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="@dimen/operation_input_text_view_plus_padding"
+            android:text="@string/operation_input_text_view_plus_text" />
+
+        <RadioButton
+            android:id="@+id/operation_input_outcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/operation_input_text_view_minus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="@dimen/operation_input_text_view_minus_padding"
+            android:text="@string/operation_input_text_view_minus_text" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/operation_input_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radio_group_buttons_container"
+        android:hint="@string/operation_input_title_text"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/operation_input_button_add_receipt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/operation_input_title"
+        android:text="@string/operation_input_button_add_receipt_text" />
+
+    <LinearLayout
+        android:id="@+id/calendar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/operation_input_button_add_receipt"
+        android:layout_alignParentStart="true"
+        android:weightSum="9">
+
+        <TextView
+            android:id="@+id/operation_input_date"
+            style="@android:style/Widget.Holo.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8" />
+
+        <ImageView
+            android:id="@+id/operation_input_date_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/calendar_icon"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/operation_input_button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendar_container"
+        android:background="@color/accent"
+        android:text="@string/operation_input_button_save_text" />
+
+</RelativeLayout>

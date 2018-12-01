@@ -4,7 +4,7 @@ import piedel.piotr.thesis.MyApplication
 import piedel.piotr.thesis.common.injection.component.DaggerTestComponent
 import piedel.piotr.thesis.common.injection.component.TestComponent
 import piedel.piotr.thesis.common.injection.module.ApplicationTestModule
-import piedel.piotr.thesis.data.DataManager
+import piedel.piotr.thesis.data.AppDatabase
 import android.content.Context
 import org.junit.rules.TestRule
 import org.junit.runner.Description
@@ -28,7 +28,7 @@ class TestComponentRule(val context: Context) : TestRule {
               .build()
     }
 
-    val mockDataManager: DataManager
+    val mockAppDatabase: AppDatabase
         get() = testComponent.dataManager()
 
     override fun apply(base: Statement, description: Description): Statement {

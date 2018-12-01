@@ -1,11 +1,11 @@
 package piedel.piotr.thesis.injection.component
 
 import dagger.Component
-import piedel.piotr.thesis.ui.base.BaseActivity
-import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.injection.module.ActivityModule
 import piedel.piotr.thesis.injection.module.FragmentModule
+import piedel.piotr.thesis.injection.scopes.ConfigPersistent
+import piedel.piotr.thesis.ui.base.BaseActivity
+import piedel.piotr.thesis.ui.base.BaseFragment
 
 /**
  * A dagger component that will live during the lifecycle of an Activity or Fragment but it won't

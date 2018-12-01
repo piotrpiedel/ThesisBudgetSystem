@@ -4,8 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import piedel.piotr.thesis.data.DataManager
-import piedel.piotr.thesis.data.remote.PokemonApi
+import piedel.piotr.thesis.data.AppDatabase
 import piedel.piotr.thesis.injection.scopes.ApplicationContext
 import org.mockito.Mockito.mock
 import javax.inject.Singleton
@@ -35,8 +34,8 @@ class ApplicationTestModule(private val mApplication: Application) {
 
     @Provides
     @Singleton
-    internal fun providesDataManager(): DataManager {
-        return mock(DataManager::class.java)
+    internal fun providesDataManager(): AppDatabase {
+        return mock(AppDatabase::class.java)
     }
 
     @Provides

@@ -2,7 +2,6 @@ package piedel.piotr.thesis
 
 import piedel.piotr.thesis.common.TestComponentRule
 import piedel.piotr.thesis.common.TestDataFactory
-import piedel.piotr.thesis.data.model.Pokemon
 import piedel.piotr.thesis.ui.main.MainActivity
 import piedel.piotr.thesis.util.ErrorTestUtil
 import android.support.test.InstrumentationRegistry
@@ -69,12 +68,12 @@ class MainActivityTest {
     }
 
     fun stubDataManagerGetPokemonList(single: Single<List<String>>) {
-        `when`(mComponent.mockDataManager.getPokemonList(ArgumentMatchers.anyInt()))
+        `when`(mComponent.mockAppDatabase.getPokemonList(ArgumentMatchers.anyInt()))
                 .thenReturn(single)
     }
 
     fun stubDataManagerGetPokemon(single: Single<Pokemon>) {
-        `when`(mComponent.mockDataManager.getPokemon(ArgumentMatchers.anyString()))
+        `when`(mComponent.mockAppDatabase.getPokemon(ArgumentMatchers.anyString()))
                 .thenReturn(single)
     }
 

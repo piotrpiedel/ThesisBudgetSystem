@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_operations"
+            android:title="@string/operations" />
+        <item
+            android:id="@+id/navigation_categories"
+            android:title="@string/categories" />
+        <item
+            android:id="@+id/navigation_import"
+            android:title="@string/navigation_import_operations" />
+    </group>
+</menu>

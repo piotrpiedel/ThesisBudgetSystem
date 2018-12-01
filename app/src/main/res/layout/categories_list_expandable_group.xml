@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categories_list_expandable_group_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/expandable_list_item_height"
+    android:orientation="vertical"
+    android:gravity="start"
+    android:layoutDirection="ltr"
+    android:paddingStart="@dimen/categories_list_expandable_group_container_padding"
+    android:paddingEnd="@dimen/categories_list_expandable_group_container_padding">
+
+    <TextView
+        android:id="@+id/categories_list_expandable_group_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/categories_list_expandable_group_header_min_height"
+        android:layout_gravity="start"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi"/>
+
+</LinearLayout>

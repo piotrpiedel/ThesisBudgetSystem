@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/operation_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/operation_card_view_margin"
+    android:layout_marginTop="@dimen/operation_card_view_margin"
+    android:layout_marginEnd="@dimen/operation_card_view_margin"
+    app:cardCornerRadius="@dimen/operations_card_view_card_corner_radius">
+
+    <RelativeLayout
+        android:id="@+id/operation_card_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/operations_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operations_title"
+            android:layout_alignBaseline="@+id/operations_title"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/operation_card_view_value_margin"
+            android:textSize="@dimen/global_text_size"
+            tools:text="30"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/operations_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/operation_card_view_title_margin"
+            android:layout_toStartOf="@id/operations_value"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textSize="@dimen/global_text_size"
+            tools:text="operations_title" />
+
+        <TextView
+            android:id="@+id/operations_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operations_title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/operation_card_view_category_margin"
+            android:gravity="center"
+            android:textSize="@dimen/global_text_size"
+            android:visibility="gone"
+            tools:text="operations_category"
+            tools:visibility="visible" />
+
+
+        <TextView
+            android:id="@+id/operations_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operations_category"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/operation_card_view_date_margin"
+            android:layout_marginStart="224dp"
+            android:layout_marginEnd="114dp"
+            android:gravity="center"
+            android:textSize="@dimen/global_text_size"
+            android:visibility="gone"
+            tools:text="operations_date"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

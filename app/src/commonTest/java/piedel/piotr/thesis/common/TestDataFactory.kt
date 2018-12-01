@@ -1,9 +1,5 @@
 package piedel.piotr.thesis.common
 
-import piedel.piotr.thesis.data.model.NamedResource
-import piedel.piotr.thesis.data.model.Pokemon
-import piedel.piotr.thesis.data.model.Sprites
-import piedel.piotr.thesis.data.model.Statistic
 import java.util.*
 
 /**

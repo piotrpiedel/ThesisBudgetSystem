@@ -1,31 +1,31 @@
 package piedel.piotr.thesis.ui.main
 
-import piedel.piotr.thesis.data.DataManager
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.util.rx.scheduler.SchedulerUtils
 import javax.inject.Inject
 
 @ConfigPersistent
 class MainPresenter @Inject
-constructor(private val mDataManager: DataManager) : BasePresenter<MainMvpView>() {
+constructor() : BasePresenter<MainView>() {
 
-    override fun attachView(mvpView: MainMvpView) {
-        super.attachView(mvpView)
-    }
-
-    fun getPokemon(limit: Int) {
+    fun initStartingFragment() {
         checkViewAttached()
-        mvpView?.showProgress(true)
-        mDataManager.getPokemonList(limit)
-                .compose(SchedulerUtils.ioToMain<List<String>>())
-                .subscribe({ pokemons ->
-                    mvpView?.showProgress(false)
-                    mvpView?.showPokemon(pokemons)
-                }) { throwable ->
-                    mvpView?.showProgress(false)
-                    mvpView?.showError(throwable)
-                }
+        view?.initFirstFragment()
     }
+
+
+    //    fun getPokemon(limit: Int) {
+//        checkViewAttached()
+//        view?.showProgress(true)
+//        appDatabase.getPokemonList(limit)
+//                .compose(SchedulerUtils.ioToMain<List<String>>())
+//                .subscribe({ pokemons ->
+//                    view?.showProgress(false)
+//                    view?.showPokemon(pokemons)
+//                }) { throwable ->
+//                    view?.showProgress(false)
+//                    view?.showError(throwable)
+//                }
+//    }
 
 }
