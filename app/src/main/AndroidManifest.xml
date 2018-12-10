@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
         <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="326c34bdd3ff1bed20b98759b2c97f87f0e4f17e" />
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>

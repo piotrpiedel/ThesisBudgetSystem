@@ -10,6 +10,8 @@ import piedel.piotr.thesis.injection.component.DaggerApplicationComponent
 import piedel.piotr.thesis.injection.module.applicationmodule.AppModule
 import piedel.piotr.thesis.injection.module.applicationmodule.RoomModule
 import timber.log.Timber
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 class MyApplication : MultiDexApplication() {
 
@@ -17,7 +19,7 @@ class MyApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
+        Fabric.with(this, Crashlytics())
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
 //            Stetho.initializeWithDefaults(this)
