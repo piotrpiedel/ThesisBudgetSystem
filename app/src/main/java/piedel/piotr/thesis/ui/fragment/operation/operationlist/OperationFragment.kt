@@ -3,9 +3,7 @@ package piedel.piotr.thesis.ui.fragment.operation.operationlist
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
@@ -13,9 +11,11 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
+import piedel.piotr.thesis.ui.main.MainActivity
 import javax.inject.Inject
 
 class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickListener {
+
 
     @Inject
     lateinit var operationPresenter: OperationPresenter
@@ -24,9 +24,10 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
     lateinit var operationAdapter: OperationAdapter
 
     @BindView(R.id.recycler_view_operations)
-    @JvmField
-    var operationsRecyclerView: RecyclerView? = null
+    lateinit var operationsRecyclerView: RecyclerView
 
+    override val toolbarTitle: String
+        get() = FRAGMENT_TAG
 
     override val layout: Int
         get() = R.layout.fragment_operations
@@ -37,24 +38,27 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
         operationPresenter.attachView(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolbarTitle()
         setOperationsRecyclerView()
         setAdapter()
         loadOperations()
     }
 
+    private fun setToolbarTitle() {
+        val toolbar = (activity as MainActivity).getToolbarFromActivity()
+        toolbar.title = FRAGMENT_TAG
+    }
+
     private fun setAdapter() {
-        operationsRecyclerView?.adapter = operationAdapter
+        operationsRecyclerView.adapter = operationAdapter
         operationAdapter.setClickListener(this)
     }
 
     private fun setOperationsRecyclerView() {
-        operationsRecyclerView?.layoutManager = LinearLayoutManager(context)
+        operationsRecyclerView.layoutManager = LinearLayoutManager(context)
 
     }
 

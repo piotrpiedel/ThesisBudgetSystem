@@ -2,7 +2,6 @@ package piedel.piotr.thesis
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
-import com.facebook.stetho.Stetho
 import com.singhajit.sherlock.core.Sherlock
 import com.squareup.leakcanary.LeakCanary
 import com.tspoon.traceur.Traceur
@@ -21,7 +20,7 @@ class MyApplication : MultiDexApplication() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-            Stetho.initializeWithDefaults(this)
+//            Stetho.initializeWithDefaults(this)
             LeakCanary.install(this)
             Sherlock.init(this)
             Traceur.enableLogging()

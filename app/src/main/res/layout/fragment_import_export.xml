@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_import_export_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/global_padding"
+    tools:context=".ui.fragment.importexport.ImportExportFragment">
+
+    <TextView
+        android:id="@+id/fragment_import_export_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/global_margin"
+        android:gravity="center"
+        android:padding="@dimen/global_text_view_padding"
+        android:text="@string/load_operations_from_html_file" />
+
+    <Button
+        android:id="@+id/fragment_import_export_button_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_export_load"
+        android:layout_margin="@dimen/global_margin"
+        android:background="@color/primary"
+        android:text="@string/button_load"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/import_file_localization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_export_button_load"
+        android:layout_margin="@dimen/global_margin"
+        android:hint="@string/localization_of_html_file"
+        android:inputType="text"
+        android:padding="@dimen/import_file_localization_text" />
+
+    <TextView
+        android:id="@+id/fragment_import_export_export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/import_file_localization"
+        android:layout_margin="@dimen/global_margin"
+        android:gravity="center"
+        android:padding="@dimen/global_padding"
+        android:text="@string/export_operations_to_json_file_format" />
+
+    <Button
+        android:id="@+id/fragment_import_export_button_export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_export_export"
+        android:layout_margin="@dimen/global_margin"
+        android:background="@color/primary"
+        android:padding="@dimen/global_padding"
+        android:text="@string/export"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/fragment_import_export_html_file_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_export_button_export"
+        android:layout_margin="@dimen/global_margin"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/global_text_view_padding"
+        android:text="DASFASF"/>
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package piedel.piotr.thesis.data.model.operation
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -15,8 +16,7 @@ import java.util.*
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
         )))
-
-data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int?) : Parcelable { //null without category
+data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int? = null) : Parcelable { //null without category
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -28,6 +28,13 @@ data class Operation(var value: Double, var title: String?, var operationType: O
             parcel.readValue(Int::class.java.classLoader) as? Int) {
         id = parcel.readInt()
     }
+
+    @Ignore
+    constructor(value: Double, title: String?, operationType: OperationType, date: Date?)
+            : this(value, title, operationType, date,null)
+
+    @Ignore
+    constructor() : this(123456.1, "Empty Constructor", OperationType.OUTCOME, Date())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeDouble(value)

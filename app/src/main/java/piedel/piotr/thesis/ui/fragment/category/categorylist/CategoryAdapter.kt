@@ -16,20 +16,14 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
 
     private var listChildHashMap: MutableMap<Int, MutableList<Category>> = mutableMapOf()
 
-    fun setCategoryListHeader(categoryListOther: MutableList<Category>) {
+    private fun setCategoryListHeader(categoryListOther: MutableList<Category>) {
         categoryListHeader.clear()
-//        Timber.d("categoryListOther " + categoryListOther.toString())
         categoryListHeader.addAll(categoryListOther)
-//        Timber.d("categoryListHeader" + categoryListHeader.toString())
-//        this.categoryListHeader = categoryListOther
     }
 
-    fun setlistChildHashMap(categoryChildLisOther: MutableMap<Int, MutableList<Category>>) {
-//        Timber.d("categoryChildLisOther before clear " + categoryChildLisOther.toString())
+    private fun setListChildHashMap(categoryChildLisOther: MutableMap<Int, MutableList<Category>>) {
         listChildHashMap.clear()
-//        Timber.d("categoryChildLisOther after clear : " + categoryChildLisOther.toString())
         listChildHashMap.putAll(categoryChildLisOther)
-//        Timber.d("categoryChildLisOther after putAll :" + categoryChildLisOther.toString())
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
@@ -105,6 +99,12 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
 
     override fun getGroupCount(): Int {
         return categoryListHeader.size
+    }
+
+    fun updateList(listCategories: List<Category>, listChildHashMap: MutableMap<Int, MutableList<Category>>) {
+        setCategoryListHeader(listCategories as MutableList<Category>)
+        setListChildHashMap(listChildHashMap)
+        notifyDataSetChanged()
     }
 
     internal class GroupViewHolder(view: View) {

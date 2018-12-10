@@ -1,16 +1,16 @@
 package piedel.piotr.thesis.data.model.operation
 
 import android.arch.persistence.room.*
-import android.support.annotation.WorkerThread
-import io.reactivex.Flowable
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 @Dao
 interface OperationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
     fun insertOperation(operation: Operation)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
+    fun insertOperation(vararg operation: Operation)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateOperation(operation: Operation)

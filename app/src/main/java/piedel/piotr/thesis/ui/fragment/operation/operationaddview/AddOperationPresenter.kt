@@ -85,7 +85,7 @@ constructor(private val operationsRepository: OperationRepository) : BasePresent
     fun prepareOperationToSave(operationOther: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, category: Nothing?): Operation {
         val valueOfOperationOther = inputValue.toDouble()
         val dateFromString = dateFromString(dateOther)
-        return operationOther?.let(updateExisitingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, category))
+        return operationOther?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, category))
                 ?: run {
                     Operation(valueOfOperationOther,
                             textTitle,
@@ -95,7 +95,7 @@ constructor(private val operationsRepository: OperationRepository) : BasePresent
                 }
     }
 
-    private fun updateExisitingOperation(valueOfOperationOther: Double, textTitle: String, valueOfOperation: OperationType, dateFromString: Date?, category: Nothing?): (Operation) -> Operation {
+    private fun updateExistingOperation(valueOfOperationOther: Double, textTitle: String, valueOfOperation: OperationType, dateFromString: Date?, category: Nothing?): (Operation) -> Operation {
         return { operation ->
             operation.apply {
                 value = valueOfOperationOther

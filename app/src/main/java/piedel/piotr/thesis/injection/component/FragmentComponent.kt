@@ -5,6 +5,7 @@ import piedel.piotr.thesis.injection.module.FragmentModule
 import piedel.piotr.thesis.injection.scopes.PerFragment
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
+import piedel.piotr.thesis.ui.fragment.importexport.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 
@@ -12,7 +13,7 @@ import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
  * This component inject dependencies to all Fragments across the application
  */
 @PerFragment
-@Subcomponent(modules = arrayOf(FragmentModule::class))
+@Subcomponent(modules = [FragmentModule::class])
 interface FragmentComponent {
 
     fun inject(baseFragment: BaseFragment)
@@ -22,5 +23,8 @@ interface FragmentComponent {
     fun inject(addOperationFragment: AddOperationFragment)
 
     fun inject(categoriesFragment: CategoryFragment)
+
+    fun inject(importExportFragment: ImportExportFragment)
+
 
 }

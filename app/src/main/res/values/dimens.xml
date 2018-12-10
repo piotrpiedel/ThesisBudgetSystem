@@ -22,6 +22,10 @@
     <dimen name="categories_list_expandable_group_header_min_height">30dp</dimen>
     <dimen name="categories_list_expandable_item_title_min_height">30dp</dimen>
     <dimen name="categories_list_expandable_group_container_padding">10dp</dimen>
+    <dimen name="import_file_localization_text">8dp</dimen>
+    <dimen name="global_padding">8dp</dimen>
+    <dimen name="global_text_view_padding">8dp</dimen>
+    <dimen name="global_margin">8dp</dimen>
     <!--<dimen name="text_small_body">14sp</dimen>-->
 
 </resources>

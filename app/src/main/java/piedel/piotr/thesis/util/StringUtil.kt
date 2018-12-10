@@ -1,0 +1,46 @@
+package piedel.piotr.thesis.util
+
+import java.util.*
+
+
+fun parseStringToStringArray(data: String): List<List<String>> {
+
+    val listOfListOperationsInStringArray: List<List<String>> = (data.lines() as ArrayList<String>).chunked(9)
+
+    return replaceHTMLSignsFromArrayListOfStrings(listOfListOperationsInStringArray)
+}
+
+
+fun replaceHTMLSignsFromArrayListOfStrings(passedListOfList: List<List<String>>): List<List<String>> {
+
+    val listOfArrayList: ArrayList<ArrayList<String>> = arrayListOf()
+
+    for (innerList in passedListOfList) {
+
+        val innerListAfterReplacing: ArrayList<String> = arrayListOf()
+
+        for (itemInInnerList in innerList) {
+            if (!itemInInnerList.contains("nobr")) {
+                var stringWithReplacedHTMLSigns = itemInInnerList.replace("<br>", " ")
+                stringWithReplacedHTMLSigns = takeFirstEightWordsFromString(stringWithReplacedHTMLSigns)
+                innerListAfterReplacing.add(stringWithReplacedHTMLSigns)
+            }
+
+        }
+        listOfArrayList.add(passedListOfList.indexOf(innerList), innerListAfterReplacing)
+    }
+    return listOfArrayList
+}
+
+fun takeFirstEightWordsFromString(phraseToShorten: String): String {
+    val stringTokenizerOfPassedPhrase = StringTokenizer(phraseToShorten)
+    val shortenedStringBuilder = StringBuilder()
+    var counter = 0
+    do {
+        if (stringTokenizerOfPassedPhrase.hasMoreTokens()) {
+            shortenedStringBuilder.append(stringTokenizerOfPassedPhrase.nextToken() + " ")
+            counter++
+        } else counter = 8
+    } while (counter < 8)
+    return shortenedStringBuilder.toString()
+}

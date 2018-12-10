@@ -18,12 +18,13 @@ class CategoryFragment : BaseFragment(), CategoryView {
     lateinit var categoryPresenter: CategoryPresenter
 
     @BindView(R.id.categories_list_view)
-    @JvmField
-    var categoriesListView: ExpandableListView? = null
+    lateinit var categoriesListView: ExpandableListView
 
     override val layout: Int
         get() = R.layout.fragment_categories_list
 
+    override val toolbarTitle: String
+        get() = FRAGMENT_TAG
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +41,11 @@ class CategoryFragment : BaseFragment(), CategoryView {
     }
 
     private fun setAdapter() {
-        categoriesListView?.setAdapter(categoryAdapter)
+        categoriesListView.setAdapter(categoryAdapter)
     }
 
     override fun updateList(listCategories: List<Category>, listChildHashMap: MutableMap<Int, MutableList<Category>>) {
-        categoryAdapter.setCategoryListHeader(listCategories as MutableList<Category>)
-        categoryAdapter.setlistChildHashMap(listChildHashMap)
-        categoryAdapter.notifyDataSetChanged()
+        categoryAdapter.updateList(listCategories, listChildHashMap);
     }
 
     companion object {

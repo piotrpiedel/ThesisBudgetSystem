@@ -13,6 +13,7 @@ import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseActivity
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
+import piedel.piotr.thesis.ui.fragment.importexport.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,20 +24,16 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
     lateinit var mainPresenter: MainPresenter
 
     @BindView(R.id.main_activity_view_container)
-    @JvmField
-    var drawerActivity: DrawerLayout? = null
+    lateinit var drawerActivity: DrawerLayout
 
     @BindView(R.id.activity_navigation_view)
-    @JvmField
-    var navigationView: NavigationView? = null
+    lateinit var navigationView: NavigationView
 
     @BindView(R.id.toolbar)
-    @JvmField
-    var toolbar: Toolbar? = null
+    lateinit var toolbar: Toolbar
 
     @BindView(R.id.fragment_container_activity_main)
-    @JvmField
-    var fragmentContainer: View? = null
+    lateinit var fragmentContainer: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +41,12 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
         mainPresenter.attachView(this)
         setSupportActionBar(toolbar)
         setOpenSideBarListener()
-        navigationView?.setNavigationItemSelectedListener(this)
+        navigationView.setNavigationItemSelectedListener(this)
         mainPresenter.initStartingFragment()
+    }
+
+    fun getToolbarFromActivity(): Toolbar {
+        return toolbar
     }
 
     override val layout: Int
@@ -56,13 +57,12 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
                 drawerActivity, toolbar,
                 R.string.activity_drawer_layout_open,
                 R.string.activity_drawer_layout_close)
-        drawerActivity?.addDrawerListener(actionBarDrawerToggle)
+        drawerActivity.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
     }
 
     override fun initFirstFragment() {
         val operationsFragment = OperationFragment()
-        val categoriesFragment = CategoryFragment()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_activity_main, operationsFragment)
                 .commit()
@@ -82,9 +82,12 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
                         CategoryFragment.FRAGMENT_TAG)
             }
             R.id.navigation_import -> {
+                fragmentReplaceWithBackStack(R.id.fragment_container_activity_main,
+                        ImportExportFragment(),
+                        ImportExportFragment.FRAGMENT_TAG)
             }
         }
-        drawerActivity?.closeDrawer(GravityCompat.START)
+        drawerActivity.closeDrawer(GravityCompat.START)
         return true
     }
 
@@ -92,14 +95,14 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
     }
 
     override fun showError(error: Throwable) {
-        fragmentContainer?.visibility = View.GONE
+        fragmentContainer.visibility = View.GONE
         Toast.makeText(baseContext, "There was an error while loading operations", Toast.LENGTH_SHORT).show()
         Timber.e(error, "There was an error while loading operations")
     }
 
     override fun onBackPressed() {
-        if (drawerActivity?.isDrawerOpen(GravityCompat.START) == true) {
-            drawerActivity?.closeDrawer(GravityCompat.START)
+        if (drawerActivity.isDrawerOpen(GravityCompat.START)) {
+            drawerActivity.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }

@@ -22,12 +22,10 @@ class CategoryPresenter @Inject constructor(private val categoryRepository: Cate
                 categoryRepository.selectParentCategories()
                         .compose(SchedulerUtils.ioToMain<List<Category>>())
                         //TODO: i should do this with flatMap, swichMap, oraz just map
-//        https://stackoverflow.com/questions/26935821/rxjava-chaining-observables
                         .subscribe({ listCategories ->
 
                             loadChildForParentsCategories(listCategories)
                             categoryListHeader = listCategories as MutableList<Category>
-//                            Timber.d("loadCategories" + listChildHashMap.toString())
 
                             view?.updateList(categoryListHeader, listChildHashMap)
                         }, { throwable ->

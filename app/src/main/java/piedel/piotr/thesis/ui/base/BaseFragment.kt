@@ -48,7 +48,7 @@ abstract class BaseFragment : Fragment() {
 
             Timber.i("Reusing ConfigPersistentComponent id=%d", fragmentId)
 
-            configPersistentComponent = sComponentsArray.get(fragmentId)
+            configPersistentComponent = sComponentsArray.get(fragmentId) as ConfigPersistentComponent
         }
 
         fragmentComponent = configPersistentComponent.fragmentComponent(FragmentModule(this))
@@ -61,6 +61,8 @@ abstract class BaseFragment : Fragment() {
     }
 
     abstract val layout: Int
+
+    abstract val toolbarTitle: String
 
     override fun onSaveInstanceState(outState: Bundle) {
 

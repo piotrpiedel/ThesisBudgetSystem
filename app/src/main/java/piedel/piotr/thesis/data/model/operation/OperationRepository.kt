@@ -17,6 +17,12 @@ class OperationRepository @Inject constructor(private val operationDao: Operatio
                 .subscribe(CompletableObserverMain())
     }
 
+    fun insertOperation(vararg operations: Operation) {
+        Completable.fromAction { operationDao.insertOperation(*operations) }
+                .compose(SchedulerUtils.ioToMain<Operation>())
+                .subscribe(CompletableObserverMain())
+    }
+
     fun updateOperation(operation: Operation) {
         Completable.fromAction { operationDao.updateOperation(operation) }
                 .compose(SchedulerUtils.ioToMain<Operation>())
