@@ -1,9 +1,11 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationlist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
@@ -11,7 +13,6 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
-import piedel.piotr.thesis.ui.main.MainActivity
 import javax.inject.Inject
 
 class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickListener {
@@ -26,8 +27,11 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
     @BindView(R.id.recycler_view_operations)
     lateinit var operationsRecyclerView: RecyclerView
 
+    @BindView(R.id.summary_value_text_view)
+    lateinit var summaryValue: TextView
+
     override val toolbarTitle: String
-        get() = FRAGMENT_TAG
+        get() = FRAGMENT_TITLE
 
     override val layout: Int
         get() = R.layout.fragment_operations
@@ -41,33 +45,25 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setToolbarTitle()
-        setOperationsRecyclerView()
-        setAdapter()
-        loadOperations()
+        operationPresenter.initFragment()
     }
 
-    private fun setToolbarTitle() {
-        val toolbar = (activity as MainActivity).getToolbarFromActivity()
-        toolbar.title = FRAGMENT_TAG
-    }
-
-    private fun setAdapter() {
+    override fun setAdapter() {
         operationsRecyclerView.adapter = operationAdapter
         operationAdapter.setClickListener(this)
     }
 
-    private fun setOperationsRecyclerView() {
+    override fun setOperationsRecyclerView() {
         operationsRecyclerView.layoutManager = LinearLayoutManager(context)
 
     }
 
-    private fun loadOperations() {
-        operationPresenter.loadOperations()
-    }
-
     override fun openAddOperationFragment() {
         getBaseActivity().fragmentReplaceWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment(), FRAGMENT_TAG)
+    }
+
+    override fun updateSummary(summary: Double) {
+        summaryValue.text = summary.toString()
     }
 
     @OnClick(R.id.fragment_operation_button_add)
@@ -76,8 +72,7 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
     }
 
     override fun updateList(operationsList: MutableList<Operation>) {
-        operationAdapter.setListOfOperations(operationsList)
-        operationAdapter.notifyDataSetChanged()
+        operationAdapter.updateListOfOperations(operationsList)
     }
 
     override fun showError(throwable: Throwable) {
@@ -88,7 +83,19 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
         getBaseActivity().fragmentReplaceWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment.newInstance(operation), FRAGMENT_TAG)
     }
 
+    override fun onOperationsLongClick(operation: Operation) {
+        val alertDialog = AlertDialog.Builder(context)
+                .setTitle(" Do you want to delete operation? ")
+                .setPositiveButton("YES") { _, _ ->
+                    operationPresenter.deleteActionOperation(operation)
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+        alertDialog.show()
+    }
+
     companion object {
         const val FRAGMENT_TAG: String = "OperationFragment"
+        const val FRAGMENT_TITLE: String = "Operations"
     }
 }

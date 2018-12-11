@@ -12,6 +12,7 @@ import piedel.piotr.thesis.injection.component.ConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.DaggerConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.FragmentComponent
 import piedel.piotr.thesis.injection.module.FragmentModule
+import piedel.piotr.thesis.ui.main.MainActivity
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 
@@ -58,6 +59,16 @@ abstract class BaseFragment : Fragment() {
         val view: View? = inflater.inflate(layout, container, false)
         ButterKnife.bind(this, view as View)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        val toolbar = (activity as MainActivity).getToolbarFromActivity()
+        toolbar.title = toolbarTitle
     }
 
     abstract val layout: Int

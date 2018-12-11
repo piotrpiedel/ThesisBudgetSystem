@@ -31,7 +31,7 @@ data class Operation(var value: Double, var title: String?, var operationType: O
 
     @Ignore
     constructor(value: Double, title: String?, operationType: OperationType, date: Date?)
-            : this(value, title, operationType, date,null)
+            : this(value, title, operationType, date, null)
 
     @Ignore
     constructor() : this(123456.1, "Empty Constructor", OperationType.OUTCOME, Date())
@@ -58,5 +58,6 @@ data class Operation(var value: Double, var title: String?, var operationType: O
             return arrayOfNulls(size)
         }
     }
-
 }
+
+data class OperationValueOperationType(var value: Double, var operationType: OperationType)

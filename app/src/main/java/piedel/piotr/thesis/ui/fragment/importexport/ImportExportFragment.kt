@@ -25,7 +25,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
         get() = R.layout.fragment_import_export
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TAG
+        get() = FRAGMENT_TITLE
 
     @Inject
     lateinit var importExportPresenter: ImportExportPresenter
@@ -43,7 +43,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
 
     @OnClick(R.id.fragment_import_export_button_export)
     fun onExportButtonClicked() {
-        if (importFileLocation.text.isNotBlank() )
+        if (importFileLocation.text.isNotBlank())
             importExportPresenter.parseHTMLFromPath(importFileLocation.text.toString())
     }
 
@@ -95,6 +95,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
 
     companion object {
         const val FRAGMENT_TAG: String = "importExportFragment"
+        const val FRAGMENT_TITLE: String = " Import | Export "
         const val PERMISSIONS_REQUEST_CODE = 0
         const val FILE_SELECT_CODE = 0
     }

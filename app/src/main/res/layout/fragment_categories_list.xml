@@ -3,14 +3,14 @@
     android:id="@+id/fragment_categories_list_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fragment_categories_list_padding">
-
+    android:background="@color/Beige">
 
     <ExpandableListView
         android:id="@+id/categories_list_view"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+        android:padding="@dimen/global_padding"
+        android:scrollbars="none"/>
 
-    </ExpandableListView>
 </RelativeLayout>

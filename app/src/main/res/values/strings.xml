@@ -23,4 +23,5 @@
     <string name="export">EXPORT</string>
     <string name="export_operations_to_json_file_format">Export operations to JSON file format: </string>
     <string name="localization_of_html_file">Localization of html file:</string>
+    <string name="bilans_konta">Bilans konta</string>
 </resources>

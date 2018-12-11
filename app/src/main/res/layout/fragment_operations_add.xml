@@ -4,7 +4,8 @@
     android:id="@+id/fragment_operation_add_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fragment_operation_add_container_margin">
+    android:background="@color/Beige"
+    android:padding="@dimen/global_padding">
 
     <EditText
         android:id="@+id/operation_input_value"
@@ -12,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:hint="@string/operation_input_value_hint"
-        android:inputType="number" />
+        android:gravity="center"
+        android:inputType="number"
+        android:padding="@dimen/global_padding" />
 
     <TextView
         android:id="@+id/operation_input_category"
@@ -21,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_value"
         android:layout_alignParentStart="true"
+        android:padding="@dimen/global_padding"
         android:text="TODO: set Spinner Here" />
 
     <RadioGroup
@@ -29,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_category"
         android:orientation="horizontal"
+        android:padding="@dimen/global_padding"
         android:weightSum="6">
 
 
@@ -68,13 +73,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/radio_group_buttons_container"
         android:hint="@string/operation_input_title_text"
-        android:inputType="text" />
+        android:inputType="textMultiLine"
+        android:maxLines="2"
+        android:padding="@dimen/global_padding" />
 
     <Button
         android:id="@+id/operation_input_button_add_receipt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_title"
+        android:background="@color/accent"
+        android:padding="@dimen/global_padding"
         android:text="@string/operation_input_button_add_receipt_text" />
 
     <LinearLayout
@@ -83,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_button_add_receipt"
         android:layout_alignParentStart="true"
+        android:padding="@dimen/global_padding"
         android:weightSum="9">
 
         <TextView
@@ -90,13 +100,19 @@
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="8" />
+            android:layout_weight="8"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:padding="@dimen/global_padding"
+            tools:text="30 November 2018" />
 
         <ImageView
             android:id="@+id/operation_input_date_icon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:padding="@dimen/global_padding"
             android:src="@drawable/calendar_icon"
             tools:visibility="visible" />
 

@@ -1,5 +1,6 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationlist
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.util.simpleDateFormat
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -23,10 +26,12 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         operationsList = mutableListOf<Operation>()
     }
 
-    fun setListOfOperations(operationListOther: MutableList<Operation>) {
+    fun updateListOfOperations(operationListOther: MutableList<Operation>) {
         operationsList?.clear()
         operationsList?.addAll(operationListOther)
-        operationsList = operationListOther
+        Timber.d("notifyDataSetChanged()")
+        Timber.d(operationsList.toString())
+        notifyDataSetChanged()
     }
 
     fun setClickListener(clickListener: ClickListener) {
@@ -53,6 +58,11 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
 
         holder.titleTextView.text = holder.operation?.title
         holder.valueTextView.text = holder.operation?.value.toString()
+        if (operationItem?.operationType == OperationType.OUTCOME) {
+            holder.valueTextView.setTextColor(Color.RED)
+        } else {
+            holder.valueTextView.setTextColor(Color.GREEN)
+        }
     }
 
     private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Operation?) {
@@ -75,7 +85,8 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
 
 
     interface ClickListener {
-        fun onOperationsClick(operation: Operation) // TODO: edytować operację - update operacji + usuniecie operacji? onLongClickListener?
+        fun onOperationsClick(operation: Operation)
+        fun onOperationsLongClick(operation: Operation)
     }
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -96,7 +107,11 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
 
         init {
             ButterKnife.bind(this, itemView)
-            itemView.setOnClickListener { if (onClickListener != null) onClickListener?.onOperationsClick(operation as Operation) }
+            itemView.setOnClickListener { onClickListener.let { onClickListener?.onOperationsClick(operation as Operation) } }
+            itemView.setOnLongClickListener {
+                onClickListener.let { onClickListener?.onOperationsLongClick(operation as Operation) }
+                true
+            }
         }
 
     }

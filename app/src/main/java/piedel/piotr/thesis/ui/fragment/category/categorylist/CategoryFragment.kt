@@ -24,7 +24,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
         get() = R.layout.fragment_categories_list
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TAG
+        get() = FRAGMENT_TITLE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +50,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
 
     companion object {
         const val FRAGMENT_TAG = "operationsFragment"
+        const val FRAGMENT_TITLE = " Categories "
     }
 
 

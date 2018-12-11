@@ -4,7 +4,7 @@
     android:id="@+id/fragment_import_export_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/global_padding"
+    android:background="@color/Beige"
     tools:context=".ui.fragment.importexport.ImportExportFragment">
 
     <TextView
@@ -63,10 +63,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_import_export_button_export"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/global_margin"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
         android:padding="@dimen/global_text_view_padding"
-        android:text="DASFASF"/>
+        android:text="DASFASF" />
 
 </RelativeLayout>

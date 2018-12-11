@@ -26,6 +26,7 @@
     <dimen name="global_padding">8dp</dimen>
     <dimen name="global_text_view_padding">8dp</dimen>
     <dimen name="global_margin">8dp</dimen>
+    <dimen name="recycler_view_operations_padding">1dp</dimen>
     <!--<dimen name="text_small_body">14sp</dimen>-->
 
 </resources>

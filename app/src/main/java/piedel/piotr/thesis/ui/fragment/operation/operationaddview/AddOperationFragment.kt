@@ -13,7 +13,6 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.util.simpleDateFormat
 import piedel.piotr.thesis.util.stringFormatDate
 import java.util.*
@@ -49,7 +48,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
     private var operation: Operation? = null
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TAG
+        get() = FRAGMENT_TITLE
 
     override val layout: Int
         get() = R.layout.fragment_operations_add
@@ -64,6 +63,10 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         super.onViewCreated(view, savedInstanceState)
         operation = arguments?.getParcelable(OPERATION_KEY)
         addOperationPresenter.fillTheData(operation)
+        setDatePickerDialog()
+    }
+
+    private fun setDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val dateSetListener = onDateSetListener(calendar)
         setOnDateClickListener(dateSetListener, calendar)
@@ -72,20 +75,24 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
     private fun setOnDateClickListener(dateSetListener: DatePickerDialog.OnDateSetListener, cal: Calendar) {
         linearLayout.setOnClickListener {
             DatePickerDialog(requireContext(), dateSetListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    cal.get(Calendar.YEAR), //the initially selected year
+                    cal.get(Calendar.MONTH), //the initially selected month
+                    cal.get(Calendar.DAY_OF_MONTH)) //the initially selected day of month
+                    .show()
         }
     }
 
-    //            TODO: refactor this method
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, years)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            setSelectedDate(cal, years, monthOfYear, dayOfMonth)
             textViewDate.text = simpleDateFormat().format(cal.time)
         }
+    }
+
+    private fun setSelectedDate(cal: Calendar, years: Int, monthOfYear: Int, dayOfMonth: Int) {
+        cal.set(Calendar.YEAR, years)
+        cal.set(Calendar.MONTH, monthOfYear)
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
     override fun fillTheData(operation: Operation?) {
@@ -139,6 +146,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         const val OPERATION_KEY: String = "OPERATION_KEY"
 
         const val FRAGMENT_TAG: String = "Add Operation Fragment"
+        const val FRAGMENT_TITLE: String = " Add Operation "
 
         fun newInstance(operation: Operation): AddOperationFragment {
             val addOperationFragment = AddOperationFragment()

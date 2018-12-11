@@ -10,4 +10,11 @@ interface OperationView : BaseView {
     fun updateList(operationsList: MutableList<Operation>)
 
     fun showError(throwable: Throwable)
+
+    fun setOperationsRecyclerView()
+
+    fun setAdapter()
+
+    fun updateSummary(summary: Double)
+
 }
