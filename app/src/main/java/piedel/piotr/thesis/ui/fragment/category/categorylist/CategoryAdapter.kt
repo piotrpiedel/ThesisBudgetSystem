@@ -1,13 +1,16 @@
 package piedel.piotr.thesis.ui.fragment.category.categorylist
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
+import com.github.pavlospt.roundedletterview.RoundedLetterView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.category.Category
+import java.util.*
 import javax.inject.Inject
 
 class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
@@ -53,6 +56,11 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
         return false
     }
 
+    private fun getRandomColor(): Int {
+        val rnd = Random()
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+    }
+
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         var view = convertView
         val holder: ChildViewHolder
@@ -66,6 +74,7 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
             holder = view.tag as ChildViewHolder
         }
         holder.childCategoryTitle.text = childCategory.category_title
+        holder.childCategoryTitleLetterView.backgroundColor = getRandomColor()
         return view
 
     }
@@ -82,10 +91,9 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
         } else {
             holder = view.tag as GroupViewHolder
         }
+        holder.parentCategoryGroupTitle.setTypeface(null, Typeface.BOLD)
         holder.parentCategoryGroupTitle.text = category.category_title
-        val listTitleTextView = view.findViewById<TextView>(R.id.categories_list_expandable_group_header)
-        listTitleTextView?.setTypeface(null, Typeface.BOLD)
-        listTitleTextView?.text = category.category_title
+        holder.parentCategoryGroupTitleLetterView.backgroundColor = getRandomColor()
         return view
     }
 
@@ -108,12 +116,12 @@ class CategoryAdapter @Inject constructor() : BaseExpandableListAdapter() {
     }
 
     internal class GroupViewHolder(view: View) {
-        //        TODO: add ImageView with FirstCapitalLetter
         val parentCategoryGroupTitle = view.findViewById(R.id.categories_list_expandable_group_header) as TextView
+        val parentCategoryGroupTitleLetterView = view.findViewById(R.id.round_letter_view) as RoundedLetterView
     }
 
     internal class ChildViewHolder(view: View) {
-        //        TODO: add ImageView with FirstCapitalLetter
         val childCategoryTitle = view.findViewById(R.id.categories_list_expandable_item_title) as TextView
+        val childCategoryTitleLetterView = view.findViewById(R.id.round_letter_view) as RoundedLetterView
     }
 }

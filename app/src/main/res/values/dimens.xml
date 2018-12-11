@@ -18,7 +18,7 @@
     <dimen name="operation_card_view_category_margin">5dp</dimen>
     <dimen name="operation_card_view_title_margin">5dp</dimen>
     <dimen name="fragment_categories_list_padding">16dp</dimen>
-    <dimen name="expandable_list_item_height">50dp</dimen>
+    <dimen name="expandable_list_item_height">65dp</dimen>
     <dimen name="categories_list_expandable_group_header_min_height">30dp</dimen>
     <dimen name="categories_list_expandable_item_title_min_height">30dp</dimen>
     <dimen name="categories_list_expandable_group_container_padding">10dp</dimen>
@@ -27,6 +27,7 @@
     <dimen name="global_text_view_padding">8dp</dimen>
     <dimen name="global_margin">8dp</dimen>
     <dimen name="recycler_view_operations_padding">1dp</dimen>
+    <dimen name="global_text_size_subtitle">16sp</dimen>
     <!--<dimen name="text_small_body">14sp</dimen>-->
 
 </resources>
