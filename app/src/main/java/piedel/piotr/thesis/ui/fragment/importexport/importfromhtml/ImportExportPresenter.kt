@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.importexport
+package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 
 import android.Manifest
 import android.app.Activity

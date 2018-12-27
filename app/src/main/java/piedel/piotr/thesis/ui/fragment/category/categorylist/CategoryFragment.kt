@@ -1,24 +1,24 @@
 package piedel.piotr.thesis.ui.fragment.category.categorylist
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ExpandableListView
 import butterknife.BindView
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
 import javax.inject.Inject
 
 class CategoryFragment : BaseFragment(), CategoryView {
 
-    @Inject
-    lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
 
     @Inject
     lateinit var categoryPresenter: CategoryPresenter
 
     @BindView(R.id.categories_list_view)
-    lateinit var categoriesListView: ExpandableListView
+    lateinit var categoriesListView: RecyclerView
 
     override val layout: Int
         get() = R.layout.fragment_categories_list
@@ -35,17 +35,21 @@ class CategoryFragment : BaseFragment(), CategoryView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
+        setLayoutManager()
+        initFragment()
+    }
+
+    private fun initFragment() {
         categoryPresenter.loadParentCategories()
-        //TODO: setOnChildClickListener??? ale co dokładnie ma sie dziać?xD
     }
 
-    private fun setAdapter() {
-        categoriesListView.setAdapter(categoryAdapter)
+    private fun setLayoutManager() {
+        categoriesListView.layoutManager = LinearLayoutManager(context)
     }
 
-    override fun updateList(listCategories: List<Category>, listChildHashMap: MutableMap<Int, MutableList<Category>>) {
-        categoryAdapter.updateList(listCategories, listChildHashMap);
+    override fun updateList(listCategories: MutableList<CategoryExpandableGroup>) {
+        categoryAdapter = CategoryAdapter(listCategories)
+        categoriesListView.adapter = categoryAdapter
     }
 
     companion object {

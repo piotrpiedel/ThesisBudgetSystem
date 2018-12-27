@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/categories_list_expandable_group_card"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/expandable_list_item_height"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
     android:layoutDirection="ltr"
     app:cardCornerRadius="@dimen/operations_card_view_card_corner_radius">
 
     <RelativeLayout
         android:id="@+id/categories_list_expandable_group_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Wheat"
         android:padding="@dimen/global_padding">
 
-        <com.github.pavlospt.roundedletterview.RoundedLetterView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.github.pavlospt.roundedletterview.RoundedLetterView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/round_letter_view"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -30,10 +31,10 @@
         <TextView
             android:id="@+id/categories_list_expandable_group_header"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toEndOf="@id/round_letter_view"
             android:gravity="center_horizontal"
-            android:textSize="@dimen/global_text_size"
+            android:maxHeight="65dp"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi" />
 
     </RelativeLayout>

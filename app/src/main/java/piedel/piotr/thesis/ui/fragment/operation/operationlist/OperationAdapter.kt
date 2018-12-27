@@ -9,33 +9,28 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.util.simpleDateFormat
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAdapter.OperationViewHolder>() {
 
-    private var operationsList: MutableList<Operation>? = null
+    private var operationWithCategoryList: MutableList<OperationCategoryTuple> = mutableListOf()
 
-    private var onClickListener: ClickListener? = null
+    private var adapterListener: OperationAdapteListener? = null
 
-    init {
-        operationsList = mutableListOf<Operation>()
-    }
-
-    fun updateListOfOperations(operationListOther: MutableList<Operation>) {
-        operationsList?.clear()
-        operationsList?.addAll(operationListOther)
-        Timber.d("notifyDataSetChanged()")
-        Timber.d(operationsList.toString())
+    fun updateListOfOperations(operationListOther: List<OperationCategoryTuple>) {
+        operationWithCategoryList.clear()
+        operationWithCategoryList.addAll(operationListOther)
         notifyDataSetChanged()
     }
 
-    fun setClickListener(clickListener: ClickListener) {
-        onClickListener = clickListener
+    fun setClickListener(operationAdapteListener: OperationAdapteListener) {
+        adapterListener = operationAdapteListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
@@ -45,30 +40,30 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
     }
 
     override fun getItemCount(): Int {
-        return operationsList?.size as Int
+        return operationWithCategoryList.size
     }
 
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
-        val operationItem = operationsList?.get(position)
-        holder.operation = operationItem
+        val operationItem = operationWithCategoryList[position]
+        holder.operation = operationItem.operation
 
-        setCategoryTextView(holder, operationItem)
+        setCategoryTextView(holder, operationItem.category)
 
-        setDateTextView(holder, operationItem)
+        setDateTextView(holder, operationItem.operation)
 
         holder.titleTextView.text = holder.operation?.title
         holder.valueTextView.text = holder.operation?.value.toString()
-        if (operationItem?.operationType == OperationType.OUTCOME) {
+        if (operationItem.operation.operationType == OperationType.OUTCOME) {
             holder.valueTextView.setTextColor(Color.RED)
         } else {
             holder.valueTextView.setTextColor(Color.GREEN)
         }
     }
 
-    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Operation?) {
+    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Category?) {
         holder.operation?.other_category_id?.let {
             holder.categoryTextView.visibility = View.VISIBLE
-            holder.categoryTextView.text = operationItem?.other_category_id.toString()
+            holder.categoryTextView.text = operationItem?.category_title
         } ?: run {
             holder.categoryTextView.visibility = View.GONE
         }
@@ -83,10 +78,16 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         }
     }
 
+    fun updateList(itemPosition: Int) {
+        operationWithCategoryList.removeAt(itemPosition)
+        notifyItemRemoved(itemPosition)
+        notifyItemRangeChanged(itemPosition, itemCount)
+    }
 
-    interface ClickListener {
-        fun onOperationsClick(operation: Operation)
-        fun onOperationsLongClick(operation: Operation)
+
+    interface OperationAdapteListener {
+        fun onOperationListViewClicked(operation: Operation)
+        fun onOperationsLongClick(operation: Operation, position: Int)
     }
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -107,9 +108,9 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
 
         init {
             ButterKnife.bind(this, itemView)
-            itemView.setOnClickListener { onClickListener.let { onClickListener?.onOperationsClick(operation as Operation) } }
+            itemView.setOnClickListener { adapterListener.let { adapterListener?.onOperationListViewClicked(operation as Operation) } }
             itemView.setOnLongClickListener {
-                onClickListener.let { onClickListener?.onOperationsLongClick(operation as Operation) }
+                adapterListener.let { adapterListener?.onOperationsLongClick(operation as Operation, this.layoutPosition) }
                 true
             }
         }

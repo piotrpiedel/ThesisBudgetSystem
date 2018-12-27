@@ -12,20 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:hint="@string/operation_input_value_hint"
         android:gravity="center"
+        android:hint="@string/operation_input_value_hint"
         android:inputType="number"
         android:padding="@dimen/global_padding" />
 
-    <TextView
+    <piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
         android:id="@+id/operation_input_category"
-        style="@android:style/Widget.Holo.Spinner"
+        style="@style/OperationInputStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_value"
-        android:layout_alignParentStart="true"
-        android:padding="@dimen/global_padding"
-        android:text="TODO: set Spinner Here" />
+        android:hint="@string/select_category" />
 
     <RadioGroup
         android:id="@+id/radio_group_buttons_container"

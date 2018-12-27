@@ -3,7 +3,6 @@ package piedel.piotr.thesis.data.model.operation
 import android.annotation.SuppressLint
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Single
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import piedel.piotr.thesis.util.rxutils.subscriber.CompletableObserverMain
 import javax.inject.Inject
@@ -49,6 +48,11 @@ class OperationRepository @Inject constructor(private val operationDao: Operatio
     fun selectAllOperations(): Maybe<List<Operation>> {
         return operationDao.selectAllOperations()
                 .compose(SchedulerUtils.ioToMain<List<Operation>>())
+    }
+
+    fun selectAllOperationsWithCategories(): Maybe<List<OperationCategoryTuple>> {
+        return operationDao.selectAllOperationsWithCategories()
+                .compose(SchedulerUtils.ioToMain<List<OperationCategoryTuple>>())
     }
 
     fun selectValueOperationList(): Maybe<List<OperationValueOperationType>> {

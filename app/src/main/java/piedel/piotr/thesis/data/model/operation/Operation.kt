@@ -1,9 +1,6 @@
 package piedel.piotr.thesis.data.model.operation
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.os.Parcel
 import android.os.Parcelable
 import piedel.piotr.thesis.data.model.category.Category
@@ -61,3 +58,5 @@ data class Operation(var value: Double, var title: String?, var operationType: O
 }
 
 data class OperationValueOperationType(var value: Double, var operationType: OperationType)
+
+data class OperationCategoryTuple(@Embedded var operation: Operation, @Embedded var category: Category?)

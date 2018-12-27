@@ -2,7 +2,6 @@ package piedel.piotr.thesis.data.model.operation
 
 import android.arch.persistence.room.*
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 @Dao
 interface OperationDao {
@@ -24,6 +23,9 @@ interface OperationDao {
 
     @Query("SELECT * FROM operation_table")
     fun selectAllOperations(): Maybe<List<Operation>>
+
+    @Query("SELECT * FROM operation_table LEFT JOIN category_table ON other_category_id == categoryId  ")
+    fun selectAllOperationsWithCategories(): Maybe<List<OperationCategoryTuple>>
 
     @Query("SELECT value,operationType from operation_table")
     fun selectValueOperationList(): Maybe<List<OperationValueOperationType>>

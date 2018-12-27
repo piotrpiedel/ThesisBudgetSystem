@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.importexport
+package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 
 import com.squareup.moshi.*
 import piedel.piotr.thesis.data.model.operation.Operation

@@ -24,4 +24,12 @@
     <string name="export_operations_to_json_file_format">Export operations to JSON file format: </string>
     <string name="localization_of_html_file">Localization of html file:</string>
     <string name="bilans_konta">Bilans konta</string>
+    <string name="select_category">Select category</string>
+    <string name="navigation_receipt_list_text">Receipts</string>
+    <string name="load_receipt_from_gallery">Load receipt from gallery</string>
+    <string name="take_a_picture">Take a picture</string>
+    <string name="add_receipt">Add Receipt</string>
+    <string name="type_total_value_of_receipt">Type total value of receipt</string>
+    <string name="type_title_receipt">Type title of receipt (shop etc) </string>
+    <string name="save">SAVE</string>
 </resources>

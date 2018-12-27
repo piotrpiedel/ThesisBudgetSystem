@@ -8,13 +8,15 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseActivity
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
-import piedel.piotr.thesis.ui.fragment.importexport.ImportExportFragment
+import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +33,9 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
 
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
+
+    @BindView(R.id.progress_bar)
+    lateinit var progressBar: ProgressBar
 
     @BindView(R.id.fragment_container_activity_main)
     lateinit var fragmentContainer: View
@@ -71,20 +76,25 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_operations -> {
-                fragmentReplaceWithBackStack(R.id.fragment_container_activity_main,
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         OperationFragment(),
                         OperationFragment.FRAGMENT_TAG
                 )
             }
             R.id.navigation_categories -> {
-                fragmentReplaceWithBackStack(R.id.fragment_container_activity_main,
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         CategoryFragment(),
                         CategoryFragment.FRAGMENT_TAG)
             }
             R.id.navigation_import -> {
-                fragmentReplaceWithBackStack(R.id.fragment_container_activity_main,
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         ImportExportFragment(),
                         ImportExportFragment.FRAGMENT_TAG)
+            }
+            R.id.navigation_receipt_list -> {
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
+                        ReceiptFragment(),
+                        ReceiptFragment.FRAGMENT_TAG)
             }
         }
         drawerActivity.closeDrawer(GravityCompat.START)
@@ -92,6 +102,10 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
     }
 
     override fun showProgress(show: Boolean) {
+        if (show)
+            progressBar.visibility = View.VISIBLE
+        else
+            progressBar.visibility = View.GONE
     }
 
     override fun showError(error: Throwable) {

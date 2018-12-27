@@ -7,8 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
         android:gravity="center_horizontal"
-        android:text="@string/error_title"
-        android:textSize="@dimen/text_headline" />
+        android:text="@string/error_title" />
 
     <TextView
         android:id="@+id/text_error_message"
@@ -17,8 +16,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
         android:padding="16dp"
-        android:text="@string/error_message"
-        android:textSize="@dimen/text_body" />
+        android:text="@string/error_message" />
 
     <Button
         android:id="@+id/button_reload"

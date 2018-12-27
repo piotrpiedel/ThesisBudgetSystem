@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.github.pavlospt.roundedletterview.RoundedLetterView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/round_letter_view"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center_vertical"
+        android:visibility="visible"
+        app:rlv_backgroundColorValue="@color/Green"
+        app:rlv_titleColor="@android:color/white"
+        app:rlv_titleSize="15dp"
+        app:rlv_titleText="A" />
+
+    <TextView
+        android:id="@+id/categories_list_expandable_group_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/round_letter_view"
+        android:gravity="center_horizontal"
+        android:textSize="15sp"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi" />
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.importexport
+package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 
 import android.content.Intent
 import android.os.Bundle
@@ -66,7 +66,6 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
             Toast.makeText(context, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
             Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,7 +95,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
     companion object {
         const val FRAGMENT_TAG: String = "importExportFragment"
         const val FRAGMENT_TITLE: String = " Import | Export "
-        const val PERMISSIONS_REQUEST_CODE = 0
-        const val FILE_SELECT_CODE = 0
+        const val PERMISSIONS_REQUEST_CODE = 80
+        const val FILE_SELECT_CODE = 81
     }
 }

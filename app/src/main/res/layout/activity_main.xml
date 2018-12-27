@@ -45,12 +45,13 @@
             android:visibility="gone" />
 
         <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:visibility="gone" />
-
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </RelativeLayout>
 
@@ -60,6 +61,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/drawer_view"
+        tools:visibility="gone" />
 
 </android.support.v4.widget.DrawerLayout>

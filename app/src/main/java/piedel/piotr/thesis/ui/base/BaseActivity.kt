@@ -1,5 +1,6 @@
 package piedel.piotr.thesis.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.util.LongSparseArray
@@ -11,6 +12,7 @@ import piedel.piotr.thesis.injection.component.ActivityComponent
 import piedel.piotr.thesis.injection.component.ConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.DaggerConfigPersistentComponent
 import piedel.piotr.thesis.injection.module.ActivityModule
+import piedel.piotr.thesis.ui.main.MainActivity
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 
@@ -80,27 +82,27 @@ abstract class BaseActivity : AppCompatActivity() {
         return activityComponent as ActivityComponent
     }
 
-    fun fragmentAdd(layoutResId: Int, fragment: Fragment, tag: String) {
+    fun addFragmentWithoutBackStack(layoutResId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
                 .add(layoutResId, fragment, tag)
                 .commit()
     }
 
-    fun fragmentAddWithBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+    fun addFragmentWithBackStack(layoutResId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
                 .add(layoutResId, fragment, tag)
                 .addToBackStack(tag)
                 .commit()
     }
 
-    fun fragmentReplaceWithBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+    fun replaceFragmentWithBackStack(layoutResId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
                 .replace(layoutResId, fragment, tag)
                 .addToBackStack(tag)
                 .commit()
     }
 
-    fun fragmentReplaceWithoutBackStack(layoutResId: Int, fragment: Fragment, tag: String){
+    fun replaceFragmentWithoutBackStack(layoutResId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
                 .replace(layoutResId, fragment, tag)
                 .commit()

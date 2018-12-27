@@ -25,6 +25,16 @@ fun dateFromString(value: String): Date? {
     }
 }
 
+fun dateFromStringNullCheck(value: String): Date {
+    return if (value.isNotBlank()) {
+        simpleDateFormat().parse(value)
+    } else return Date()
+}
+
 fun stringFormatDate(date: Date?): String? {
+    date?.let { return simpleDateFormat().format(date) } ?: return null
+}
+
+fun dateToTextString(date: Date?): String? {
     date?.let { return simpleDateFormat().format(date) } ?: return null
 }

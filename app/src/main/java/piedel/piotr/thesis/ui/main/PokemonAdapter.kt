@@ -14,7 +14,7 @@
 //constructor() : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
 //
 //    private var mPokemon: List<String>? = null
-//    private var mClickListener: ClickListener? = null
+//    private var mClickListener: OperationAdapteListener? = null
 //
 //    init {
 //        mPokemon = emptyList<String>()
@@ -24,7 +24,7 @@
 //        mPokemon = pokemon
 //    }
 //
-//    fun setClickListener(clickListener: ClickListener) {
+//    fun setClickListener(clickListener: OperationAdapteListener) {
 //        mClickListener = clickListener
 //    }
 //
@@ -45,7 +45,7 @@
 //        return mPokemon?.size as Int
 //    }
 //
-//    interface ClickListener {
+//    interface OperationAdapteListener {
 //        fun onPokemonClick(pokemon: String)
 //    }
 //

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Beige"
-    tools:context=".ui.fragment.importexport.ImportExportFragment">
+    tools:context=".ui.fragment.importexport.importfromhtml.ImportExportFragment">
 
     <TextView
         android:id="@+id/fragment_import_export_load"

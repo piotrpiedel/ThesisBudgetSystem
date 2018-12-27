@@ -12,5 +12,8 @@
         <item
             android:id="@+id/navigation_import"
             android:title="@string/navigation_import_operations" />
+        <item
+            android:id="@+id/navigation_receipt_list"
+            android:title="@string/navigation_receipt_list_text" />
     </group>
 </menu>

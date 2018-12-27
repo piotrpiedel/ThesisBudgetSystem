@@ -9,6 +9,8 @@ import dagger.Provides
 import piedel.piotr.thesis.data.AppDatabase
 import piedel.piotr.thesis.data.model.category.CategoryDao
 import piedel.piotr.thesis.data.model.operation.OperationDao
+import piedel.piotr.thesis.data.model.receipt.Receipt
+import piedel.piotr.thesis.data.model.receipt.ReceiptDao
 import piedel.piotr.thesis.injection.scopes.ApplicationScope
 import piedel.piotr.thesis.util.ioThread
 
@@ -52,6 +54,12 @@ class RoomModule(application: Application) {
     @Provides
     fun providesOperationDao(appDatabase: AppDatabase): OperationDao {
         return appDatabase.getOperationDao()
+    }
+
+    @ApplicationScope
+    @Provides
+    fun providesReceiptDao(appDatabase: AppDatabase): ReceiptDao {
+        return appDatabase.getReceiptDao()
     }
 
 }

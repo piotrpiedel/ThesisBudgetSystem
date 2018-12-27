@@ -3,10 +3,7 @@ package piedel.piotr.thesis.ui.fragment.operation.operationlist
 import android.annotation.SuppressLint
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
-import piedel.piotr.thesis.data.model.operation.Operation
-import piedel.piotr.thesis.data.model.operation.OperationRepository
-import piedel.piotr.thesis.data.model.operation.OperationType
-import piedel.piotr.thesis.data.model.operation.OperationValueOperationType
+import piedel.piotr.thesis.data.model.operation.*
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
@@ -23,12 +20,11 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
 
     private var disposable: Disposable? = null
 
-
     fun initFragment() {
         checkViewAttached()
         view?.setOperationsRecyclerView()
         view?.setAdapter()
-        loadOperations()
+        loadOperationsWithCategories()
         loadSummary()
     }
 
@@ -48,7 +44,6 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                             .setScale(3, RoundingMode.HALF_UP)
                             .toDouble()
                     view?.updateSummary(truncatedSummary)
-                    Timber.d(it.toString())
                 }, { throwable ->
                     Timber.d(throwable.localizedMessage)
                     view?.showError(throwable)
@@ -61,12 +56,11 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     }
 
     @SuppressLint("CheckResult")
-    fun loadOperations() {
-        disposable = operationRepository.selectAllOperations()
-                .compose(SchedulerUtils.ioToMain<List<Operation>>())
+    fun loadOperationsWithCategories() {
+        disposable = operationRepository.selectAllOperationsWithCategories()
+                .compose(SchedulerUtils.ioToMain<List<OperationCategoryTuple>>())
                 .subscribe({ operations ->
-                    Timber.d("loadOperations()")
-                    view?.updateList(operations as MutableList<Operation>)
+                    view?.updateList(operations)
                     loadSummary()
                 }, { throwable ->
                     Timber.d(throwable.localizedMessage)
@@ -76,14 +70,21 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
         addDisposable(disposable)
     }
 
-    fun deleteActionOperation(operation: Operation) {
+    fun deleteActionOperation(operation: Operation, itemPosition: Int) {
         Completable.fromAction { operationRepository.deleteOperation(operation) }
                 .compose(SchedulerUtils.ioToMain<Operation>())
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
                         Timber.d("deleteActionOperation on Complete")
-                        loadOperations()
+                        notifyAdapterItemRemoved(itemPosition)
                     }
                 })
     }
+
+    private fun notifyAdapterItemRemoved(itemPosition: Int) {
+        view?.notifyItemRemoved(itemPosition)
+        loadSummary()
+    }
+
+
 }

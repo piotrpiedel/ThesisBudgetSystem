@@ -11,11 +11,12 @@ import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
 import javax.inject.Inject
 
-class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickListener {
+class OperationFragment : BaseFragment(), OperationView, OperationAdapter.OperationAdapteListener {
 
 
     @Inject
@@ -59,7 +60,7 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
     }
 
     override fun openAddOperationFragment() {
-        getBaseActivity().fragmentReplaceWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment(), FRAGMENT_TAG)
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment(), AddOperationFragment.FRAGMENT_TAG)
     }
 
     override fun updateSummary(summary: Double) {
@@ -71,23 +72,27 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.ClickL
         operationPresenter.addOperation()
     }
 
-    override fun updateList(operationsList: MutableList<Operation>) {
+    override fun updateList(operationsList: List<OperationCategoryTuple>) {
         operationAdapter.updateListOfOperations(operationsList)
+    }
+
+    override fun notifyItemRemoved(itemPosition: Int) {
+        operationAdapter.updateList(itemPosition)
     }
 
     override fun showError(throwable: Throwable) {
         Toast.makeText(context, "There is problem with operations, try again later", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onOperationsClick(operation: Operation) {
-        getBaseActivity().fragmentReplaceWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment.newInstance(operation), FRAGMENT_TAG)
+    override fun onOperationListViewClicked(operation: Operation) {
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment.newInstance(operation), AddOperationFragment.FRAGMENT_TAG)
     }
 
-    override fun onOperationsLongClick(operation: Operation) {
+    override fun onOperationsLongClick(operation: Operation, position: Int) {
         val alertDialog = AlertDialog.Builder(context)
                 .setTitle(" Do you want to delete operation? ")
                 .setPositiveButton("YES") { _, _ ->
-                    operationPresenter.deleteActionOperation(operation)
+                    operationPresenter.deleteActionOperation(operation, position)
                 }
                 .setNegativeButton("Cancel", null)
                 .create()

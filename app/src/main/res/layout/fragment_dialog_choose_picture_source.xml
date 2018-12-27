@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_dialog_choose_picture_source_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/value_container"
+    android:layout_alignParentEnd="true"
+    android:layout_centerHorizontal="true"
+    android:layout_gravity="center"
+    android:minWidth="300dp"
+    android:minHeight="200dp"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+
+    <ImageButton
+        android:id="@+id/receipt_input_button_add_receipt_from_camera"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@color/accent"
+        android:padding="@dimen/global_padding"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_round_photo_camera_24px"
+        android:text="@string/load_receipt_from_gallery"
+        android:tint="@color/BlueViolet" />
+
+    <ImageButton
+        android:id="@+id/receipt_input_button_add_receipt_from_gallery"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:background="@color/accent"
+        android:padding="@dimen/global_padding"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_image"
+        android:text="@string/take_a_picture"
+        android:tint="@color/DarkOrange" />
+
+</LinearLayout>

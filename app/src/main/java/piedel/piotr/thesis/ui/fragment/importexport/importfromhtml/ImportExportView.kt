@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.importexport
+package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 
 import piedel.piotr.thesis.ui.base.BaseView
 

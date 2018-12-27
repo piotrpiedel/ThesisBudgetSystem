@@ -23,7 +23,6 @@
             android:layout_alignBaseline="@+id/operations_title"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/operation_card_view_value_margin"
-            android:textSize="@dimen/global_text_size"
             tools:text="30"
             tools:visibility="visible" />
 
@@ -37,7 +36,6 @@
             android:layout_toStartOf="@id/operations_value"
             android:ellipsize="end"
             android:gravity="center"
-            android:textSize="@dimen/global_text_size"
             tools:text="operations_title" />
 
         <TextView
@@ -49,7 +47,6 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/operation_card_view_category_margin"
             android:gravity="center"
-            android:textSize="@dimen/global_text_size"
             android:visibility="gone"
             tools:text="operations_category"
             tools:visibility="visible" />
@@ -63,10 +60,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/operation_card_view_date_margin"
-            android:layout_marginStart="224dp"
-            android:layout_marginEnd="114dp"
             android:gravity="center"
-            android:textSize="@dimen/global_text_size"
             android:visibility="gone"
             tools:text="operations_date"
             tools:visibility="visible" />

@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/Beige">
 
-    <ExpandableListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/categories_list_view"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
         android:padding="@dimen/global_padding"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 
 </RelativeLayout>

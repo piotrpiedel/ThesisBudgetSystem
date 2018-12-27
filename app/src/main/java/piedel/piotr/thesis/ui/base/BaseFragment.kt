@@ -1,5 +1,6 @@
 package piedel.piotr.thesis.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.util.LongSparseArray
@@ -97,6 +98,10 @@ abstract class BaseFragment : Fragment() {
 
     fun getBaseActivity(): BaseActivity {
         return requireActivity() as BaseActivity
+    }
+
+    fun getMainActivity(): MainActivity { //only for this application, cause this app has only one activity
+        return requireActivity() as MainActivity //this approach is incorrect but convenient
     }
 
     companion object {

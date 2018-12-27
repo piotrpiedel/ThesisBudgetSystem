@@ -5,9 +5,8 @@ import android.content.Context
 import dagger.Component
 import piedel.piotr.thesis.data.AppDatabase
 import piedel.piotr.thesis.data.model.category.CategoryDao
-import piedel.piotr.thesis.data.model.category.CategoryRepository
 import piedel.piotr.thesis.data.model.operation.OperationDao
-import piedel.piotr.thesis.data.model.operation.OperationRepository
+import piedel.piotr.thesis.data.model.receipt.ReceiptDao
 import piedel.piotr.thesis.injection.module.applicationmodule.AppModule
 import piedel.piotr.thesis.injection.module.applicationmodule.RoomModule
 import piedel.piotr.thesis.injection.scopes.ApplicationContext
@@ -27,4 +26,6 @@ interface ApplicationComponent {
     fun categoryDao(): CategoryDao
 
     fun operationDao(): OperationDao
+
+    fun receiptDao(): ReceiptDao
 }
