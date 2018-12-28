@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.CircularProgressDrawable
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 
 fun ImageView.loadImageFromUrl(url: String) {
@@ -25,4 +26,8 @@ fun getCircularProgressDrawable(context: Context): CircularProgressDrawable {
     circularProgressDrawable.centerRadius = 30f
     circularProgressDrawable.start()
     return circularProgressDrawable
+}
+
+fun showToast(context: Context, textToToast: String) {
+    Toast.makeText(context, textToToast, Toast.LENGTH_SHORT).show()
 }

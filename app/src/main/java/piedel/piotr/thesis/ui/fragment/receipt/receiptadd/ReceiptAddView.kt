@@ -10,8 +10,6 @@ interface ReceiptAddView : BaseView {
 
     fun setOnCalendarClickListener()
 
-    fun showFileChooser()
-
     fun setReceiptImageFromResource(bitmapImage: Bitmap)
 
     fun startCreatingReceipt()
@@ -19,8 +17,6 @@ interface ReceiptAddView : BaseView {
     fun createReceipt(receiptId: Long, receipt: Receipt)
 
     fun returnFromFragment()
-
-    fun showCamera()
 
     fun showProgressBar(show: Boolean)
 

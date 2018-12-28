@@ -1,6 +1,5 @@
 package piedel.piotr.thesis.ui.fragment.receipt.receiptadd
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,16 +9,11 @@ import android.view.View
 import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
-import io.reactivex.annotations.NonNull
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
-import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ImageSourceOptions
-import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
-import piedel.piotr.thesis.util.dateFromStringNullCheck
-import piedel.piotr.thesis.util.saveImageFile
-import piedel.piotr.thesis.util.simpleDateFormat
+import piedel.piotr.thesis.util.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -71,6 +65,11 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
         choosePictureSourceDialog.show(fragmentManager, ChoosePictureSourceDialog.FRAGMENT_TAG)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        receiptAddPresenter.handleOnActivityResult(requestCode, resultCode, data, requireActivity())
+    }
+
     override fun setOnCalendarClickListener() {
         val calendar = Calendar.getInstance()
         val dateSetListener = onDateSetListener(calendar)
@@ -105,46 +104,6 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
         receiptAddPresenter.onSaveOperationButtonClicked()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
-        receiptAddPresenter.resultFromRequestPermission(requestCode, grantResults)
-    }
-
-
-    //TODO: need huge refactor- all permissions - if free time
-    override fun showFileChooser() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "*/*"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        try {
-            startActivityForResult(Intent.createChooser(intent, "Select a picture to load"), FILE_SELECT_REQUEST_CODE)
-        } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun showCamera() {
-        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST_CODE);
-        } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, "Please install a camera", Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FILE_SELECT_REQUEST_CODE) {
-            receiptAddPresenter.getFilePathFromResult(requestCode, resultCode, data, requireActivity())
-        } else if (requestCode == CAMERA_PIC_REQUEST_CODE) {
-            receiptAddPresenter.getPictureFromCamera(requestCode, resultCode, data)
-        } else if (requestCode == choosePictureSourceDialogRequestCode && resultCode == Activity.RESULT_OK) {
-            val choosePictureSourceDialog = data?.getSerializableExtra(ChoosePictureSourceDialog.FRAGMENT_INTENT_CHOSEN_BUTTON) as ImageSourceOptions
-            receiptAddPresenter.switchCameraMemorySource(choosePictureSourceDialog, requireActivity())
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun setReceiptImageFromResource(bitmapImage: Bitmap) {
         receiptPicture.setImageBitmap(bitmapImage)
     }
@@ -167,7 +126,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
 
     override fun returnFromFragment() {
         getMainActivity().showProgress(false)
-        activity?.supportFragmentManager?.popBackStackImmediate()
+        activity?.onBackPressed()
     }
 
     override fun showProgressBar(show: Boolean) {
@@ -184,10 +143,6 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
         const val FRAGMENT_TAG: String = "ReceiptAddFragment"
         const val FRAGMENT_TITLE: String = "Add receipt"
 
-        const val PERMISSIONS_REQUEST_CODE = 90
-        const val FILE_SELECT_REQUEST_CODE = 91
-
-        val CAMERA_PIC_REQUEST_CODE = 92
 
         fun newInstance(receipt: Receipt): ReceiptAddFragment {
             val addReceiptFragment = ReceiptAddFragment()

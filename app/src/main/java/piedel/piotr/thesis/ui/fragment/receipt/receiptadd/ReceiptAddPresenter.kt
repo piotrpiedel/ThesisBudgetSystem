@@ -1,15 +1,10 @@
 package piedel.piotr.thesis.ui.fragment.receipt.receiptadd
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -24,9 +19,9 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ImageSourceOptions
+import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
+import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.getCircularProgressDrawable
-import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
 import javax.inject.Inject
@@ -50,51 +45,30 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
 
     private fun loadReceiptData(receipt: Receipt?) {
         receipt?.let {
-            //            view?.fillTheData(receipt)
         } ?: return
     }
 
-    fun onLoadFromGalleryClick(passedActivityFragment: FragmentActivity) {
-        checkPermissionsForStorage(passedActivityFragment)
-    }
+    fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?, passedActivity: FragmentActivity) {
+        if (requestCode == choosePictureSourceDialogRequestCode && resultCode == Activity.RESULT_OK) {
+            if (data?.hasExtra(ChoosePictureSourceDialog.INTENT_WITH_PICTURE_FROM_CAMERA) == true) {
+                val passedData = data.getParcelableExtra<Intent>(ChoosePictureSourceDialog.INTENT_WITH_PICTURE_FROM_CAMERA)
+                getPictureFromCamera(passedData)
 
-    private fun checkPermissionsForStorage(fragmentActivity: FragmentActivity) {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        if (ContextCompat.checkSelfPermission(fragmentActivity, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(fragmentActivity, permission)) {
-                view?.showError()//???
-            } else {
-                ActivityCompat.requestPermissions(fragmentActivity, arrayOf(permission), ReceiptAddFragment.PERMISSIONS_REQUEST_CODE)
-            }
-        } else {
-            view?.showFileChooser()
-        }
-    }
+            } else if (data?.hasExtra(ChoosePictureSourceDialog.PICTURE_PATH) == true) {
+                val passedData = data.getStringExtra(ChoosePictureSourceDialog.PICTURE_PATH)
+                loadPictureFromGallery(passedActivity, passedData)
 
-    fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray) {
-        when (requestCode) {
-            ReceiptAddFragment.PERMISSIONS_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    view?.showFileChooser()
-                } else {
-                    view?.showError()
-                }
             }
         }
     }
 
-    fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity) {
-        when (requestCode) {
-            ReceiptAddFragment.FILE_SELECT_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK) {
-                val uri = data?.data    // Get the Uri of the selected file
-                val picturePath = getPath(fragmentActivity, uri as Uri) // Get the FilePath of the selected file
-                loadPictureFromGallery(fragmentActivity, picturePath)
-            }
-        }
+    private fun getPictureFromCamera(data: Intent?) {
+        val thumbnail = data?.extras?.get("data") as Bitmap
+        view?.setReceiptImageFromResource(thumbnail)
     }
 
     @SuppressLint("CheckResult")
-    private fun loadPictureFromGallery(fragmentActivity: FragmentActivity, picturePath: String?) {
+    fun loadPictureFromGallery(fragmentActivity: FragmentActivity, picturePath: String?) {
         val requestOptions = RequestOptions()
         requestOptions.placeholder(getCircularProgressDrawable(fragmentActivity))
         requestOptions.error(R.drawable.ic_outline_error_outline)
@@ -138,28 +112,6 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
         addDisposable(disposable)
     }
 
-    fun onLoadFromCameraClick(requireActivity: FragmentActivity) {
-        checkPermissionsForCamera(requireActivity)
-    }
-
-    private fun checkPermissionsForCamera(fragmentActivity: FragmentActivity) {
-        val permission = Manifest.permission.CAMERA
-        if (ContextCompat.checkSelfPermission(fragmentActivity, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(fragmentActivity, permission)) {
-                view?.showError()//???
-            } else {
-                ActivityCompat.requestPermissions(fragmentActivity, arrayOf(permission), ReceiptAddFragment.PERMISSIONS_REQUEST_CODE)
-            }
-        } else {
-            view?.showCamera()
-        }
-    }
-
-    fun getPictureFromCamera(requestCode: Int, resultCode: Int, data: Intent?) {
-        val thumbnail = data?.extras?.get("data") as Bitmap
-        view?.setReceiptImageFromResource(thumbnail)
-    }
-
     fun updateReceipt(receipt: Receipt) {
         Completable.fromAction { receiptRepository.updateReceipt(receipt) }
                 .compose(SchedulerUtils.ioToMain<Receipt>())
@@ -179,14 +131,4 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
         val receipt = Receipt()
         insertReceiptStart(receipt)
     }
-
-    fun switchCameraMemorySource(choosePictureSourceDialog: ImageSourceOptions, passedActivityContext: FragmentActivity) {
-        when (choosePictureSourceDialog) {
-            ImageSourceOptions.INTERNAL_MEMORY -> onLoadFromGalleryClick(passedActivityContext)
-            ImageSourceOptions.CAMERA -> onLoadFromCameraClick(passedActivityContext)
-            ImageSourceOptions.NOT_RECOGNIZED_SOURCE -> view?.showError()
-        }
-    }
-
-
 }

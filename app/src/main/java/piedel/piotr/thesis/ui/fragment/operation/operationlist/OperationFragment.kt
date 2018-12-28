@@ -14,6 +14,7 @@ import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
+import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
 
 class OperationFragment : BaseFragment(), OperationView, OperationAdapter.OperationAdapteListener {
@@ -81,7 +82,7 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
     }
 
     override fun showError(throwable: Throwable) {
-        Toast.makeText(context, "There is problem with operations, try again later", Toast.LENGTH_SHORT).show()
+        showToast(requireContext(), "There is problem with operations, try again later")
     }
 
     override fun onOperationListViewClicked(operation: Operation) {

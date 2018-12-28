@@ -17,6 +17,7 @@ import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
+import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -110,7 +111,7 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
 
     override fun showError(error: Throwable) {
         fragmentContainer.visibility = View.GONE
-        Toast.makeText(baseContext, "There was an error while loading operations", Toast.LENGTH_SHORT).show()
+        showToast(baseContext, " There was an error while loading operations ")
         Timber.e(error, "There was an error while loading operations")
     }
 

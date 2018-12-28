@@ -102,7 +102,6 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         if (requestCode == addOperationFragmentRequestCode && resultCode == Activity.RESULT_OK) {
             operationCategory = data?.getParcelableExtra(CategorySelectListFragment.FRAGMENT_INTENT_CATEGORY)
         }
-
     }
 
     private fun setCategorySelectionView(category: Category) {
