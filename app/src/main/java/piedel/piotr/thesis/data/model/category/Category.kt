@@ -1,10 +1,10 @@
 package piedel.piotr.thesis.data.model.category
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "category_table", indices = [Index(value = ["categoryId"], unique = true)])
 data class Category(@PrimaryKey(autoGenerate = true) val categoryId: Int?, val category_title: String, var parentCategoryId: Int?) : Parcelable {

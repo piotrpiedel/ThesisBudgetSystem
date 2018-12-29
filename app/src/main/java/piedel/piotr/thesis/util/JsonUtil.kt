@@ -3,7 +3,6 @@ package piedel.piotr.thesis.util
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 
 fun parseToJson(readyStringToParseToJson: List<List<String>>, jsonArray: JSONArray) {

@@ -34,8 +34,7 @@
         android:layout_below="@+id/fragment_import_export_button_load"
         android:layout_margin="@dimen/global_margin"
         android:hint="@string/localization_of_html_file"
-        android:inputType="text"
-        android:padding="@dimen/import_file_localization_text" />
+        android:inputType="textCapSentences" />
 
     <TextView
         android:id="@+id/fragment_import_export_export"

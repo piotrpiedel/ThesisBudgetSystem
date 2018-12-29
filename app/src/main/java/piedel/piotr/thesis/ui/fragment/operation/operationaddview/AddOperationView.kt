@@ -12,4 +12,6 @@ interface AddOperationView : BaseView {
 
     fun createOperationToSave(): Operation
 
+    fun enableSaveButton(isEnabled: Boolean)
+
 }

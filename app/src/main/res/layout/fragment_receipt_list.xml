@@ -6,7 +6,7 @@
     android:background="@color/Beige"
     android:paddingBottom="@dimen/global_padding">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_receipt_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
         android:paddingTop="@dimen/global_padding"
         android:paddingEnd="@dimen/global_padding" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fragment_receipt_button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

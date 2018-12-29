@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.data.model.converters
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import piedel.piotr.thesis.data.model.operation.OperationType
 
 class OperationTypeConverter {

@@ -69,9 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/receipt_calendar_container"
             android:hint="@string/type_title_receipt"
-            android:inputType="textMultiLine"
-            android:maxLines="2"
-            android:padding="@dimen/global_padding" />
+            android:maxLines="2" />
 
         <LinearLayout
             android:id="@+id/value_container"
@@ -111,6 +109,7 @@
             android:layout_below="@+id/value_container"
             android:layout_alignParentEnd="true"
             android:background="@color/accent"
+            android:enabled="false"
             android:text="@string/save" />
 
     </RelativeLayout>

@@ -1,8 +1,8 @@
 package piedel.piotr.thesis.data.local
 
-import piedel.piotr.thesis.injection.scopes.ApplicationContext
 import android.content.Context
 import android.content.SharedPreferences
+import piedel.piotr.thesis.injection.scopes.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 

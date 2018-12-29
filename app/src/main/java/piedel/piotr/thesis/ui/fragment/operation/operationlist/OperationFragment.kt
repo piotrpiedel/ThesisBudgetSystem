@@ -2,11 +2,10 @@ package piedel.piotr.thesis.ui.fragment.operation.operationlist
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R

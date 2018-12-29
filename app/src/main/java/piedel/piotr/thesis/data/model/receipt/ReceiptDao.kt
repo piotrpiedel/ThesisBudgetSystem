@@ -1,8 +1,7 @@
 package piedel.piotr.thesis.data.model.receipt
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 @Dao
 interface ReceiptDao {

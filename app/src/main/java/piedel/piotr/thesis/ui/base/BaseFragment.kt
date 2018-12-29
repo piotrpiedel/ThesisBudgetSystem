@@ -1,12 +1,11 @@
 package piedel.piotr.thesis.ui.base
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.util.LongSparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.collection.LongSparseArray
+import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import piedel.piotr.thesis.MyApplication
 import piedel.piotr.thesis.injection.component.ConfigPersistentComponent

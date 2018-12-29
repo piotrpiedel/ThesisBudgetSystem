@@ -1,8 +1,8 @@
 package piedel.piotr.thesis.data
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.data.model.category.CategoryDao
 import piedel.piotr.thesis.data.model.converters.DateConverter

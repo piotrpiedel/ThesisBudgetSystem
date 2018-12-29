@@ -1,10 +1,10 @@
 package piedel.piotr.thesis.data.model.receipt
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import piedel.piotr.thesis.util.readDate
 import piedel.piotr.thesis.util.writeDate
 import java.util.*

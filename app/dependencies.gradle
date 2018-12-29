@@ -1,6 +1,6 @@
 ext {
     versions = [
-            support       : "28.0.0",
+            androidx      : "1.0.0",
             firebase      : '11.0.2',
             okHttp        : "3.12.0",
             retrofit      : '2.5.0',
@@ -22,7 +22,8 @@ ext {
             timber        : '4.7.1',
             stethOkhttp   : '1.5.0',
             multiDex      : '1.0.3',
-            room_version  : '1.1.1'
+            room_version  : '1.1.1',
+            rxBindings    : '3.0.0-alpha2'
     ]
 
     mockito = [mockito: "org.mockito:mockito-core:$versions.mockito"]
@@ -30,13 +31,13 @@ ext {
     restMock = [restMock: "com.github.andrzejchm.RESTMock:android:$versions.restMock"]
 
     supportDeps = [
-            cardView         : "com.android.support:cardview-v7:$versions.support",
-            appcompatV7      : "com.android.support:appcompat-v7:$versions.support",
-            design           : "com.android.support:design:$versions.support",
-            recyclerView     : "com.android.support:recyclerview-v7:$versions.support",
-            supportAnnotation: "com.android.support:support-annotations:$versions.support",
-            gridLayout       : "com.android.support:gridlayout-v7:$versions.support",
-            multiDex         : "com.android.support:multidex:$versions.multiDex"
+            cardView         : "androidx.cardview:cardview:$versions.androidx",
+            appcompatV7      : "androidx.appcompat:appcompat:$versions.androidx",
+            design           : "com.google.android.material:material:1.0.0-rc01",
+            recyclerView     : "androidx.recyclerview:recyclerview:$versions.androidx",
+            supportAnnotation: "androidx.annotation:annotation:$versions.androidx",
+            gridLayout       : "androidx.gridlayout:gridlayout:$versions.androidx",
+            multiDex         : "androidx.multidex:multidex:2.0.0"
     ]
 
     rxJava = [
@@ -53,7 +54,7 @@ ext {
 
     okHttp = [
             logger: "com.squareup.okhttp3:logging-interceptor:$versions.okHttp",
-            okhttp  : "com.squareup.okhttp3:okhttp:$versions.okHttp"
+            okhttp: "com.squareup.okhttp3:okhttp:$versions.okHttp"
     ]
 
     googlePlay = [
@@ -64,28 +65,41 @@ ext {
     ]
 
     room = [
-            room            : "android.arch.persistence.room:runtime:$versions.room_version",
-            roomRxJava      : "android.arch.persistence.room:rxjava2:$versions.room_version"
+            room      : "androidx.room:room-runtime:2.0.0-rc01",
+            roomRxJava: "androidx.room:room-rxjava2:2.0.0-rc01"
     ]
 
+    rxBindings = [
+            rxPlatform        : "com.jakewharton.rxbinding3:rxbinding:$versions.rxBindings",
+            rxKotlinBindings  : "com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0",
+            core              : "com.jakewharton.rxbinding3:rxbinding-core:$versions.rxBindings",
+            appcompat         : "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rxBindings",
+            drawerlayout      : "com.jakewharton.rxbinding3:rxbinding-drawerlayout:$versions.rxBindings",
+            leanback          : "com.jakewharton.rxbinding3:rxbinding-leanback:$versions.rxBindings",
+            recyclerview      : "com.jakewharton.rxbinding3:rxbinding-recyclerview:$versions.rxBindings",
+            slidingpanelayout : "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$versions.rxBindings",
+            swiperefreshlayout: "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$versions.rxBindings",
+            viewpager         : "com.jakewharton.rxbinding3:rxbinding-viewpager:$versions.rxBindings"
+
+    ]
     unitTest = [
-            harcrestCore        : "org.hamcrest:hamcrest-core:$versions.hamcrest",
-            harmcrestLib        : "org.hamcrest:hamcrest-library:$versions.hamcrest",
-            hamcrestIntegration : "org.hamcrest:hamcrest-integration:$versions.hamcrest",
-            robolectric         : "org.robolectric:robolectric:$versions.robolectric",
-            supportAnnotation   : "com.android.support:support-annotations:$versions.support",
-            restMock            : "com.github.andrzejchm.RESTMock:android:$versions.restMock",
-            assertj             : "com.squareup.assertj:assertj-android:$versions.assertj",
-            kotlinTest          : "org.jetbrains.kotlin:kotlin-test:$kotlin_version",
-            kotlinJunit         : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
-            roomTest            : "android.arch.persistence.room:testing:$versions.room_version"
+            harcrestCore       : "org.hamcrest:hamcrest-core:$versions.hamcrest",
+            harmcrestLib       : "org.hamcrest:hamcrest-library:$versions.hamcrest",
+            hamcrestIntegration: "org.hamcrest:hamcrest-integration:$versions.hamcrest",
+            robolectric        : "org.robolectric:robolectric:$versions.robolectric",
+            supportAnnotation  : "androidx.annotation:annotation:$versions.androidx",
+            restMock           : "com.github.andrzejchm.RESTMock:android:$versions.restMock",
+            assertj            : "com.squareup.assertj:assertj-android:$versions.assertj",
+            kotlinTest         : "org.jetbrains.kotlin:kotlin-test:$kotlin_version",
+            kotlinJunit        : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
+//            roomTest           : "android.arch.persistence.room:testing:$versions.room_version"
 
     ] + junit + mockito + restMock
 
     androidTests = [
-            espressoCore   : "androidx.test.espresso:espresso-core:$versions.espresso",
-            testRunner     : "androidx.test:runner:$versions.espressoRunner",
-            testRules      : "androidx.test:rules:$versions.espressoRunner",
+            espressoCore: "androidx.test.espresso:espresso-core:$versions.espresso",
+            testRunner  : "androidx.test:runner:$versions.espressoRunner",
+            testRules   : "androidx.test:rules:$versions.espressoRunner",
     ] + mockito + restMock
 
     supportLibs = supportDeps.values()
@@ -95,8 +109,9 @@ ext {
     unitTestLibs = unitTest.values()
     androidTestsLibs = androidTests.values() + supportLibs
     roomLibs = room.values()
+    rxBindingsLibs = rxBindings.values()
 
     leakCannary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
     daggerCompiler = "com.google.dagger:dagger-compiler:$versions.dagger"
-    roomCompiler = "android.arch.persistence.room:compiler:$versions.room_version"
+    roomCompiler = "androidx.room:room-compiler:2.0.0-rc01"
 }

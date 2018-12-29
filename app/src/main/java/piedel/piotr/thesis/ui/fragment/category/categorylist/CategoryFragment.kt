@@ -1,9 +1,9 @@
 package piedel.piotr.thesis.ui.fragment.category.categorylist
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseFragment

@@ -2,6 +2,7 @@ package piedel.piotr.thesis.ui.base
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+
 //import rx.Subscription
 //import rx.subscriptions.CompositeSubscription
 
@@ -15,7 +16,6 @@ open class BasePresenter<T : BaseView> : Presenter<T> {
     var view: T? = null
         private set
 
-//    private val compositeSubscription = CompositeSubscription()
     private val compositeDisposable = CompositeDisposable()
 
     override fun attachView(mvpView: T) {
@@ -24,10 +24,7 @@ open class BasePresenter<T : BaseView> : Presenter<T> {
 
     override fun detachView() {
         view = null
-//        if (!compositeSubscription.isUnsubscribed) {
-//            compositeSubscription.clear()
-//        }
-        if(!compositeDisposable.isDisposed){
+        if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
         }
     }
@@ -43,7 +40,7 @@ open class BasePresenter<T : BaseView> : Presenter<T> {
 //        compositeSubscription.add(subscription)
 //    }
 
-    fun addDisposable(disposable: Disposable?){
+    fun addDisposable(disposable: Disposable?) {
         disposable?.let { compositeDisposable.add(it) }
     }
 

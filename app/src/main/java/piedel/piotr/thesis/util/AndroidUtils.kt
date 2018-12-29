@@ -2,11 +2,10 @@ package piedel.piotr.thesis.util
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.FragmentActivity
-import android.support.v4.widget.CircularProgressDrawable
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 
 fun ImageView.loadImageFromUrl(url: String) {

@@ -1,18 +1,16 @@
 package piedel.piotr.thesis.ui.base
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.util.LongSparseArray
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.collection.LongSparseArray
+import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import piedel.piotr.thesis.MyApplication
 import piedel.piotr.thesis.injection.component.ActivityComponent
 import piedel.piotr.thesis.injection.component.ConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.DaggerConfigPersistentComponent
 import piedel.piotr.thesis.injection.module.ActivityModule
-import piedel.piotr.thesis.ui.main.MainActivity
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 

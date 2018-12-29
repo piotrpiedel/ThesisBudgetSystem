@@ -4,16 +4,22 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.support.v4.app.FragmentActivity
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
+import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
@@ -24,6 +30,7 @@ import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.getCircularProgressDrawable
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ConfigPersistent
@@ -130,5 +137,31 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
     fun generateEmptyReceipt() {
         val receipt = Receipt()
         insertReceiptStart(receipt)
+    }
+
+    fun observeTheInputValue(titleEditText: EditText, dateTextView: TextView, valueEditText: EditText) {
+        val titleObservable: Observable<CharSequence> = observableBuildier(titleEditText)
+        val valueObservable: Observable<CharSequence> = observableBuildier(valueEditText)
+        val dateObservable: Observable<CharSequence> = observableBuildier(dateTextView)
+        disposable = Observables.combineLatest(titleObservable, valueObservable, dateObservable,
+                { title, value, date -> title.isNotEmpty() && value.isNotEmpty() && date.isNotEmpty() })
+                .compose(SchedulerUtils.ioToMain())
+                .debounce(700, TimeUnit.MILLISECONDS)
+                .subscribe({
+                    view?.enableSaveButton(it)
+                }, {
+                    Timber.d("observeTheInputValue  ${it.localizedMessage}")
+
+                }, {
+                    Timber.d("observeTheInputValue  onComplete")
+                })
+        addDisposable(disposable)
+    }
+
+    private fun observableBuildier(textView: TextView): Observable<CharSequence> {
+        return textView
+                .textChanges().skip(1)
+                .debounce(700, TimeUnit.MILLISECONDS)
+                .compose(SchedulerUtils.ioToMain())
     }
 }

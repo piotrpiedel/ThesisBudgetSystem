@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.data.model.category
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import io.reactivex.Maybe
 
 @Dao

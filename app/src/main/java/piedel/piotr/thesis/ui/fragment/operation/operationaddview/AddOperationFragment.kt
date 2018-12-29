@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -21,7 +22,7 @@ import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.addOperationFragmentRequestCode
 import piedel.piotr.thesis.util.simpleDateFormat
 import piedel.piotr.thesis.util.stringFormatDate
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -51,6 +52,9 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
     @BindView(R.id.calendar_container)
     lateinit var linearLayout: LinearLayout
 
+    @BindView(R.id.operation_input_button_save)
+    lateinit var saveButton: Button
+
     private var operation: Operation? = null
 
     var operationCategory: Category? = null
@@ -74,6 +78,15 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         setDatePickerDialog()
         setOnCategoryListener()
         setCategory()
+        initInputObserver()
+    }
+
+    private fun initInputObserver() {
+        addOperationPresenter.observeTheInputValue(editTextInputValue)
+    }
+
+    override fun enableSaveButton(isEnabled: Boolean) {
+        saveButton.isEnabled = isEnabled
     }
 
     private fun setCategory() {

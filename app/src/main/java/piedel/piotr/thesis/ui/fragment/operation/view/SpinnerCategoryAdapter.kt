@@ -11,7 +11,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.util.getRandomColor
 
-class SpinnerCategoryAdapter (context: Context, categoryChildList: MutableList<Category>) : ArrayAdapter<Category>(context, 0, categoryChildList) {
+class SpinnerCategoryAdapter(context: Context, categoryChildList: MutableList<Category>) : ArrayAdapter<Category>(context, 0, categoryChildList) {
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return initView(position, convertView, parent)

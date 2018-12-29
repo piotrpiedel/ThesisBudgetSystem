@@ -22,4 +22,6 @@ interface ReceiptAddView : BaseView {
 
     fun showChooseDialog()
 
+    fun enableSaveButton(isEnabled: Boolean)
+
 }

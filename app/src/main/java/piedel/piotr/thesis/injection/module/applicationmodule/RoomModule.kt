@@ -1,15 +1,14 @@
 package piedel.piotr.thesis.injection.module.applicationmodule
 
 import android.app.Application
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import piedel.piotr.thesis.data.AppDatabase
 import piedel.piotr.thesis.data.model.category.CategoryDao
 import piedel.piotr.thesis.data.model.operation.OperationDao
-import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptDao
 import piedel.piotr.thesis.injection.scopes.ApplicationScope
 import piedel.piotr.thesis.util.ioThread

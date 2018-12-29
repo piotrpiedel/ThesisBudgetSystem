@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_operation_add_container"
     android:layout_width="match_parent"
@@ -15,7 +16,8 @@
         android:gravity="center"
         android:hint="@string/operation_input_value_hint"
         android:inputType="number"
-        android:padding="@dimen/global_padding" />
+        android:padding="@dimen/global_padding"
+        android:textSize="@dimen/global_text_size_input" />
 
     <piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
         android:id="@+id/operation_input_category"
@@ -30,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/operation_input_category"
+        android:checkedButton="@+id/operation_input_income"
         android:orientation="horizontal"
         android:padding="@dimen/global_padding"
         android:weightSum="6">
@@ -65,21 +68,27 @@
 
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/operation_input_title"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/operation_input_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radio_group_buttons_container"
-        android:hint="@string/operation_input_title_text"
-        android:inputType="textMultiLine"
-        android:maxLines="2"
-        android:padding="@dimen/global_padding" />
+        app:hintTextAppearance="@style/TextInputLayoutHint">
+
+        <EditText
+            android:id="@+id/operation_input_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/operation_input_title_text"
+            android:inputType="text|textCapSentences" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/operation_input_button_add_receipt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/operation_input_title"
+        android:layout_below="@+id/operation_input_title_layout"
         android:background="@color/accent"
         android:padding="@dimen/global_padding"
         android:text="@string/operation_input_button_add_receipt_text" />
@@ -122,6 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/calendar_container"
         android:background="@color/accent"
+        android:enabled="false"
         android:text="@string/operation_input_button_save_text" />
 
 </RelativeLayout>

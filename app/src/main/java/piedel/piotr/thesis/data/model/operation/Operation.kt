@@ -1,8 +1,8 @@
 package piedel.piotr.thesis.data.model.operation
 
-import android.arch.persistence.room.*
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.*
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.util.readDate
 import piedel.piotr.thesis.util.writeDate

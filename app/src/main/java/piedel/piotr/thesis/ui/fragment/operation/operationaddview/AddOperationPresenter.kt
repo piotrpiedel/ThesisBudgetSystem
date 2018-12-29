@@ -1,8 +1,13 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationaddview
 
+import android.annotation.SuppressLint
+import android.widget.EditText
+import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.data.model.category.CategoryRepository
 import piedel.piotr.thesis.data.model.operation.Operation
@@ -14,6 +19,7 @@ import piedel.piotr.thesis.util.dateFromString
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ConfigPersistent
@@ -137,5 +143,20 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
     private fun loadOperation(operation: Operation) {
         view?.fillTheData(operation, null)
+    }
+
+    @SuppressLint("CheckResult")
+    fun observeTheInputValue(editTextInputValue: EditText) {
+        editTextInputValue.textChanges()
+                .skip(1)
+                .debounce(700, TimeUnit.MILLISECONDS)
+                .compose(SchedulerUtils.ioToMain())
+                .subscribe({
+                    if (it.isNotBlank())
+                        view?.enableSaveButton(true)
+                    else view?.enableSaveButton(false)
+                }, {
+                    Timber.d("observeTheInputValue $it.localizedMessage")
+                })
     }
 }

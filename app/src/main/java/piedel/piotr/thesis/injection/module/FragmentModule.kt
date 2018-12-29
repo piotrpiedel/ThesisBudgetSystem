@@ -2,8 +2,7 @@ package piedel.piotr.thesis.injection.module
 
 import android.app.Activity
 import android.content.Context
-import android.support.v4.app.Fragment
-
+import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 import piedel.piotr.thesis.injection.scopes.ActivityContext

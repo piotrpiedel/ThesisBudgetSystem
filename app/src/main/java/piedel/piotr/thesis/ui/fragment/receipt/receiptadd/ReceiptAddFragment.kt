@@ -6,16 +6,24 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
-import piedel.piotr.thesis.util.*
+import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
+import piedel.piotr.thesis.util.dateFromStringNullCheck
+import piedel.piotr.thesis.util.saveImageFile
+import piedel.piotr.thesis.util.simpleDateFormat
 import timber.log.Timber
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -36,8 +44,11 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
     @BindView(R.id.receipt_input_date)
     lateinit var receiptDate: TextView
 
-    @BindView(R.id.value_container)
-    lateinit var valueContainer: LinearLayout
+    @BindView(R.id.receipt_value)
+    lateinit var valueInput: EditText
+
+    @BindView(R.id.receipt_button_save)
+    lateinit var buttonSave: Button
 
     private var receipt: Receipt? = null
 
@@ -56,7 +67,16 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         receipt = arguments?.getParcelable(RECEIPT_ADD_KEY)
+        initInputObservers()
         receiptAddPresenter.initChooseDialog()
+    }
+
+    private fun initInputObservers() {
+        receiptAddPresenter.observeTheInputValue(receiptTitle, receiptDate, valueInput)
+    }
+
+    override fun enableSaveButton(isEnabled: Boolean) {
+        buttonSave.isEnabled = isEnabled
     }
 
     override fun showChooseDialog() {
@@ -119,7 +139,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
             receiptImageSourcePath = saveImageFile((receiptPicture.drawable as BitmapDrawable).bitmap, receipt)
             title = receiptTitle.text.toString().trim()
             date = dateFromStringNullCheck(receiptDate.text.toString())
-            value = (valueContainer.getChildAt(0) as EditText).text.toString().trim().toDouble()
+            value = valueInput.text.toString().trim().toDouble()
         }
         receiptAddPresenter.updateReceipt(receipt)
     }
