@@ -19,12 +19,17 @@ fun convertToBitmap(passedByteArray: ByteArray): Bitmap? {
 }
 
 
-fun imageViewToBitmap(imageView: ImageView): ByteArray {
+fun imageViewToByteArray(imageView: ImageView): ByteArray {
     val bitmap = (imageView.drawable as BitmapDrawable).bitmap
     val byteArrayOutputStream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
     return byteArrayOutputStream.toByteArray()
 }
+
+fun imageViewToBitmap(imageView: ImageView): Bitmap {
+    return (imageView.drawable as BitmapDrawable).bitmap
+}
+
 
 fun convertToBitmapAndCompress(imageView: ImageView): ByteArray {
     val bitmap = (imageView.drawable as BitmapDrawable).bitmap
@@ -86,13 +91,23 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
 }
 
 
+fun requestGlideBuilderOptionsAsSmallBitmap(context: Context, picturePath: String?): RequestBuilder<Bitmap> {
+    val requestOptions = RequestOptions()
+            .placeholder(getCircularProgressDrawable(context))
+            .error(R.drawable.ic_outline_error_outline)
+            .override(200, 200)
+    return GlideApp.with(context)
+            .asBitmap()
+            .load(picturePath)
+            .apply(requestOptions)
+}
+
 @SuppressLint("CheckResult")
-fun requestGlideBuildierOptionsAsBitmap(context: Context, picturePath: String?): RequestBuilder<Bitmap> {
+fun requestGlideBuilderOptionsAsBitmap(context: Context, picturePath: String?): RequestBuilder<Bitmap> {
     val requestOptions = RequestOptions()
     requestOptions.placeholder(getCircularProgressDrawable(context))
     requestOptions.error(R.drawable.ic_outline_error_outline)
-    requestOptions.override(200, 200)
-    return Glide.with(context)
+    return GlideApp.with(context)
             .asBitmap()
             .load(picturePath)
             .apply(requestOptions)

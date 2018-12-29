@@ -19,7 +19,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.injection.scopes.ActivityContext
 import piedel.piotr.thesis.util.dateToTextString
-import piedel.piotr.thesis.util.requestGlideBuildierOptionsAsBitmap
+import piedel.piotr.thesis.util.requestGlideBuilderOptionsAsSmallBitmap
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,7 +45,8 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
     }
 
     override fun onBindViewHolder(holder: ReceiptViewHolder, position: Int) {
-        val receiptItem = listOfReceipt.get(position)
+        val receiptItem = listOfReceipt[position]
+        holder.receipt = receiptItem
         loadPictureFromGallery(context, receiptItem.receiptImageSourcePath, holder)
         holder.receiptTitle.text = receiptItem.title
         holder.receiptDate.text = dateToTextString(receiptItem.date)
@@ -55,7 +56,7 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
     @SuppressLint("CheckResult")
     private fun loadPictureFromGallery(context: Context, picturePath: String?, holder: ReceiptViewHolder) {
         if (!picturePath.isNullOrEmpty() && !picturePath.equals("Empty Uri"))
-            requestGlideBuildierOptionsAsBitmap(context, picturePath)
+            requestGlideBuilderOptionsAsSmallBitmap(context, picturePath)
                     .listener(object : RequestListener<Bitmap> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                             Timber.d("loadPictureFromGallery onLoadFailed")
@@ -63,7 +64,7 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
                         }
 
                         override fun onResourceReady(resource: Bitmap, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            Timber.d("loadPictureFromGallery onResourceReady")
+//                            Timber.d("loadPictureFromGallery onResourceReady")
                             holder.receiptThumbNail.setImageBitmap(resource)
                             return true
                         }
@@ -78,10 +79,14 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
     }
 
     interface ReceiptAdapterListener {
+        fun onClickListener(receiptItem: Receipt)
+        fun onLongClickListener()
     }
 
 
     inner class ReceiptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        var receipt: Receipt? = null
 
         @BindView(R.id.receipt_thumbnail)
         lateinit var receiptThumbNail: ImageView
@@ -97,6 +102,7 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
 
         init {
             ButterKnife.bind(this, itemView)
+            itemView.setOnClickListener { adapterListener.let { adapterListener?.onClickListener(receipt as Receipt) } }
         }
     }
 }

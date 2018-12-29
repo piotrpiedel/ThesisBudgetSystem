@@ -4,7 +4,7 @@ import piedel.piotr.thesis.ui.base.BaseView
 
 interface MainView : BaseView {
 
-    fun showProgress(show: Boolean)
+    fun showProgressBar(show: Boolean)
 
     fun initFirstFragment()
 

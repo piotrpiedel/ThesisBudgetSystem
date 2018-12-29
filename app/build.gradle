@@ -113,7 +113,7 @@ dependencies {
     implementation 'com.karumi:dexter:5.0.0'
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation('com.github.bumptech.glide:okhttp3-integration:1.4.0') {
         exclude group: 'glide-parent'
     }
@@ -130,6 +130,9 @@ dependencies {
 
     //Enhanced RxJava2 execption stack trace
     implementation 'com.akaita.java:rxjava2-debug:1.4.0'
+
+    //Library for full screen image view
+    implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 
     //RxPermission for easy runtime permission management
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'

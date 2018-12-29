@@ -101,11 +101,8 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
         return true
     }
 
-    override fun showProgress(show: Boolean) {
-        if (show)
-            progressBar.visibility = View.VISIBLE
-        else
-            progressBar.visibility = View.GONE
+    override fun showProgressBar(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showError(error: Throwable) {

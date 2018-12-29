@@ -11,6 +11,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewFragment
 import javax.inject.Inject
 
 class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapterListener {
@@ -64,12 +65,19 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
         receiptAdapter.updateListOfReceipt(receipts)
     }
 
+    override fun onLongClickListener() {
+    }
+
+    override fun onClickListener(receiptItem: Receipt) {
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, ReceiptPreviewFragment.newInstance(receiptItem), ReceiptPreviewFragment.FRAGMENT_TAG)
+    }
+
     override fun showError(throwable: Throwable?) {
         Toast.makeText(context, "There is problem with operations, try again later", Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgressBar(show: Boolean) {
-        getMainActivity().showProgress(show)
+        getMainActivity().showProgressBar(show)
     }
 
     companion object {

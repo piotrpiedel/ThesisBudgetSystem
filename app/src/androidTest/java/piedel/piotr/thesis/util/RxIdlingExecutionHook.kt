@@ -1,8 +1,7 @@
 package piedel.piotr.thesis.util
 
-import rx.Observable
-import rx.Subscription
-import rx.plugins.RxJavaObservableExecutionHook
+import io.reactivex.Observable
+import org.reactivestreams.Subscription
 
 /**
  * RxJava Observable execution hook that handles updating the active subscription

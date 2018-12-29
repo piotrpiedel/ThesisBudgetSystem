@@ -38,25 +38,10 @@ class ReceiptRepository @Inject constructor(private val receiptDao: ReceiptDao) 
                 .compose(SchedulerUtils.ioToMain<Receipt>())
     }
 
-    fun selectReceiptsFromCategory(idReceiptOther: Int): Maybe<List<Receipt>> {
-        return receiptDao.selectAllReceipts()
-                .compose(SchedulerUtils.ioToMain<List<Receipt>>())
-    }
-
     fun selectAllReceipts(): Maybe<MutableList<Receipt>> {
         return receiptDao.selectAllReceipts()
                 .compose(SchedulerUtils.ioToMain<MutableList<Receipt>>())
     }
-
-//    fun selectAllReceiptsWithCategories(): Maybe<List<ReceiptCategoryTuple>> {
-//        return receiptDao.selectAllReceiptsWithCategories()
-//                .compose(SchedulerUtils.ioToMain<List<ReceiptCategoryTuple>>())
-//    }
-
-//    fun selectValueReceiptList(): Maybe<List<ReceiptValueReceiptType>> {
-//        return receiptDao.selectValueReceiptList()
-//                .compose(SchedulerUtils.ioToMain<List<ReceiptValueReceiptType>>())
-//    }
 
     @SuppressLint("CheckResult")
     fun deleteAllReceipts() {

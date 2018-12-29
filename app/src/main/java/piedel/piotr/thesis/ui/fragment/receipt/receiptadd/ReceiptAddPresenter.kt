@@ -17,7 +17,7 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Observable
-import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables
 import piedel.piotr.thesis.R
@@ -140,13 +140,13 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
     }
 
     fun observeTheInputValue(titleEditText: EditText, dateTextView: TextView, valueEditText: EditText) {
-        val titleObservable: Observable<CharSequence> = observableBuildier(titleEditText)
-        val valueObservable: Observable<CharSequence> = observableBuildier(valueEditText)
-        val dateObservable: Observable<CharSequence> = observableBuildier(dateTextView)
+        val titleObservable: Observable<CharSequence> = observableBuilder(titleEditText)
+        val valueObservable: Observable<CharSequence> = observableBuilder(valueEditText)
+        val dateObservable: Observable<CharSequence> = observableBuilder(dateTextView)
         disposable = Observables.combineLatest(titleObservable, valueObservable, dateObservable,
                 { title, value, date -> title.isNotEmpty() && value.isNotEmpty() && date.isNotEmpty() })
+                .debounce(400, TimeUnit.MILLISECONDS, mainThread())
                 .compose(SchedulerUtils.ioToMain())
-                .debounce(700, TimeUnit.MILLISECONDS)
                 .subscribe({
                     view?.enableSaveButton(it)
                 }, {
@@ -158,10 +158,10 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
         addDisposable(disposable)
     }
 
-    private fun observableBuildier(textView: TextView): Observable<CharSequence> {
+    private fun observableBuilder(textView: TextView): Observable<CharSequence> {
         return textView
                 .textChanges().skip(1)
-                .debounce(700, TimeUnit.MILLISECONDS)
+                .debounce(400, TimeUnit.MILLISECONDS)
                 .compose(SchedulerUtils.ioToMain())
     }
 }

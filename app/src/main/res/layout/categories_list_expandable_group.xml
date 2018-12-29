@@ -35,7 +35,7 @@
             android:layout_toEndOf="@id/round_letter_view"
             android:gravity="center_horizontal"
             android:maxHeight="65dp"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi" />
+            tools:text="@string/lorem_ipsum" />
 
     </RelativeLayout>
 

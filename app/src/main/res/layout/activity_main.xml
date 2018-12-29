@@ -38,12 +38,6 @@
             android:layout_below="@+id/activity_bar_container" />
 
 
-        <piedel.piotr.thesis.ui.common.ErrorView
-            android:id="@+id/view_error"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="80dp"

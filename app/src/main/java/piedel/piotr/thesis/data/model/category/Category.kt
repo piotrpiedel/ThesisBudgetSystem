@@ -13,7 +13,7 @@ data class Category(@PrimaryKey(autoGenerate = true) val categoryId: Int?, val c
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
-            parcel.readString(),
+            parcel.readString() as String,
             parcel.readValue(Int::class.java.classLoader) as? Int) {
     }
 

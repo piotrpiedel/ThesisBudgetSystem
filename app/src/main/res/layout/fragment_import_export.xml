@@ -57,15 +57,4 @@
         android:text="@string/export"
         android:textColor="@android:color/white" />
 
-    <TextView
-        android:id="@+id/fragment_import_export_html_file_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_import_export_button_export"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/global_margin"
-        android:gravity="center"
-        android:padding="@dimen/global_text_view_padding"
-        android:text="DASFASF" />
-
 </RelativeLayout>

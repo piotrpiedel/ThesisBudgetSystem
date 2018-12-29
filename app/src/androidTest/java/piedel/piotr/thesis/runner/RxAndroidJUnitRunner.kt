@@ -1,10 +1,10 @@
 package piedel.piotr.thesis.runner
 
+import android.os.Bundle
+import androidx.test.espresso.Espresso
+import io.reactivex.plugins.RxJavaPlugins
 import piedel.piotr.thesis.util.RxIdlingExecutionHook
 import piedel.piotr.thesis.util.RxIdlingResource
-import android.os.Bundle
-import android.support.test.espresso.Espresso
-import rx.plugins.RxJavaPlugins
 
 /**
  * Runner that registers a Espresso Indling resource that handles waiting for

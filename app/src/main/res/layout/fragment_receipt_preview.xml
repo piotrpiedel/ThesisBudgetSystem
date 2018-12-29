@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Beige"
+    android:fitsSystemWindows="false"
+    android:padding="@dimen/global_padding">
+
+    <ImageView
+        android:id="@+id/receipt_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/add_receipt"
+        android:maxWidth="260dp"
+        android:maxHeight="260dp"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_image"
+        tools:src="@drawable/ic_baseline_image" />
+
+    <LinearLayout
+        android:id="@+id/receipt_calendar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/receipt_picture"
+        android:orientation="horizontal"
+        android:weightSum="8">
+
+        <TextView
+            android:id="@+id/receipt_input_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="6"
+            android:gravity="center"
+            android:padding="4dp"
+            tools:text="30 November 2018" />
+
+        <ImageView
+            android:id="@+id/receipt_input_date_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:src="@drawable/calendar_icon"
+            android:tint="@color/DarkOrange" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/receipt_calendar_container"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/global_padding"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/title_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/title"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/receipt_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="3"
+            android:textAlignment="textStart"
+            tools:text="@string/lorem_ipsum_short" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/value_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_container"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/global_padding"
+        android:weightSum="9">
+
+        <TextView
+            android:id="@+id/receipt_value_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@string/value_of_receipt" />
+
+        <TextView
+            android:id="@+id/receipt_value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textAlignment="gravity"
+            tools:text="0000000" />
+
+        <ImageView
+            android:id="@+id/receipt_value_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:padding="@dimen/global_padding"
+            android:src="@drawable/ic_round_monetization_on"
+            android:tint="@color/BlueViolet"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+</RelativeLayout>

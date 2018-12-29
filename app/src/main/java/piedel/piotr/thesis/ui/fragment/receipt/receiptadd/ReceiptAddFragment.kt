@@ -145,12 +145,12 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
     }
 
     override fun returnFromFragment() {
-        getMainActivity().showProgress(false)
+        getMainActivity().showProgressBar(false)
         activity?.onBackPressed()
     }
 
     override fun showProgressBar(show: Boolean) {
-        getMainActivity().showProgress(true)
+        getMainActivity().showProgressBar(true)
     }
 
     override fun showError() {

@@ -20,7 +20,7 @@ data class Operation(var value: Double, var title: String?, var operationType: O
     constructor(parcel: Parcel) : this(
             parcel.readDouble(),
             parcel.readString(),
-            OperationType.valueOf(parcel.readString()),
+            OperationType.valueOf(parcel.readString() as String),
             parcel.readDate(),
             parcel.readValue(Int::class.java.classLoader) as? Int) {
         id = parcel.readInt()

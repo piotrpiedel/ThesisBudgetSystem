@@ -51,7 +51,7 @@ class MainPresenterTest {
 
         mMainPresenter?.getPokemon(10)
 
-        verify<MainView>(mMockMainView, times(2)).showProgress(anyBoolean())
+        verify<MainView>(mMockMainView, times(2)).showProgressBar(anyBoolean())
         verify<MainView>(mMockMainView).showPokemon(pokemonList)
         verify<MainView>(mMockMainView, never()).showError(RuntimeException())
 
@@ -65,7 +65,7 @@ class MainPresenterTest {
 
         mMainPresenter?.getPokemon(10)
 
-        verify<MainView>(mMockMainView, times(2)).showProgress(anyBoolean())
+        verify<MainView>(mMockMainView, times(2)).showProgressBar(anyBoolean())
 //        verify<MainView>(mMockMainView).showError(RuntimeException())
         verify<MainView>(mMockMainView, never()).showPokemon(ArgumentMatchers.anyList<String>())
     }

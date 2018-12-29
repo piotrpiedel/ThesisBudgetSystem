@@ -6,8 +6,10 @@ import android.app.KeyguardManager
 import android.content.Context.KEYGUARD_SERVICE
 import android.content.Context.POWER_SERVICE
 import android.os.PowerManager
-import android.os.PowerManager.*
-import android.support.test.runner.AndroidJUnitRunner
+import android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP
+import android.os.PowerManager.FULL_WAKE_LOCK
+import android.os.PowerManager.ON_AFTER_RELEASE
+import androidx.test.runner.AndroidJUnitRunner
 
 open class UnlockDeviceAndroidJUnitRunner : AndroidJUnitRunner() {
 

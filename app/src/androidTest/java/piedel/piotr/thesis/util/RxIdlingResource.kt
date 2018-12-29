@@ -1,6 +1,6 @@
 package piedel.piotr.thesis.util
 
-import android.support.test.espresso.IdlingResource
+import androidx.test.espresso.IdlingResource
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicInteger
 

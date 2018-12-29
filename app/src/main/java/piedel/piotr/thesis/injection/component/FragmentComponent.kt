@@ -11,6 +11,7 @@ import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFr
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewFragment
 
 /**
  * This component inject dependencies to all Fragments across the application
@@ -34,6 +35,8 @@ interface FragmentComponent {
     fun inject(receiptFragment: ReceiptFragment)
 
     fun inject(receiptFragment: ReceiptAddFragment)
+
+    fun inject(receiptPreviewFragment: ReceiptPreviewFragment)
 
 
 }

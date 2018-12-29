@@ -40,11 +40,6 @@ class OperationRepository @Inject constructor(private val operationDao: Operatio
                 .compose(SchedulerUtils.ioToMain<Operation>())
     }
 
-    fun selectOperationsFromCategory(idOperationOther: Int): Maybe<List<Operation>> {
-        return operationDao.selectAllOperations()
-                .compose(SchedulerUtils.ioToMain<List<Operation>>())
-    }
-
     fun selectAllOperations(): Maybe<List<Operation>> {
         return operationDao.selectAllOperations()
                 .compose(SchedulerUtils.ioToMain<List<Operation>>())

@@ -13,7 +13,8 @@
     </style>
 
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:textSize">@dimen/global_text_size</item>
+        <item name="android:textSize">@dimen/global_text_view_text_size</item>
+        <item name="android:padding">@dimen/global_padding</item>
     </style>
 
     <style name="MyEditTextStyle" parent="android:Widget.EditText">

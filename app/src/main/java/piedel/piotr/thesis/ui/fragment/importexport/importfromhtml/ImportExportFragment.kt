@@ -3,7 +3,6 @@ package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
@@ -17,9 +16,6 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
 
     @BindView(R.id.import_file_localization)
     lateinit var importFileLocation: EditText
-
-    @BindView(R.id.fragment_import_export_html_file_content)
-    lateinit var contentHTMLFile: TextView
 
     override val layout: Int
         get() = R.layout.fragment_import_export
@@ -80,7 +76,6 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
     }
 
     override fun fillTextViewWithContent(content: String) {
-        contentHTMLFile.text = content
     }
 
     override fun showInsertCompleteToast() {

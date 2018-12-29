@@ -36,7 +36,7 @@ ext {
             design           : "com.google.android.material:material:1.0.0-rc01",
             recyclerView     : "androidx.recyclerview:recyclerview:$versions.androidx",
             supportAnnotation: "androidx.annotation:annotation:$versions.androidx",
-            gridLayout       : "androidx.gridlayout:gridlayout:$versions.androidx",
+//            gridLayout       : "androidx.gridlayout:gridlayout:$versions.androidx",
             multiDex         : "androidx.multidex:multidex:2.0.0"
     ]
 
@@ -75,11 +75,11 @@ ext {
             core              : "com.jakewharton.rxbinding3:rxbinding-core:$versions.rxBindings",
             appcompat         : "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rxBindings",
             drawerlayout      : "com.jakewharton.rxbinding3:rxbinding-drawerlayout:$versions.rxBindings",
-            leanback          : "com.jakewharton.rxbinding3:rxbinding-leanback:$versions.rxBindings",
+//            leanback          : "com.jakewharton.rxbinding3:rxbinding-leanback:$versions.rxBindings",
             recyclerview      : "com.jakewharton.rxbinding3:rxbinding-recyclerview:$versions.rxBindings",
-            slidingpanelayout : "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$versions.rxBindings",
-            swiperefreshlayout: "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$versions.rxBindings",
-            viewpager         : "com.jakewharton.rxbinding3:rxbinding-viewpager:$versions.rxBindings"
+//            slidingpanelayout : "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$versions.rxBindings",
+//            swiperefreshlayout: "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$versions.rxBindings",
+//            viewpager         : "com.jakewharton.rxbinding3:rxbinding-viewpager:$versions.rxBindings"
 
     ]
     unitTest = [
