@@ -40,7 +40,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
     @OnClick(R.id.fragment_import_export_button_export)
     fun onExportButtonClicked() {
         if (importFileLocation.text.isNotBlank())
-            importExportPresenter.parseHTMLFromPath(importFileLocation.text.toString())
+            importExportPresenter.createAndParseHTMLFileFromPath(importFileLocation.text.toString(), requireActivity())
     }
 
     private fun checkPermissionsAndOpenFilePicker() {

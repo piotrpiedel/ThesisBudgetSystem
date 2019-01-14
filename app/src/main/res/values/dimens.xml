@@ -5,6 +5,8 @@
     <!--<dimen name="text_large_title">22sp</dimen>-->
     <!--<dimen name="text_title">20sp</dimen>-->
     <!--<dimen name="text_large_body">18sp</dimen>-->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_body">16sp</dimen>
     <dimen name="operations_card_view_card_corner_radius">8dp</dimen>
     <dimen name="receipt_card_view_card_corner_radius">8dp</dimen>

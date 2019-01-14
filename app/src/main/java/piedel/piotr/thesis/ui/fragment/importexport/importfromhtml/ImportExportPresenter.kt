@@ -20,7 +20,9 @@ import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.parseHTMLFileToJsonArray
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
+import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 
@@ -76,16 +78,28 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
                 val uri = data?.data    // Get the Uri of the selected file
                 val path = getPath(fragmentActivity, uri as Uri) // Get the FilePath of the selected file
                 fillEditTextWithPathOfFile(path) // Fill the EditText with FilePath
-                parseHTMLFromPath(path)
-
+                createAndParseHTMLFileFromPath(path, fragmentActivity)
             }
         }
     }
 
-    fun parseHTMLFromPath(path: String?) {
+    fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity) {
+        val fileToParse = File(path)
+        if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {
+            parseHTMLFromPath(fileToParse)
+        } else {
+            showToast(fragmentActivity, " The file to parse have to be HTML")
+        }
+    }
+
+    private fun checkIfFileIsHtml(fileToParse: File): Boolean {
+        return fileToParse.toString().toLowerCase().endsWith(".htm") || fileToParse.toString().toLowerCase().endsWith(".html")
+    }
+
+    private fun parseHTMLFromPath(fileToParse: File) {
         var jsonArray: JSONArray? = null
-        path?.let {
-            jsonArray = parseHTMLFileToJsonArray(path = path)
+        fileToParse.let {
+            jsonArray = parseHTMLFileToJsonArray(fileToParse)
         }
         jsonArray.let {
             if (jsonArray?.length() != 0)
