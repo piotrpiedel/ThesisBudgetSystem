@@ -23,7 +23,9 @@
             android:layout_alignBaseline="@+id/operations_title"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/operation_card_view_value_margin"
-            tools:text="30"
+            android:ellipsize="end"
+            android:maxLength="10"
+            tools:text="3023213123123132213321"
             tools:visibility="visible" />
 
         <TextView

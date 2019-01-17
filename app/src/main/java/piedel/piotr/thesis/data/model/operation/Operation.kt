@@ -2,18 +2,23 @@ package piedel.piotr.thesis.data.model.operation
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.util.getRandomCategory
 import piedel.piotr.thesis.util.readDate
 import piedel.piotr.thesis.util.writeDate
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "operation_table",
         foreignKeys = arrayOf(ForeignKey(entity = Category::class,
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
         )))
-data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int? = null) : Parcelable { //null without category
+data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int?) : Parcelable { //null without category
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -27,8 +32,8 @@ data class Operation(var value: Double, var title: String?, var operationType: O
     }
 
     @Ignore
-    constructor(value: Double, title: String?, operationType: OperationType, date: Date?)
-            : this(value, title, operationType, date, null)
+    constructor(value: Double, title: String?, operationType: OperationType, date: Date?) : this(value, title, operationType, date, getRandomCategory())
+
 
     @Ignore
     constructor() : this(123456.1, "Empty Constructor", OperationType.OUTCOME, Date())
@@ -60,3 +65,9 @@ data class Operation(var value: Double, var title: String?, var operationType: O
 data class OperationValueOperationType(var value: Double, var operationType: OperationType)
 
 data class OperationCategoryTuple(@Embedded var operation: Operation, @Embedded var category: Category?)
+
+//data class DateValueTuple(var date: Date, var sumValueForDate: Double)
+
+data class DateValueTuple(var date: Date, var sumValueForDate: Double)
+
+data class DateValueCategoryTuple(var date: Date, var sumValueForCategory: Double, var categoryId: Int, var category_title: String)

@@ -1,5 +1,6 @@
 package piedel.piotr.thesis.ui.fragment.receipt.receiptlist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -65,7 +66,19 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
         receiptAdapter.updateListOfReceipt(receipts)
     }
 
-    override fun onLongClickListener() {
+    override fun onReceiptLongClick(receiptItem: Receipt, position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+                .setTitle(" Do you want to delete receipt? ")
+                .setPositiveButton("YES") { _, _ ->
+                    receiptPresenter.deleteActionReceipt(receiptItem, position)
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+        alertDialog.show()
+    }
+
+    override fun notifyItemRemoved(itemPosition: Int) {
+        receiptAdapter.notifyAboutItemRemoved(itemPosition)
     }
 
     override fun onClickListener(receiptItem: Receipt) {

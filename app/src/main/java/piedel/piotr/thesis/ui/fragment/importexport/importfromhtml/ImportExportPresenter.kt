@@ -84,11 +84,16 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
     }
 
     fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity) {
-        val fileToParse = File(path)
-        if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {
-            parseHTMLFromPath(fileToParse)
+        var fileToParse: File?
+        if (path != null) {
+            fileToParse = File(path)
+            if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {
+                parseHTMLFromPath(fileToParse)
+            } else {
+                showToast(fragmentActivity, " File you want to import, need to be HTML")
+            }
         } else {
-            showToast(fragmentActivity, " The file to parse have to be HTML")
+            showToast(fragmentActivity, " To import file you should to use FileManager - not other apps")
         }
     }
 

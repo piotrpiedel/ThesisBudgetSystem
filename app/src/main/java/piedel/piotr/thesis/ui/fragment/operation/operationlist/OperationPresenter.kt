@@ -34,15 +34,9 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                 .subscribe({
                     var summary = 0.0
                     for (item in it) {
-                        if (item.operationType == OperationType.INCOME) {
-                            summary += item.value
-                        } else if (item.operationType == OperationType.OUTCOME) {
-                            summary -= item.value
-                        }
+                        summary += item.value
                     }
-                    val truncatedSummary = BigDecimal.valueOf(summary)
-                            .setScale(3, RoundingMode.HALF_UP)
-                            .toDouble()
+                    val truncatedSummary = BigDecimal.valueOf(summary).setScale(3, RoundingMode.FLOOR).toDouble()
                     view?.updateSummary(truncatedSummary)
                 }, { throwable ->
                     Timber.d(throwable.localizedMessage)

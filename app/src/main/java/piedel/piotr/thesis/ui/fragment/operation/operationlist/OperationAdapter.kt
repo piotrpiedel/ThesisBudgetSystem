@@ -13,6 +13,7 @@ import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationType
+import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
 import piedel.piotr.thesis.util.simpleDateFormat
 import javax.inject.Inject
 
@@ -52,7 +53,7 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         setDateTextView(holder, operationItem.operation)
 
         holder.titleTextView.text = holder.operation?.title
-        holder.valueTextView.text = holder.operation?.value.toString()
+        holder.valueTextView.text = doubleToStringInTwoPlacesAfterComma(holder.operation?.value)
         if (operationItem.operation.operationType == OperationType.OUTCOME) {
             holder.valueTextView.setTextColor(Color.RED)
         } else {

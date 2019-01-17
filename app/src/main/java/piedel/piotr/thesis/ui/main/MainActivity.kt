@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseActivity
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
+import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
@@ -95,6 +96,11 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         ReceiptFragment(),
                         ReceiptFragment.FRAGMENT_TAG)
+            }
+            R.id.navigation_chart -> {
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
+                        ChooseChartFragment(),
+                        ChooseChartFragment.FRAGMENT_TAG)
             }
         }
         drawerActivity.closeDrawer(GravityCompat.START)

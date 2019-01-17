@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "50eff0e08bede571881ce78d56438425",
+    "identityHash": "72a5c71f800ef1670051b8de956d0fb9",
     "entities": [
       {
         "tableName": "category_table",
@@ -47,7 +47,7 @@
       },
       {
         "tableName": "operation_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `value` REAL NOT NULL, `title` TEXT, `operationType` TEXT NOT NULL, `date` INTEGER, `other_category_id` INTEGER, FOREIGN KEY(`other_category_id`) REFERENCES `category_table`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `value` REAL NOT NULL, `title` TEXT, `operationType` TEXT NOT NULL, `date` TEXT, `other_category_id` INTEGER, FOREIGN KEY(`other_category_id`) REFERENCES `category_table`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -76,7 +76,7 @@
           {
             "fieldPath": "date",
             "columnName": "date",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -109,7 +109,7 @@
       },
       {
         "tableName": "receipt_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `receiptImageSourcePath` TEXT NOT NULL, `title` TEXT NOT NULL, `date` INTEGER NOT NULL, `value` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `receiptImageSourcePath` TEXT NOT NULL, `title` TEXT NOT NULL, `date` TEXT NOT NULL, `value` REAL NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -132,7 +132,7 @@
           {
             "fieldPath": "date",
             "columnName": "date",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -154,7 +154,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"50eff0e08bede571881ce78d56438425\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"72a5c71f800ef1670051b8de956d0fb9\")"
     ]
   }
 }

@@ -29,7 +29,11 @@ class RoomModule(application: Application) {
 
                             providesRoomDatabase().getCategoryDao().insertAllCategory(*CategoryList().getListOfParentCategories(),
                                     *CategoryList().getListOfFoodSubcategories(),
-                                    *CategoryList().getListOfEntertainmentSubcategories())
+                                    *CategoryList().getListOfEntertainmentSubcategories(),
+                                    *CategoryList().getListOfHouseSubcategories(),
+                                    *CategoryList().getListOfClothesSubcategories(),
+                                    *CategoryList().getListOfElectronicsSubcategories(),
+                                    *CategoryList().getListOfWorkSubcategories())
                         }
                     }
                 })

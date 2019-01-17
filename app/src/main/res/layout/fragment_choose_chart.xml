@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/choose_chart_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/choose_chart_to_display"
+        android:textColor="@color/Blue"
+        android:textSize="30sp" />
+
+    <ImageButton
+        android:id="@+id/button_bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choose_chart_label"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/global_margin"
+        android:layout_marginEnd="@dimen/global_margin"
+        android:layout_marginBottom="@dimen/global_margin"
+        android:background="@color/primary"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/bar_chart" />
+
+    <ImageButton
+        android:id="@+id/button_pie_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_bar_chart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/global_margin"
+        android:layout_marginEnd="@dimen/global_margin"
+        android:layout_marginBottom="@dimen/global_margin"
+        android:background="@color/primary"
+        android:minWidth="150dp"
+        android:minHeight="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pie_chart" />
+</RelativeLayout>

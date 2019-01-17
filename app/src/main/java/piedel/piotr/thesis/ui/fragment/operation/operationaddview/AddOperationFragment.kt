@@ -22,6 +22,7 @@ import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.addOperationFragmentRequestCode
 import piedel.piotr.thesis.util.simpleDateFormat
 import piedel.piotr.thesis.util.stringFormatDate
+import java.lang.Math.abs
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -151,7 +152,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
             operationCategory = category
         }
         operation?.let {
-            editTextInputValue.setText(operation.value.toString())
+            editTextInputValue.setText(abs(operation.value).toString())
             operationCategory?.let { it1 -> categorySelection.setView(it1) }
             editTextTitle.setText(operation.title)
             textViewDate.text = stringFormatDate(operation.date)
@@ -171,14 +172,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
 
     @OnClick(R.id.operation_input_button_save)
     fun saveOperation() {
-        addOperationPresenter.onSaveOperationButtonClicked(addOperationPresenter.createOperationToSave())
-    }
-
-    override fun createOperationToSave(): Operation {
-        return addOperationPresenter.prepareOperationToSave(
-                operation,
-                editTextInputValue.text.toString(),
-                editTextTitle.text.toString(),
+        addOperationPresenter.onSaveOperationButtonClicked(operation, editTextInputValue.text.toString(), editTextTitle.text.toString(),
                 radioButtonChecked(),
                 textViewDate.text.toString(),
                 operationCategory)

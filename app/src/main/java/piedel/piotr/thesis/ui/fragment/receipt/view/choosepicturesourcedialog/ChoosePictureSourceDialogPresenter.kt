@@ -79,8 +79,10 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
             when (requestCode) {
                 FILE_SELECT_REQUEST_CODE -> {
                     val uri = data?.data    // Get the Uri of the selected file
-                    val picturePath = getPath(passedActivityFragment, uri as Uri) as String  // Get the FilePath of the selected file
-                    view?.passPicturePath(picturePath)
+                    if (checkIfFileIsJpgOrPng(uri.toString())) {
+                        val picturePath = getPath(passedActivityFragment, uri as Uri) as String  // Get the FilePath of the selected file
+                        view?.passPicturePath(picturePath)
+                    } else view?.showErrorFileNotImage()
                 }
                 CAMERA_PIC_REQUEST_CODE -> {
                     view?.passIntentWithPicture(data)
@@ -88,4 +90,7 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
             }
     }
 
+    private fun checkIfFileIsJpgOrPng(passedUriOfImage: String): Boolean {
+        return passedUriOfImage.toLowerCase().endsWith(".png") || passedUriOfImage.toLowerCase().endsWith(".jpeg") || passedUriOfImage.toLowerCase().endsWith(".jpg")
+    }
 }

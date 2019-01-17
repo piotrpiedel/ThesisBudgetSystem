@@ -10,6 +10,7 @@ import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
 
@@ -34,6 +35,7 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListView, Categ
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
         categorySelectListPresenter.attachView(this)
+        getMainActivity().hideKeyboard()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

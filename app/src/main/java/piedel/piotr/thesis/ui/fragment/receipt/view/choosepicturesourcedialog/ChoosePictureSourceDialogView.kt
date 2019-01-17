@@ -15,4 +15,6 @@ interface ChoosePictureSourceDialogView : BaseView {
 
     fun onPermissionDenied()
 
+    fun showErrorFileNotImage()
+
 }

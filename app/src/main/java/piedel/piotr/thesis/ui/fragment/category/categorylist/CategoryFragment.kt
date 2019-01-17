@@ -8,6 +8,7 @@ import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
+import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
 class CategoryFragment : BaseFragment(), CategoryView {
@@ -30,6 +31,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
         categoryPresenter.attachView(this)
+        getMainActivity().hideKeyboard()
 
     }
 

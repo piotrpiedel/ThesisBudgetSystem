@@ -16,4 +16,6 @@ interface ReceiptView : BaseView {
     fun updateList(receipts: MutableList<Receipt>)
 
     fun showProgressBar(show: Boolean)
+
+    fun notifyItemRemoved(itemPosition: Int)
 }

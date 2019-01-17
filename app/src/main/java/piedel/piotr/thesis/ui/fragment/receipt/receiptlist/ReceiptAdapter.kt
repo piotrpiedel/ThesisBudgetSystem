@@ -78,9 +78,15 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
         notifyDataSetChanged()
     }
 
+    fun notifyAboutItemRemoved(itemPosition: Int) {
+        listOfReceipt.removeAt(itemPosition)
+        notifyItemRemoved(itemPosition)
+        notifyItemRangeChanged(itemPosition, itemCount)
+    }
+
     interface ReceiptAdapterListener {
         fun onClickListener(receiptItem: Receipt)
-        fun onLongClickListener()
+        fun onReceiptLongClick(receiptItem: Receipt, position: Int)
     }
 
 
@@ -103,6 +109,10 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
         init {
             ButterKnife.bind(this, itemView)
             itemView.setOnClickListener { adapterListener.let { adapterListener?.onClickListener(receipt as Receipt) } }
+            itemView.setOnLongClickListener {
+                adapterListener.let { adapterListener?.onReceiptLongClick(receipt as Receipt, this.layoutPosition) }
+                true
+            }
         }
     }
 }

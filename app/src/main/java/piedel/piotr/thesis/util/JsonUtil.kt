@@ -13,12 +13,11 @@ fun parseToJson(readyStringToParseToJson: List<List<String>>, jsonArray: JSONArr
             when (innerIterator) {//TODO: change removing prefix
                 1 -> jsonObject.put("date", innerList[0])
                 2 -> jsonObject.put("title", innerList[2])
-                3 -> jsonObject.put("value", innerList[3].removePrefix("-"))
+                3 -> jsonObject.put("value", innerList[3])
             }
         }
         if (innerList[3].contains("-")) {
             jsonObject.put("operationType", "OUTCOME")
-
         } else {
             jsonObject.put("operationType", "INCOME")
         }

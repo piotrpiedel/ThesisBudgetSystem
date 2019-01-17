@@ -6,6 +6,9 @@ import piedel.piotr.thesis.injection.scopes.PerFragment
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
+import piedel.piotr.thesis.ui.fragment.chart.barchart.BarChartFragment
+import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
+import piedel.piotr.thesis.ui.fragment.chart.piechart.PieCharFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
@@ -34,9 +37,14 @@ interface FragmentComponent {
 
     fun inject(receiptFragment: ReceiptFragment)
 
-    fun inject(receiptFragment: ReceiptAddFragment)
+    fun inject(receiptAddFragment: ReceiptAddFragment)
 
     fun inject(receiptPreviewFragment: ReceiptPreviewFragment)
 
+    fun inject(barChartFragment: BarChartFragment)
+
+    fun inject(chooseChartFragment: ChooseChartFragment)
+
+    fun inject(pieCharFragment: PieCharFragment)
 
 }

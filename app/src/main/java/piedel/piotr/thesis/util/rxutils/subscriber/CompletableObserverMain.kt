@@ -5,6 +5,7 @@ import io.reactivex.disposables.Disposable
 import timber.log.Timber
 
 open class CompletableObserverMain : CompletableObserver {
+
     override fun onComplete() {
         Timber.d(" CompletableObserverMain onSubscribe: finished with Succes")
     }

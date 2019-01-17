@@ -83,6 +83,10 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun showErrorFileNotImage() {
+        showToast(requireContext(), "The garphic file for receipt need to be jpg, or png")
+    }
+
     override fun passPicturePath(picturePath: String) {
         targetFragment?.onActivityResult(
                 targetRequestCode,

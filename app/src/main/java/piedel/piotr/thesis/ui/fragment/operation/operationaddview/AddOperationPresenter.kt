@@ -5,9 +5,7 @@ import android.widget.EditText
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import piedel.piotr.thesis.data.model.category.Category
 import piedel.piotr.thesis.data.model.category.CategoryRepository
 import piedel.piotr.thesis.data.model.operation.Operation
@@ -15,10 +13,10 @@ import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.util.dateFromString
+import piedel.piotr.thesis.util.dateFrom_DAY_MONTH_YEAR_TO_YEAR_MONT_DAY
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -28,21 +26,21 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
     private var disposable: Disposable? = null
 
-    fun onSaveOperationButtonClicked(operation: Operation) {
-        checkIfOperationExist(operation)
+    fun onSaveOperationButtonClicked(operation: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, operationCategory: Category?) {
+        updateOrInsertOperation(returnPreparedNewOperationOrUpdated(operation, inputValue, textTitle, valueOfOperation, dateOther, operationCategory))
     }
 
-    private fun checkIfOperationExist(operation: Operation) {
+    private fun updateOrInsertOperation(operation: Operation) {
         disposable = operationsRepository.selectOperation(operation.id)
                 .compose(SchedulerUtils.ioToMain<Operation>())
                 .subscribe(
                         {
-                            Timber.d("OnSucces: checkIfOperationExist onSucces update and return ")
+                            Timber.d("OnSucces: updateOrInsertOperation onSucces update and return ")
                             updateOperation(operation)
                             view?.returnFromFragment()
                         },
                         { t ->
-                            Timber.d("OnError: checkIfOperationExist %s", t.localizedMessage)
+                            Timber.d("OnError: updateOrInsertOperation %s", t.localizedMessage)
                         },
                         {
                             Timber.d("OnComplete: insertion from checkIfOperation exist ")
@@ -60,10 +58,8 @@ constructor(private val operationsRepository: OperationRepository, private val c
                     override fun onComplete() {
                         view?.returnFromFragment()
                     }
-
                     override fun onSubscribe(d: Disposable) {
                     }
-
                     override fun onError(e: Throwable) {
                         Timber.d(e)
                     }
@@ -78,11 +74,9 @@ constructor(private val operationsRepository: OperationRepository, private val c
                         Timber.d("updateOperation onComplete")
                         view?.returnFromFragment()
                     }
-
                     override fun onSubscribe(d: Disposable) {
                         Timber.d("updateOperation onSubscribe")
                     }
-
                     override fun onError(e: Throwable) {
                         Timber.d("updateOperation onError")
                         Timber.d(e)
@@ -90,10 +84,26 @@ constructor(private val operationsRepository: OperationRepository, private val c
                 })
     }
 
-    fun prepareOperationToSave(operationOther: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, category: Category?): Operation {
-        val valueOfOperationOther = inputValue.toDouble()
-        val dateFromString = dateFromString(dateOther)
-        return operationOther?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, category))
+    fun returnPreparedNewOperationOrUpdated(operation: Operation?, inputValue: String,
+                                            textTitle: String, valueOfOperation: OperationType,
+                                            dateOther: String, operationCategory: Category?): Operation {
+        return prepareNewOrUpdateOperation(operation, inputValue, textTitle,
+                valueOfOperation, dateOther, operationCategory)
+
+    }
+
+    fun prepareNewOrUpdateOperation(operationOther: Operation?, inputValue: String,
+                                    textTitle: String, valueOfOperation: OperationType,
+                                    dateOtherString: String, category: Category?): Operation {
+
+        var valueOfOperationOther = inputValue.toDouble()
+        if (valueOfOperation == OperationType.OUTCOME) {
+            valueOfOperationOther *= -1
+        }
+        val dateFromString = dateFrom_DAY_MONTH_YEAR_TO_YEAR_MONT_DAY(dateOtherString)
+        Timber.d("date %s", dateFromString?.toString())
+        return operationOther
+                ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, category))
                 ?: run {
                     Operation(valueOfOperationOther,
                             textTitle,
@@ -103,7 +113,9 @@ constructor(private val operationsRepository: OperationRepository, private val c
                 }
     }
 
-    private fun updateExistingOperation(valueOfOperationOther: Double, textTitle: String, valueOfOperation: OperationType, dateFromString: Date?, category: Category?): (Operation) -> Operation {
+    private fun updateExistingOperation(valueOfOperationOther: Double, textTitle: String,
+                                        valueOfOperation: OperationType, dateFromString: Date?,
+                                        category: Category?): (Operation) -> Operation {
         return { operation ->
             operation.apply {
                 value = valueOfOperationOther
@@ -125,9 +137,6 @@ constructor(private val operationsRepository: OperationRepository, private val c
         }
     }
 
-    fun createOperationToSave(): Operation {
-        return view?.createOperationToSave() as Operation
-    }
 
     private fun loadOperationWithCategory(operation: Operation, operationId: Int) {
         disposable = categoryRepository.selectCategory(operationId)

@@ -10,8 +10,6 @@ interface AddOperationView : BaseView {
 
     fun fillTheData(operation: Operation?, category: Category?)
 
-    fun createOperationToSave(): Operation
-
     fun enableSaveButton(isEnabled: Boolean)
 
 }

@@ -1,7 +1,17 @@
 package piedel.piotr.thesis.util
 
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
+fun doubleToStringInTwoPlacesAfterComma(doubleToFormat: Double?): String {
+    val decimalFormat = DecimalFormat("##.##")
+    decimalFormat.roundingMode = RoundingMode.FLOOR
+    if (doubleToFormat != null) {
+        return decimalFormat.format(doubleToFormat)
+    } else return ""
+
+}
 
 fun parseStringToStringArray(data: String): List<List<String>> {
 

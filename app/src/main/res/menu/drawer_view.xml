@@ -13,7 +13,10 @@
             android:id="@+id/navigation_import"
             android:title="@string/navigation_import_operations" />
         <item
-            android:id="@+id/navigation_receipt_list"
-            android:title="@string/navigation_receipt_list_text" />
+        android:id="@+id/navigation_receipt_list"
+        android:title="@string/navigation_receipt_list_text" />
+        <item
+            android:id="@+id/navigation_chart"
+            android:title="@string/statistics" />
     </group>
 </menu>
