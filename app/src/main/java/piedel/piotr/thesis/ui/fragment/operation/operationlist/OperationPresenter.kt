@@ -3,7 +3,10 @@ package piedel.piotr.thesis.ui.fragment.operation.operationlist
 import android.annotation.SuppressLint
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
-import piedel.piotr.thesis.data.model.operation.*
+import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
+import piedel.piotr.thesis.data.model.operation.OperationRepository
+import piedel.piotr.thesis.data.model.operation.OperationValueOperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
@@ -78,6 +81,17 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     private fun notifyAdapterItemRemoved(itemPosition: Int) {
         view?.notifyItemRemoved(itemPosition)
         loadSummary()
+    }
+
+    fun deleteAllOperationsAction() {
+        Completable.fromAction { operationRepository.deleteAllOperations() }
+                .compose(SchedulerUtils.ioToMain<Operation>())
+                .subscribe(object : CompletableObserverMain() {
+                    override fun onComplete() {
+                        val operations = emptyList<OperationCategoryTuple>()
+                        view?.updateList(operations)
+                    }
+                })
     }
 
 

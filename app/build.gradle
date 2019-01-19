@@ -17,12 +17,12 @@ android {
     defaultConfig {
 
         applicationId "piedel.piotr.thesis"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 28
         testInstrumentationRunner "${applicationId}.runner.RxAndroidJUnitRunner"
-        versionCode 1013
+        versionCode 1016
         // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
-        versionName '0.2.4'
+        versionName '0.2.7'
 
 //        buildConfigField("String", "POKEAPI_API_URL",
 //                "\"${PokeapiApiUrl}\"")
@@ -41,6 +41,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            ext.enableCrashlytics = false
         }
     }
 
@@ -89,7 +92,7 @@ android {
 
 configurations.all {
     resolutionStrategy {
-        force 'com.squareup.okio:okio:2.1.0'
+        force 'com.squareup.okio:okio:2.2.0'
     }
 }
 
@@ -97,7 +100,7 @@ apply from: 'dependencies.gradle'
 
 dependencies {
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.7@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true;
     }
 
@@ -114,9 +117,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation('com.github.bumptech.glide:okhttp3-integration:1.4.0') {
-        exclude group: 'glide-parent'
-    }
+//    implementation('com.github.bumptech.glide:okhttp3-integration:1.4.0') {
+//        exclude group: 'glide-parent'
+//    }
 
     //MonthPicker
     implementation 'com.github.twinkle942910:monthyearpicker:0.0.1'
@@ -125,7 +128,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
 
     //GraphView
-    implementation 'com.jjoe64:graphview:4.2.2'
+    //implementation 'com.jjoe64:graphview:4.2.2'
 
 
     //HTML parse Library
@@ -145,10 +148,11 @@ dependencies {
     implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 
     //RxPermission for easy runtime permission management
-    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+   // implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+
     implementation "com.jakewharton:butterknife:$versions.butterKnife"
     implementation "com.jakewharton.timber:timber:$versions.timber"
-    implementation "com.facebook.stetho:stetho-okhttp3:$versions.stethOkhttp"
+   // implementation "com.facebook.stetho:stetho-okhttp3:$versions.stethOkhttp"
 
     implementation("com.github.bumptech.glide:recyclerview-integration:4.8.0") {
         // Excludes the support library because it's already included by Glide.
@@ -160,14 +164,14 @@ dependencies {
 
 //    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
-    debugImplementation 'com.readystatesoftware.chuck:library:1.0.4'
-    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.0.4'
+//    debugImplementation 'com.readystatesoftware.chuck:library:1.0.4'
+//    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.0.4'
 
 
-    debugImplementation('com.github.ajitsing:sherlock:1.0.2@aar') {
-        transitive = true
-    }
-    releaseImplementation('com.github.ajitsing:sherlock-no-op:1.0.2@aar')
+   // debugImplementation('com.github.ajitsing:sherlock:1.0.4@aar') {
+   //     transitive = true
+   // }
+   // releaseImplementation('com.github.ajitsing:sherlock-no-op:1.0.4@aar')
 
 //    implementation 'com.tspoon.traceur:traceur:1.0.1'
 
@@ -178,14 +182,14 @@ dependencies {
     releaseImplementation leakCannary
     testImplementation leakCannary
 
-    kapt "com.jakewharton:butterknife-compiler:$versions.butterKnife"
+    kapt  "com.jakewharton:butterknife-compiler:$versions.butterKnife"
     kapt daggerCompiler
     kapt roomCompiler
     kaptTest daggerCompiler
     kaptAndroidTest daggerCompiler
 
-    testImplementation unitTestLibs
-    androidTestImplementation androidTestsLibs
+   // testImplementation unitTestLibs
+    //androidTestImplementation androidTestsLibs
 }
 
 // Log out test results to console

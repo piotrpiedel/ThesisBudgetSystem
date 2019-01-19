@@ -21,7 +21,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
         get() = R.layout.fragment_import_export
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.importexport).toString()
 
     @Inject
     lateinit var importExportPresenter: ImportExportPresenter
@@ -59,7 +59,7 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
         try {
             startActivityForResult(Intent.createChooser(intent, "Select a File to open"), FILE_SELECT_CODE)
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.please_install_file_manager), Toast.LENGTH_SHORT).show()
             Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_SHORT).show()
         }
     }
@@ -79,17 +79,16 @@ class ImportExportFragment : BaseFragment(), ImportExportView {
     }
 
     override fun showInsertCompleteToast() {
-        Toast.makeText(context, "Loading operation from HTML succeeded", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
     }
 
     override fun showError() {
-        Toast.makeText(context, "Something went wrong, try again later", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.something_went_wrong_try_again_later), Toast.LENGTH_SHORT).show()
     }
 
 
     companion object {
         const val FRAGMENT_TAG: String = "importExportFragment"
-        const val FRAGMENT_TITLE: String = " Import | Export "
         const val PERMISSIONS_REQUEST_CODE = 80
         const val FILE_SELECT_CODE = 81
     }

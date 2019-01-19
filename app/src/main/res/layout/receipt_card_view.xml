@@ -23,8 +23,8 @@
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/add_receipt"
-            android:maxWidth="150dp"
-            android:maxHeight="150dp"
+            android:maxWidth="180dp"
+            android:maxHeight="170dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_image" />
 

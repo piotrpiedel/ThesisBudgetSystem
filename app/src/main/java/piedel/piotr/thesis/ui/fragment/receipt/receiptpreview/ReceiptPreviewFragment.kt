@@ -37,7 +37,7 @@ class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewView {
         get() = R.layout.fragment_receipt_preview
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.receipt_preview).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,6 @@ class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewView {
         private const val RECEIPT_PREVIEW_KEY: String = "RECEIPT_PREVIEW_KEY"
 
         const val FRAGMENT_TAG: String = "ReceiptPreviewFragment"
-        const val FRAGMENT_TITLE: String = "Receipt óPreview"
 
 
         fun newInstance(receipt: Receipt): ReceiptPreviewFragment {

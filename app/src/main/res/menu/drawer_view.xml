@@ -5,18 +5,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_operations"
+            android:icon="@drawable/ic_twotone_monetization_on"
             android:title="@string/operations" />
         <item
             android:id="@+id/navigation_categories"
-            android:title="@string/categories" />
+            android:icon="@drawable/ic_twotone_view_list"
+            android:title="@string/categoryChildren" />
         <item
             android:id="@+id/navigation_import"
+            android:icon="@drawable/ic_baseline_edit"
             android:title="@string/navigation_import_operations" />
         <item
-        android:id="@+id/navigation_receipt_list"
-        android:title="@string/navigation_receipt_list_text" />
+            android:id="@+id/navigation_receipt_list"
+            android:icon="@drawable/ic_twotone_receipt"
+            android:title="@string/navigation_receipt_list_text" />
         <item
             android:id="@+id/navigation_chart"
+            android:icon="@drawable/bar_chart"
             android:title="@string/statistics" />
     </group>
 </menu>

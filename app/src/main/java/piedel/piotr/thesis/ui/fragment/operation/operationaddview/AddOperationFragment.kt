@@ -13,7 +13,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.ui.base.BaseFragment
@@ -58,10 +58,10 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
 
     private var operation: Operation? = null
 
-    var operationCategory: Category? = null
+    var operationCategoryChild: CategoryChild? = null
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.add_operation).toString()
 
     override val layout: Int
         get() = R.layout.fragment_operations_add
@@ -91,8 +91,8 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
     }
 
     private fun setCategory() {
-        operationCategory?.let {
-            setCategorySelectionView(operationCategory as Category)
+        operationCategoryChild?.let {
+            setCategorySelectionView(operationCategoryChild as CategoryChild)
         }
     }
 
@@ -114,12 +114,12 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == addOperationFragmentRequestCode && resultCode == Activity.RESULT_OK) {
-            operationCategory = data?.getParcelableExtra(CategorySelectListFragment.FRAGMENT_INTENT_CATEGORY)
+            operationCategoryChild = data?.getParcelableExtra(CategorySelectListFragment.FRAGMENT_INTENT_CATEGORY)
         }
     }
 
-    private fun setCategorySelectionView(category: Category) {
-        categorySelection.setView(category)
+    private fun setCategorySelectionView(categoryChild: CategoryChild) {
+        categorySelection.setView(categoryChild)
     }
 
     //TODO: refactor : Do some Util out of this class
@@ -147,13 +147,13 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
-    override fun fillTheData(operation: Operation?, category: Category?) {
-        if (operationCategory == null) {
-            operationCategory = category
+    override fun fillTheData(operation: Operation?, categoryChild: CategoryChild?) {
+        if (operationCategoryChild == null) {
+            operationCategoryChild = categoryChild
         }
         operation?.let {
             editTextInputValue.setText(abs(operation.value).toString())
-            operationCategory?.let { it1 -> categorySelection.setView(it1) }
+            operationCategoryChild?.let { it1 -> categorySelection.setView(it1) }
             editTextTitle.setText(operation.title)
             textViewDate.text = stringFormatDate(operation.date)
             setRadioButtonChecked()
@@ -175,7 +175,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         addOperationPresenter.onSaveOperationButtonClicked(operation, editTextInputValue.text.toString(), editTextTitle.text.toString(),
                 radioButtonChecked(),
                 textViewDate.text.toString(),
-                operationCategory)
+                operationCategoryChild)
     }
 
     //TODO: find some other way?
@@ -196,7 +196,6 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         const val OPERATION_KEY: String = "OPERATION_KEY"
 
         const val FRAGMENT_TAG: String = "Add Operation Fragment"
-        const val FRAGMENT_TITLE: String = " Add Operation "
 
         fun newInstance(operation: Operation): AddOperationFragment {
             val addOperationFragment = AddOperationFragment()

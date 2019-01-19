@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/LimeGreen"
+        android:background="@color/SpringGreen"
         android:minHeight="70dp"
         android:orientation="vertical"
         android:padding="@dimen/global_padding">
@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/global_padding"
-            android:text="@string/bilans_konta" />
+            android:text="@string/bilans_konta"
+            tools:textColor="@color/FireBrick" />
 
         <TextView
             android:id="@+id/summary_value_text_view"
@@ -41,7 +42,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/global_padding"
-            android:text="0" />
+            android:text="0"
+            tools:textColor="@color/FireBrick" />
 
     </LinearLayout>
 

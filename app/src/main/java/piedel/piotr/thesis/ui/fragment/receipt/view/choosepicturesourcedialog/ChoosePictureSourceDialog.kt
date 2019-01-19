@@ -30,7 +30,7 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ButterKnife.bind(this, view)
-        val title = arguments?.getString("title", "Choose receipt image source")
+        val title = arguments?.getString("title", getString(R.string.choose_receipt_image_source))
         dialog.setTitle(title)
 
     }
@@ -59,9 +59,9 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
         intent.type = "*/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
-            startActivityForResult(Intent.createChooser(intent, "Select a picture to load"), FILE_SELECT_REQUEST_CODE)
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_picture_to_load)), FILE_SELECT_REQUEST_CODE)
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, "Please install a File Manager.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.please_install_file_manager), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -74,7 +74,7 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
         try {
             startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST_CODE);
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, "Please install a camera", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.please_install_camera), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -84,7 +84,7 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
     }
 
     override fun showErrorFileNotImage() {
-        showToast(requireContext(), "The garphic file for receipt need to be jpg, or png")
+        showToast(requireContext(), getString(R.string.the_graphic_file_to_load_need_to_be))
     }
 
     override fun passPicturePath(picturePath: String) {
@@ -106,7 +106,7 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
     }
 
     override fun onPermissionDenied() {
-        showToast(requireContext(), "The permission is denied permanently - to change it go to options")
+        showToast(requireContext(), getString(R.string.the_permission_is_denied_permanently))
         dismiss()
         activity?.onBackPressed()
     }
@@ -118,8 +118,6 @@ class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogVie
         const val INTENT_WITH_PICTURE_FROM_CAMERA: String = "PictureIntent"
 
         const val FRAGMENT_TAG: String = "Choose Source Of Image"
-
-        const val FRAGMENT_TITLE: String = " Choose Source Of Image "
 
         fun newInstance(title: String): ChoosePictureSourceDialog {
             val frag = ChoosePictureSourceDialog()

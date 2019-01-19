@@ -8,10 +8,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.github.pavlospt.roundedletterview.RoundedLetterView
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.util.getRandomColor
 
-class SpinnerCategoryAdapter(context: Context, categoryChildList: MutableList<Category>) : ArrayAdapter<Category>(context, 0, categoryChildList) {
+class SpinnerCategoryAdapter(context: Context, categoryChildChildList: MutableList<CategoryChild>) : ArrayAdapter<CategoryChild>(context, 0, categoryChildChildList) {
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return initView(position, convertView, parent)
@@ -29,7 +29,7 @@ class SpinnerCategoryAdapter(context: Context, categoryChildList: MutableList<Ca
         val roundedLetterView: RoundedLetterView = view?.findViewById(R.id.round_letter_view) as RoundedLetterView
         val headerOfSpinner: TextView = view.findViewById(R.id.categories_list_expandable_group_header) as TextView
 
-        val currentItem: Category = getItem(position) as Category
+        val currentItem: CategoryChild = getItem(position) as CategoryChild
 
         currentItem.let {
             headerOfSpinner.text = currentItem.category_title

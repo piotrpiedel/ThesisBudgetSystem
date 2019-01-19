@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import dagger.Component
 import piedel.piotr.thesis.data.AppDatabase
-import piedel.piotr.thesis.data.model.category.CategoryDao
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChildDao
+import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParentDao
 import piedel.piotr.thesis.data.model.operation.OperationDao
 import piedel.piotr.thesis.data.model.receipt.ReceiptDao
 import piedel.piotr.thesis.injection.module.applicationmodule.AppModule
@@ -23,9 +24,11 @@ interface ApplicationComponent {
 
     fun appDatabase(): AppDatabase
 
-    fun categoryDao(): CategoryDao
+    fun categoryChildDao(): CategoryChildDao
 
     fun operationDao(): OperationDao
 
     fun receiptDao(): ReceiptDao
+
+    fun categoryParentDao() : CategoryParentDao
 }

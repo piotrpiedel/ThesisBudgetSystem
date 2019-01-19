@@ -2,7 +2,7 @@ package piedel.piotr.thesis.ui.fragment.chart.barchart
 
 import android.annotation.SuppressLint
 import io.reactivex.disposables.Disposable
-import piedel.piotr.thesis.data.model.category.CategoryRepository
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChildRepository
 import piedel.piotr.thesis.data.model.operation.DateValueTuple
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @ConfigPersistent
 class BarChartPresenter @Inject
-constructor(private val operationRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<BarChartView>() {
+constructor(private val operationRepository: OperationRepository, private val categoryChildRepository: CategoryChildRepository) : BasePresenter<BarChartView>() {
 
     private var disposable: Disposable? = null
 

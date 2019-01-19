@@ -65,13 +65,13 @@ class CustomDateFormatAdapter : JsonAdapter<Date>() {
     @Throws(IOException::class)
     override fun fromJson(reader: JsonReader): Date {
         val string = reader.nextString()
-        return dateFormatForJson.parse(string);
+        return dateFormatForJson.parse(string)
     }
 
     @Synchronized
     @Throws(IOException::class)
     override fun toJson(writer: JsonWriter, value: Date?) {
-        val string = dateFormatForJson.format(value);
+        val string = dateFormatForJson.format(value)
         writer.value(string)
     }
 }
@@ -90,7 +90,7 @@ class CustomDoubleFormatAdapter : JsonAdapter<Double>() {
     @Synchronized
     @Throws(IOException::class)
     override fun toJson(writer: JsonWriter, value: Double?) {
-        val string = doubleFormat.format(value);
+        val string = doubleFormat.format(value)
         writer.value(string)
     }
 }

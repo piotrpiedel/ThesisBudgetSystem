@@ -11,7 +11,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
 import piedel.piotr.thesis.util.getRandomColor
 import timber.log.Timber
@@ -33,8 +33,8 @@ class CategoryAdapter constructor(var group: MutableList<CategoryExpandableGroup
     }
 
     override fun onBindChildViewHolder(holder: CategoryChildViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
-        val childCategory: Category = group?.items?.get(childIndex) as Category
-        holder?.onBindChild(childCategory)
+        val childCategoryChild: CategoryChild = group?.items?.get(childIndex) as CategoryChild
+        holder?.onBindChild(childCategoryChild)
     }
 
     override fun onBindGroupViewHolder(holder: CategoryGroupViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?) {
@@ -69,11 +69,11 @@ class CategoryChildViewHolder(itemView: View) : ChildViewHolder(itemView) {
     private val childCategoryTitle = itemView.findViewById(R.id.categories_list_expandable_item_title) as TextView
     private val childCategoryTitleLetterView = itemView.findViewById(R.id.round_letter_view) as RoundedLetterView
 
-    fun onBindChild(childCategory: Category) {
-        childCategoryTitle.text = childCategory.category_title
-        childCategoryTitleLetterView.titleText = childCategory.category_title[0].toString()
+    fun onBindChild(childCategoryChild: CategoryChild) {
+        childCategoryTitle.text = childCategoryChild.category_title
+        childCategoryTitleLetterView.titleText = childCategoryChild.category_title[0].toString()
         childCategoryTitleLetterView.backgroundColor = getRandomColor()
     }
 }
 
-class CategoryExpandableGroup(praentCategory: Category, items: List<Category>) : ExpandableGroup<Category>(praentCategory.category_title, items)
+class CategoryExpandableGroup(praentCategoryChild: CategoryChild, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(praentCategoryChild.category_title, items)

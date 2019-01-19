@@ -2,6 +2,8 @@ package piedel.piotr.thesis.ui.fragment.receipt.receiptlist
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,12 +32,28 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
         get() = R.layout.fragment_receipt_list
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.receipts).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
         receiptPresenter.attachView(this)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.findItem(R.id.delete_all_operations)?.isVisible = false
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.delete_all_receipts -> {
+                receiptPresenter.deleteAllReceiptsAction()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,11 +86,11 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
 
     override fun onReceiptLongClick(receiptItem: Receipt, position: Int) {
         val alertDialog = AlertDialog.Builder(context)
-                .setTitle(" Do you want to delete receipt? ")
-                .setPositiveButton("YES") { _, _ ->
+                .setTitle(getString(R.string.do_you_want_to_delete_receipt))
+                .setPositiveButton(getString(R.string.yes)) { _, _ ->
                     receiptPresenter.deleteActionReceipt(receiptItem, position)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create()
         alertDialog.show()
     }
@@ -86,7 +104,7 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
     }
 
     override fun showError(throwable: Throwable?) {
-        Toast.makeText(context, "There is problem with operations, try again later", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.there_is_problem_with_receipts_try_again_later), Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgressBar(show: Boolean) {
@@ -95,6 +113,5 @@ class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapt
 
     companion object {
         const val FRAGMENT_TAG: String = "ReceiptListFragment"
-        const val FRAGMENT_TITLE: String = "Receipts"
     }
 }

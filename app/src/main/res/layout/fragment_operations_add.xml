@@ -1,147 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_operation_add_container"
+    android:id="@+id/fragment_operation_add_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Beige"
     android:padding="@dimen/global_padding">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/operation_input_value_layout"
+    <RelativeLayout
+        android:id="@+id/fragment_operation_add_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        app:hintTextAppearance="@style/TextInputLayoutHint">
+        android:fitsSystemWindows="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <EditText
-            android:id="@+id/operation_input_value"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/operation_input_value_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="@string/operation_input_value_hint"
-            android:inputType="numberDecimal"
-            android:textSize="@dimen/global_text_size_input" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            app:hintTextAppearance="@style/TextInputLayoutHint">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/operation_input_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/operation_input_value_hint"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/global_text_size_input" />
 
-
-    <piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
-        android:id="@+id/operation_input_category"
-        style="@style/OperationInputStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/operation_input_value_layout"
-        android:hint="@string/select_category" />
-
-    <RadioGroup
-        android:id="@+id/radio_group_buttons_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/operation_input_category"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:checkedButton="@+id/operation_input_income"
-        android:orientation="horizontal"
-        android:padding="@dimen/global_padding"
-        android:weightSum="6">
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <RadioButton
-            android:id="@+id/operation_input_income"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/operation_input_text_view_plus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/operation_input_text_view_plus_text" />
-
-        <RadioButton
-            android:id="@+id/operation_input_outcome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/operation_input_text_view_minus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/operation_input_text_view_minus_text" />
-
-    </RadioGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/operation_input_title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/radio_group_buttons_container"
-        app:hintTextAppearance="@style/TextInputLayoutHint">
-
-        <EditText
-            android:id="@+id/operation_input_title"
+        <piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
+            android:id="@+id/operation_input_category"
+            style="@style/OperationInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:hint="@string/operation_input_title_text"
-            android:inputType="text|textCapSentences"
-            android:paddingStart="@dimen/global_padding" />
+            android:layout_below="@+id/operation_input_value_layout"
+            android:hint="@string/select_category" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/operation_input_button_add_receipt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/operation_input_title_layout"
-        android:background="@color/accent"
-        android:padding="@dimen/global_padding"
-        android:text="@string/operation_input_button_add_receipt_text" />
-
-    <LinearLayout
-        android:id="@+id/calendar_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/operation_input_button_add_receipt"
-        android:layout_alignParentStart="true"
-        android:padding="@dimen/global_padding"
-        android:weightSum="9">
-
-        <TextView
-            android:id="@+id/operation_input_date"
-            style="@android:style/Widget.Holo.Spinner"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:clickable="false"
-            android:focusable="false"
-            android:gravity="center"
+        <RadioGroup
+            android:id="@+id/radio_group_buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operation_input_category"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:checkedButton="@+id/operation_input_income"
+            android:orientation="horizontal"
             android:padding="@dimen/global_padding"
-            tools:text="30 November 2018" />
+            android:weightSum="6">
 
-        <ImageView
-            android:id="@+id/operation_input_date_icon"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
+
+            <RadioButton
+                android:id="@+id/operation_input_income"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/operation_input_text_view_plus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/operation_input_text_view_plus_text" />
+
+            <RadioButton
+                android:id="@+id/operation_input_outcome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/operation_input_text_view_minus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/operation_input_text_view_minus_text" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/operation_input_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio_group_buttons_container"
+            app:hintTextAppearance="@style/TextInputLayoutHint">
+
+            <EditText
+                android:id="@+id/operation_input_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="@string/operation_input_title_text"
+                android:inputType="text|textCapSentences"
+                android:paddingStart="@dimen/global_padding" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/operation_input_button_add_receipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operation_input_title_layout"
+            android:background="@color/accent"
+            android:enabled="false"
             android:padding="@dimen/global_padding"
-            android:src="@drawable/calendar_icon"
-            tools:visibility="visible" />
+            android:text="@string/operation_input_button_add_receipt_text" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/calendar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operation_input_button_add_receipt"
+            android:layout_alignParentStart="true"
+            android:padding="@dimen/global_padding"
+            android:weightSum="9">
 
-    <Button
-        android:id="@+id/operation_input_button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/calendar_container"
-        android:background="@color/accent"
-        android:enabled="false"
-        android:text="@string/operation_input_button_save_text" />
+            <TextView
+                android:id="@+id/operation_input_date"
+                style="@android:style/Widget.Holo.Spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:padding="@dimen/global_padding"
+                tools:text="30 November 2018" />
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/operation_input_date_icon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="@dimen/global_padding"
+                android:src="@drawable/calendar_icon"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/operation_input_button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendar_container"
+            android:background="@color/accent"
+            android:enabled="false"
+            android:text="@string/operation_input_button_save_text" />
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,13 +1,17 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationlist
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
+import kotlinx.android.synthetic.main.fragment_operations.*
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
@@ -32,7 +36,7 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
     lateinit var summaryValue: TextView
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.operations_list).toString()
 
     override val layout: Int
         get() = R.layout.fragment_operations
@@ -41,8 +45,23 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
         operationPresenter.attachView(this)
+        setHasOptionsMenu(true)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.findItem(R.id.delete_all_receipts)?.isVisible = false
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.delete_all_operations -> {
+                operationPresenter.deleteAllOperationsAction()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,6 +84,13 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
 
     override fun updateSummary(summary: Double) {
         summaryValue.text = summary.toString()
+        if (summary < 0) {
+            summaryValue.setTextColor(resources.getColor(R.color.FireBrick, null))
+            summary_text_view.setTextColor(resources.getColor(R.color.FireBrick, null))
+        } else {
+            summaryValue.setTextColor(Color.WHITE)
+            summary_text_view.setTextColor(Color.WHITE)
+        }
     }
 
     @OnClick(R.id.fragment_operation_button_add)
@@ -81,7 +107,7 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
     }
 
     override fun showError(throwable: Throwable) {
-        showToast(requireContext(), "There is problem with operations, try again later")
+        showToast(requireContext(), getString(R.string.there_is_problem_with_operations_tr_again_later))
     }
 
     override fun onOperationListViewClicked(operation: Operation) {
@@ -90,17 +116,16 @@ class OperationFragment : BaseFragment(), OperationView, OperationAdapter.Operat
 
     override fun onOperationsLongClick(operation: Operation, position: Int) {
         val alertDialog = AlertDialog.Builder(context)
-                .setTitle(" Do you want to delete operation? ")
-                .setPositiveButton("YES") { _, _ ->
+                .setTitle(getString(R.string.do_you_want_to_delete_operation))
+                .setPositiveButton(getString(R.string.YES)) { _, _ ->
                     operationPresenter.deleteActionOperation(operation, position)
                 }
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create()
         alertDialog.show()
     }
 
     companion object {
         const val FRAGMENT_TAG: String = "OperationFragment"
-        const val FRAGMENT_TITLE: String = "Operations"
     }
 }

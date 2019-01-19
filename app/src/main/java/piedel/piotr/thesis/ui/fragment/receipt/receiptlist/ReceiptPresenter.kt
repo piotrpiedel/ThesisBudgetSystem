@@ -57,4 +57,15 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
     private fun notifyAdapterItemRemoved(itemPosition: Int) {
         view?.notifyItemRemoved(itemPosition)
     }
+
+    fun deleteAllReceiptsAction() {
+        Completable.fromAction { receiptRepository.deleteAllReceipts() }
+                .compose(SchedulerUtils.ioToMain<Receipt>())
+                .subscribe(object : CompletableObserverMain() {
+                    override fun onComplete() {
+                        val receiptsList = mutableListOf<Receipt>()
+                        view?.updateList(receiptsList)
+                    }
+                })
+    }
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationType
@@ -48,7 +48,7 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         val operationItem = operationWithCategoryList[position]
         holder.operation = operationItem.operation
 
-        setCategoryTextView(holder, operationItem.category)
+        setCategoryTextView(holder, operationItem.categoryChild)
 
         setDateTextView(holder, operationItem.operation)
 
@@ -61,7 +61,7 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         }
     }
 
-    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Category?) {
+    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: CategoryChild?) {
         holder.operation?.other_category_id?.let {
             holder.categoryTextView.visibility = View.VISIBLE
             holder.categoryTextView.text = operationItem?.category_title

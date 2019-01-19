@@ -56,7 +56,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
         get() = R.layout.fragment_receipt_add
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.add_receipt_title).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,14 +154,13 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
     }
 
     override fun showError() {
-        Toast.makeText(context, "Error occurred  - try something else", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, getString(R.string.error_occurred_try_something_else), Toast.LENGTH_SHORT).show()
     }
 
     companion object {
 
         private const val RECEIPT_ADD_KEY: String = "RECEIPT_ADD_KEY"
         const val FRAGMENT_TAG: String = "ReceiptAddFragment"
-        const val FRAGMENT_TITLE: String = "Add receipt"
 
 
         fun newInstance(receipt: Receipt): ReceiptAddFragment {

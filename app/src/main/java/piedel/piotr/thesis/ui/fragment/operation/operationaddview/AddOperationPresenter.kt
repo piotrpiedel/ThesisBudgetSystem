@@ -6,8 +6,8 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
-import piedel.piotr.thesis.data.model.category.Category
-import piedel.piotr.thesis.data.model.category.CategoryRepository
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChildRepository
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
@@ -22,12 +22,12 @@ import javax.inject.Inject
 
 @ConfigPersistent
 class AddOperationPresenter @Inject
-constructor(private val operationsRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<AddOperationView>() {
+constructor(private val operationsRepository: OperationRepository, private val categoryChildRepository: CategoryChildRepository) : BasePresenter<AddOperationView>() {
 
     private var disposable: Disposable? = null
 
-    fun onSaveOperationButtonClicked(operation: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, operationCategory: Category?) {
-        updateOrInsertOperation(returnPreparedNewOperationOrUpdated(operation, inputValue, textTitle, valueOfOperation, dateOther, operationCategory))
+    fun onSaveOperationButtonClicked(operation: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, operationCategoryChild: CategoryChild?) {
+        updateOrInsertOperation(returnPreparedNewOperationOrUpdated(operation, inputValue, textTitle, valueOfOperation, dateOther, operationCategoryChild))
     }
 
     private fun updateOrInsertOperation(operation: Operation) {
@@ -86,15 +86,15 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
     fun returnPreparedNewOperationOrUpdated(operation: Operation?, inputValue: String,
                                             textTitle: String, valueOfOperation: OperationType,
-                                            dateOther: String, operationCategory: Category?): Operation {
+                                            dateOther: String, operationCategoryChild: CategoryChild?): Operation {
         return prepareNewOrUpdateOperation(operation, inputValue, textTitle,
-                valueOfOperation, dateOther, operationCategory)
+                valueOfOperation, dateOther, operationCategoryChild)
 
     }
 
     fun prepareNewOrUpdateOperation(operationOther: Operation?, inputValue: String,
                                     textTitle: String, valueOfOperation: OperationType,
-                                    dateOtherString: String, category: Category?): Operation {
+                                    dateOtherString: String, categoryChild: CategoryChild?): Operation {
 
         var valueOfOperationOther = inputValue.toDouble()
         if (valueOfOperation == OperationType.OUTCOME) {
@@ -103,26 +103,26 @@ constructor(private val operationsRepository: OperationRepository, private val c
         val dateFromString = dateFrom_DAY_MONTH_YEAR_TO_YEAR_MONT_DAY(dateOtherString)
         Timber.d("date %s", dateFromString?.toString())
         return operationOther
-                ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, category))
+                ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, categoryChild))
                 ?: run {
                     Operation(valueOfOperationOther,
                             textTitle,
                             valueOfOperation,
                             dateFromString,
-                            category?.categoryId)
+                            categoryChild?.categoryId)
                 }
     }
 
     private fun updateExistingOperation(valueOfOperationOther: Double, textTitle: String,
                                         valueOfOperation: OperationType, dateFromString: Date?,
-                                        category: Category?): (Operation) -> Operation {
+                                        categoryChild: CategoryChild?): (Operation) -> Operation {
         return { operation ->
             operation.apply {
                 value = valueOfOperationOther
                 title = textTitle
                 operationType = valueOfOperation
                 date = dateFromString
-                other_category_id = category?.categoryId
+                other_category_id = categoryChild?.categoryId
             }
         }
     }
@@ -139,8 +139,8 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
 
     private fun loadOperationWithCategory(operation: Operation, operationId: Int) {
-        disposable = categoryRepository.selectCategory(operationId)
-                .compose(SchedulerUtils.ioToMain<List<Category>>())
+        disposable = categoryChildRepository.selectCategory(operationId)
+                .compose(SchedulerUtils.ioToMain<List<CategoryChild>>())
                 .subscribe({
                     val categoryForOperation = it.first()
                     view?.fillTheData(operation, categoryForOperation)

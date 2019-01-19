@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListView, Categ
         get() = R.layout.fragment_categories_list
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.categories).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +49,11 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListView, Categ
         categorySelectListPresenter.loadParentCategories()
     }
 
-    override fun onChildClick(childCategory: Category) {
+    override fun onChildClick(childCategoryChild: CategoryChild) {
         targetFragment?.onActivityResult(
                 targetRequestCode,
                 Activity.RESULT_OK,
-                Intent().putExtra(FRAGMENT_INTENT_CATEGORY, childCategory)
+                Intent().putExtra(FRAGMENT_INTENT_CATEGORY, childCategoryChild)
         )
         activity?.supportFragmentManager?.popBackStackImmediate()
     }
@@ -70,7 +70,6 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListView, Categ
 
     companion object {
         const val FRAGMENT_TAG = "categorySelectListFragment"
-        const val FRAGMENT_TITLE = " Categories "
         const val FRAGMENT_INTENT_CATEGORY = "categoryValue"
     }
 }

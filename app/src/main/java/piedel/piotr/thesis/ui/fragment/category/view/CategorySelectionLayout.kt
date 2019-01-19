@@ -10,7 +10,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.github.pavlospt.roundedletterview.RoundedLetterView
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.Category
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.util.getRandomColor
 
 class CategorySelectionLayout : RelativeLayout {
@@ -43,12 +43,12 @@ class CategorySelectionLayout : RelativeLayout {
         ButterKnife.bind(this)
     }
 
-    fun setView(category: Category) {
+    fun setView(categoryChild: CategoryChild) {
         categoryTitle.visibility = View.VISIBLE
         roundedLetterView.visibility = View.VISIBLE
         categoryTitle.setTypeface(null, Typeface.BOLD)
-        categoryTitle.text = category.category_title
-        roundedLetterView.titleText = category.category_title[0].toString()
+        categoryTitle.text = categoryChild.category_title
+        roundedLetterView.titleText = categoryChild.category_title[0].toString()
         roundedLetterView.backgroundColor = getRandomColor()
     }
 }

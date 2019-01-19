@@ -1,22 +1,22 @@
 <resources>
     <string name="app_name">Thesis Budget System</string>
-    <string name="activity_drawer_layout_open">Open Navigation Side Bar</string>
-    <string name="activity_drawer_layout_close">Close Navigation Side Bar</string>
-    <string name="dialog_action_ok">OK</string>
+    <string name="activity_drawer_layout_open" translatable="false">Open Navigation Side Bar</string>
+    <string name="activity_drawer_layout_close" translatable="false">Close Navigation Side Bar</string>
+    <string name="dialog_action_ok" translatable="false">OK</string>
     <string name="dialog_error_title">Sorry</string>
-    <string name="error_title">Oops</string>
-    <string name="error_message">There was a problem loading the pokemon, please try again!</string>
+    <string name="error_title" translatable="false">Oops</string>
+    <string name="error_message" translatable="false">There was a problem loading the pokemon, please try again!</string>
     <string name="error_reload">Reload</string>
-    <string name="title_activity_maps_sample">Map</string>
+    <string name="title_activity_maps_sample" translatable="false">Map</string>
     <string name="operation_input_text_view_plus_text">Income</string>
     <string name="operation_input_text_view_minus_text">Outcome</string>
     <string name="operation_input_button_save_text">Save</string>
-    <string name="operation_input_button_add_receipt_text">Add receipt (optional)</string>
+    <string name="operation_input_button_add_receipt_text">Add receipt (incoming soon)</string>
     <string name="operation_input_value_hint">Type value</string>
     <string name="operation_input_category_hint">Type category</string>
     <string name="operation_input_title_text">Type title</string>
     <string name="operations">Operations</string>
-    <string name="categories">Categories</string>
+    <string name="categoryChildren">Categories</string>
     <string name="navigation_import_operations">Import your operations</string>
     <string name="load_operations_from_html_file">Load operations from html file: </string>
     <string name="button_load">LOAD</string>
@@ -33,10 +33,81 @@
     <string name="type_title_receipt">Type title of receipt (shop etc) </string>
     <string name="save">SAVE</string>
     <string name="title">Title of receipt: </string>
-    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur </string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi</string>
-    <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. </string>
+    <string name="lorem_ipsum_short" translatable="false">Lorem ipsum dolor sit amet, consectetur </string>
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi</string>
+    <string name="lorem_ipsum_long" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. </string>
     <string name="value_of_receipt">Total value of receipt:</string>
     <string name="statistics">Statistics</string>
-    <string name="choose_chart_to_display">Choose chart to display</string>
+    <string name="choose_chart_to_display">Choose chart to display:</string>
+    <string name="categories">Categories</string>
+    <string name="ba_chart">Bar chart</string>
+    <string name="summar_of_income_outcome_per_day">Summary of income - outcome per day</string>
+    <string name="choose_chart">Choose chart</string>
+    <string name="pie_chart">Pie chart</string>
+    <string name="categories_pie_chart">Categories</string>
+    <string name="importexport">Import | Export</string>
+    <string name="please_install_file_manager">Please install a File Manager.</string>
+    <string name="loading_operation_from_html_success">Loading operation from HTML succeeded</string>
+    <string name="something_went_wrong_try_again_later">Something went wrong, try again later</string>
+    <string name="file_you_want_to_import_must_be_html">File you want to import, need to be HTML</string>
+    <string name="to_import_file_you_should_use_file_manager">To import file you should to use FileManager - not other apps</string>
+    <string name="add_operation">Add Operation</string>
+    <string name="there_is_problem_with_operations_tr_again_later">There is problem with operations, try again later</string>
+    <string name="operations_list">Operations</string>
+    <string name="do_you_want_to_delete_operation">Do you want to delete operation?</string>
+    <string name="YES">YES</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_receipt_title">Add receipt</string>
+    <string name="error_occurred_try_something_else">Error occurred  - try something else</string>
+    <string name="receipts">Receipts</string>
+    <string name="do_you_want_to_delete_receipt">Do you want to delete receipt?</string>
+    <string name="yes">YES</string>
+    <string name="there_is_problem_with_receipts_try_again_later">There is problem with receipts, try again later</string>
+    <string name="receipt_preview">Receipt preview</string>
+    <string name="choose_receipt_image_source">Choose receipt image source</string>
+    <string name="select_a_picture_to_load">Select a picture to load</string>
+    <string name="the_graphic_file_to_load_need_to_be">The graphic file for receipt need to be jpg, or png</string>
+    <string name="the_permission_is_denied_permanently">The permission is denied permanently - to change it go to options</string>
+    <string name="please_install_camera">Please install a camera</string>
+    <string name="app_require_permission_to_store_receipts">Application require permissions to store receipts</string>
+    <string name="food">Food</string>
+    <string name="entertainments">Entertainments</string>
+    <string name="house">House</string>
+    <string name="clothes">Clothes</string>
+    <string name="electronics">Electronics</string>
+    <string name="work">Work</string>
+    <string name="food_main">Food - Main</string>
+    <string name="food_supermarket">Food - Supermarket</string>
+    <string name="food_work">Food - Work</string>
+    <string name="food_fast_foods">Food - FastFoods</string>
+    <string name="food_common">Food - Common</string>
+    <string name="entertainments_main">Entertainments - Main</string>
+    <string name="entertainments_shop">Entertainments - Shop</string>
+    <string name="entertainments_work">Entertainments - Work</string>
+    <string name="entertainments_fast">Entertainments - Culture</string>
+    <string name="entertainments_common">Entertainments - Common</string>
+    <string name="house_main">House - Main</string>
+    <string name="house_maintain">House - Maintain</string>
+    <string name="house_furniture">House - Furniture</string>
+    <string name="house_fixes">House - Fixes</string>
+    <string name="house_common">House - Common</string>
+    <string name="house_bills">House - Bills</string>
+    <string name="clothes_main">Clothes - Main</string>
+    <string name="clothes_shop">Clothes - Shop</string>
+    <string name="clothes_kids">Clothes - Kids</string>
+    <string name="clothes_boots">Clothes - Boots</string>
+    <string name="clothes_hats">Clothes - Hats</string>
+    <string name="clothes_casul">Clothes - Casual</string>
+    <string name="electronic_main">Electronic - Main</string>
+    <string name="electronic_shop">Electronic - Shop</string>
+    <string name="electronic_kids">Electronic - Kids</string>
+    <string name="electronic_china">Electronic - China</string>
+    <string name="electronic_fun">Electronic - Fun</string>
+    <string name="electronic_small">Electronic - Small</string>
+    <string name="work_main">Work - Main</string>
+    <string name="work_income">Work - Income</string>
+    <string name="work_food">Work - Food</string>
+    <string name="uncategorized">Uncategorized</string>
+    <string name="delete_all">Delete all operations</string>
+    <string name="delete_all_receipts">Delete all receipts</string>
 </resources>

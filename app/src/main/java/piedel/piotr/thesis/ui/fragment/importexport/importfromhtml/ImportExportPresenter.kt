@@ -13,6 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import org.json.JSONArray
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
@@ -90,10 +91,10 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
             if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {
                 parseHTMLFromPath(fileToParse)
             } else {
-                showToast(fragmentActivity, " File you want to import, need to be HTML")
+                showToast(fragmentActivity, fragmentActivity.getString(R.string.file_you_want_to_import_must_be_html))
             }
         } else {
-            showToast(fragmentActivity, " To import file you should to use FileManager - not other apps")
+            showToast(fragmentActivity, fragmentActivity.getString(R.string.to_import_file_you_should_use_file_manager))
         }
     }
 
@@ -102,7 +103,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
     }
 
     private fun parseHTMLFromPath(fileToParse: File) {
-        var jsonArray: JSONArray? = null
+        var jsonArray: JSONArray?
         fileToParse.let {
             jsonArray = parseHTMLFileToJsonArray(fileToParse)
         }
@@ -111,7 +112,6 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
                 createOperationsFromJson(jsonArray)
             else view?.showError()
         }
-
     }
 
     private fun createOperationsFromJson(jsonArray: JSONArray?) {

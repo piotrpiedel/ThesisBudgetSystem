@@ -9,7 +9,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
+        android:gravity="center"
         android:text="@string/choose_chart_to_display"
+        android:textAlignment="center"
         android:textColor="@color/Blue"
         android:textSize="30sp" />
 

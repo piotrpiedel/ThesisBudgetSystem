@@ -20,7 +20,7 @@
     <dimen name="receipt_card_view_date_margin">5dp</dimen>
     <dimen name="receipt_card_view_date_margin_start">15dp</dimen>
     <dimen name="global_text_size">16sp</dimen>
-    <dimen name="global_text_view_text_size">20sp</dimen>
+    <dimen name="global_text_view_text_size">18sp</dimen>
     <dimen name="global_text_size_input">22sp</dimen>
     <dimen name="operation_card_view_value_margin">5dp</dimen>
     <dimen name="operation_card_view_category_margin">5dp</dimen>

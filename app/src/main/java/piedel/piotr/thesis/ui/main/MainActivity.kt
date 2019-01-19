@@ -1,6 +1,7 @@
 package piedel.piotr.thesis.ui.main
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
@@ -20,6 +21,7 @@ import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
 import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import javax.inject.Inject
+
 
 class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,6 +43,8 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
     @BindView(R.id.fragment_container_activity_main)
     lateinit var fragmentContainer: View
 
+    var menu: Menu? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getActivityComponent().inject(this)
@@ -49,6 +53,12 @@ class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSe
         setOpenSideBarListener()
         navigationView.setNavigationItemSelectedListener(this)
         mainPresenter.initStartingFragment()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        menuInflater.inflate(R.menu.menu_options, menu);
+        return false;
     }
 
     fun getToolbarFromActivity(): Toolbar {

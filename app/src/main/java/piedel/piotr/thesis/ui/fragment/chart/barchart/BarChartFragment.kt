@@ -41,7 +41,7 @@ class BarChartFragment : BaseFragment(), BarChartView {
         get() = R.layout.fragment_bar_chart
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.ba_chart).toString()
 
     private var chosenDate: Date? = null
 
@@ -133,8 +133,7 @@ class BarChartFragment : BaseFragment(), BarChartView {
                 entries.add(BarEntry(i.toFloat(), 0f))
             }
         }
-
-        val set = BarDataSet(entries, "Summary of income - outcome per day")
+        val set = BarDataSet(entries, getString(R.string.summar_of_income_outcome_per_day))
         set.setColors(intArrayOf(R.color.YellowGreen, R.color.Green, R.color.Blue, R.color.BlueViolet, R.color.AliceBlue, R.color.DarkOrchid, R.color.DarkOrange, R.color.Khaki), requireContext())
 
         val barData = BarData(set)
@@ -168,6 +167,5 @@ class BarChartFragment : BaseFragment(), BarChartView {
 
     companion object {
         const val FRAGMENT_TAG: String = "BarChartFragment"
-        const val FRAGMENT_TITLE: String = "Bar chart"
     }
 }

@@ -10,6 +10,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.util.CAMERA_PIC_REQUEST_CODE
 import piedel.piotr.thesis.util.FILE_SELECT_REQUEST_CODE
@@ -35,7 +36,7 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
                         when {
                             report?.areAllPermissionsGranted() == true -> view?.showCamera()
                             report?.isAnyPermissionPermanentlyDenied == false && !report.areAllPermissionsGranted() -> {
-                                showToast(passedActivityFragment, "Application require permissions to store receipts")
+                                showToast(passedActivityFragment, passedActivityFragment.getString(R.string.app_require_permission_to_store_receipts))
                             }
                             report?.isAnyPermissionPermanentlyDenied == true -> view?.onPermissionDenied()
                         }
@@ -59,7 +60,7 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
                         when {
                             report?.areAllPermissionsGranted() == true -> view?.showFileChooser()
                             report?.isAnyPermissionPermanentlyDenied == false && !report.areAllPermissionsGranted() -> {
-                                showToast(passedActivityFragment, "Application require permissions to store receipts")
+                                showToast(passedActivityFragment, passedActivityFragment.getString(R.string.app_require_permission_to_store_receipts))
                             }
                             report?.isAnyPermissionPermanentlyDenied == true -> view?.onPermissionDenied()
                         }

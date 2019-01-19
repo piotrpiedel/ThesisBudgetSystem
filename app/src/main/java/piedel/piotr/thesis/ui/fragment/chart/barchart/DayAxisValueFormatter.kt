@@ -27,11 +27,10 @@ class DayAxisValueFormatter(private val chart: BarLineChartBase<*>, private val 
         val monthName = mMonths[month % mMonths.size]
         val yearName = year.toString()
 
-        if (chart.visibleXRange > 30 * 6) {
-            return "$monthName $yearName"
+        return if (chart.visibleXRange > 30 * 6) {
+            "$monthName $yearName"
         } else {
-            val dayOfMonth = days
-            return if (dayOfMonth == 0) "" else dayOfMonth.toString() + " " + monthName
+            if (days == 0) "" else days.toString() + " " + monthName
         }
     }
 

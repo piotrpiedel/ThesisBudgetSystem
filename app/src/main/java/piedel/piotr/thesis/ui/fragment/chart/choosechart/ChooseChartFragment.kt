@@ -1,7 +1,6 @@
 package piedel.piotr.thesis.ui.fragment.chart.choosechart
 
 import android.os.Bundle
-import android.view.View
 import butterknife.OnClick
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseFragment
@@ -18,7 +17,7 @@ class ChooseChartFragment : BaseFragment(), ChooseChartView {
         get() = R.layout.fragment_choose_chart
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.choose_chart).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,6 @@ class ChooseChartFragment : BaseFragment(), ChooseChartView {
 
     companion object {
         const val FRAGMENT_TAG: String = "ChooseChart"
-        const val FRAGMENT_TITLE: String = "Choose chart"
     }
 
 }

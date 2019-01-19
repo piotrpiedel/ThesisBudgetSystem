@@ -14,12 +14,12 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.twinkle94.monthyearpicker.picker.YearMonthPickerDialog
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.data.model.operation.DateValueCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateMonthYearFormat
 import java.util.Calendar
 import javax.inject.Inject
-import piedel.piotr.thesis.data.model.operation.DateValueCategoryTuple
-import piedel.piotr.thesis.util.showToast
 
 
 class PieCharFragment : BaseFragment(), PieChartView {
@@ -40,7 +40,7 @@ class PieCharFragment : BaseFragment(), PieChartView {
         get() = R.layout.fragment_pie_chart
 
     override val toolbarTitle: String
-        get() = FRAGMENT_TITLE
+        get() = context?.getString(R.string.pie_chart).toString()
 
     val calendarInstance = Calendar.getInstance()
 
@@ -67,7 +67,7 @@ class PieCharFragment : BaseFragment(), PieChartView {
                 val dateFormat = simpleDateMonthYearFormat()
                 textViewDate.text = (dateFormat.format(calendarInstance.time))
                 updateDataBySelectedMonthAndYear(calendarInstance.get(Calendar.MONTH), calendarInstance.get(Calendar.YEAR))
-            }).show();
+            }).show()
         }
     }
 
@@ -91,7 +91,7 @@ class PieCharFragment : BaseFragment(), PieChartView {
             }
         }
 
-        val dataSet = PieDataSet(entries, "Election Results")
+        val dataSet = PieDataSet(entries, getString(R.string.categories_pie_chart))
 
         dataSet.setDrawIcons(false)
 
@@ -149,7 +149,6 @@ class PieCharFragment : BaseFragment(), PieChartView {
 
     companion object {
         const val FRAGMENT_TAG: String = "PieChartFragment"
-        const val FRAGMENT_TITLE: String = "Pie chart"
     }
 
 }

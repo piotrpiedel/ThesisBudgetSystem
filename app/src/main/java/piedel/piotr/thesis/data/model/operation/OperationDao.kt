@@ -36,13 +36,13 @@ interface OperationDao {
     @Query("SELECT date, SUM(value) as sumValueForDate FROM operation_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year GROUP BY date ")
     fun selectSumOfOperationByDateMonthly(month: String, year: String): Maybe<List<DateValueTuple>>
 
-    @Query("SELECT date, SUM(value)  as sumValueForCategory, categoryId, category_title FROM operation_table, category_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year AND other_category_id=categoryId GROUP BY categoryId ")
+    @Query("SELECT date, SUM(value)  as sumValueForCategory, categoryId, category_title FROM operation_table, category_child_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year AND other_category_id=categoryId GROUP BY categoryId ")
     fun selectSummaryOperationByCategoryMonthly(month: String, year: String): Maybe<List<DateValueCategoryTuple>>
 
 //    @Query("SELECT date, SUM(value) as sumValueForDate FROM operation_table WHERE strftime('%m', `date`) =:month  AND strftime('%Y', `date`) =:year GROUP BY date ORDER BY date ASC  ")
 //    fun selectSumOfOperationByDateMonthly(month: Int, year: Int): Maybe<List<DateValueTuple>>
 
-    @Query("SELECT * FROM operation_table LEFT JOIN category_table ON other_category_id == categoryId  ")
+    @Query("SELECT * FROM operation_table LEFT JOIN category_child_table ON other_category_id == categoryId  ")
     fun selectAllOperationsWithCategories(): Maybe<List<OperationCategoryTuple>>
 
     @Query("SELECT value, operationType from operation_table")

@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "72a5c71f800ef1670051b8de956d0fb9",
+    "identityHash": "cf39897bab543830133dd629fa94aa70",
     "entities": [
       {
-        "tableName": "category_table",
+        "tableName": "category_child_table",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT, `category_title` TEXT NOT NULL, `parentCategoryId` INTEGER)",
         "fields": [
           {
@@ -35,19 +35,54 @@
         },
         "indices": [
           {
-            "name": "index_category_table_categoryId",
+            "name": "index_category_child_table_categoryId",
             "unique": true,
             "columnNames": [
               "categoryId"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_category_table_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+            "createSql": "CREATE UNIQUE INDEX `index_category_child_table_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "category_parent_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT, `category_title` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "category_title",
+            "columnName": "category_title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "categoryId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_category_parent_table_categoryId",
+            "unique": true,
+            "columnNames": [
+              "categoryId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_category_parent_table_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "operation_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `value` REAL NOT NULL, `title` TEXT, `operationType` TEXT NOT NULL, `date` TEXT, `other_category_id` INTEGER, FOREIGN KEY(`other_category_id`) REFERENCES `category_table`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `value` REAL NOT NULL, `title` TEXT, `operationType` TEXT NOT NULL, `date` TEXT, `other_category_id` INTEGER, FOREIGN KEY(`other_category_id`) REFERENCES `category_child_table`(`categoryId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -95,7 +130,7 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "category_table",
+            "table": "category_child_table",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -154,7 +189,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"72a5c71f800ef1670051b8de956d0fb9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cf39897bab543830133dd629fa94aa70\")"
     ]
   }
 }

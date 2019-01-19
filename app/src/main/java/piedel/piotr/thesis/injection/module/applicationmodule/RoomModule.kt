@@ -7,7 +7,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import piedel.piotr.thesis.data.AppDatabase
-import piedel.piotr.thesis.data.model.category.CategoryDao
+import piedel.piotr.thesis.data.model.category.categorychild.CategoryChildDao
+import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParentDao
 import piedel.piotr.thesis.data.model.operation.OperationDao
 import piedel.piotr.thesis.data.model.receipt.ReceiptDao
 import piedel.piotr.thesis.injection.scopes.ApplicationScope
@@ -26,14 +27,15 @@ class RoomModule(application: Application) {
                             //                            Timber.d("iothread" + arrayOfCategories.contentToString())
 //                            Timber.d("iothread" + arrayOfFoodSubcategories.contentToString())
 //                            Timber.d("iothread" + arrayOfentertainmentsSubcategories.contentToString())
+                            val categoryList = CategoryList(application)
 
-                            providesRoomDatabase().getCategoryDao().insertAllCategory(*CategoryList().getListOfParentCategories(),
-                                    *CategoryList().getListOfFoodSubcategories(),
-                                    *CategoryList().getListOfEntertainmentSubcategories(),
-                                    *CategoryList().getListOfHouseSubcategories(),
-                                    *CategoryList().getListOfClothesSubcategories(),
-                                    *CategoryList().getListOfElectronicsSubcategories(),
-                                    *CategoryList().getListOfWorkSubcategories())
+                            providesRoomDatabase().getCategoryChildDao().insertAllCategory(*categoryList.getListOfParentCategories(),
+                                    *categoryList.getListOfFoodSubcategories(),
+                                    *categoryList.getListOfEntertainmentSubcategories(),
+                                    *categoryList.getListOfHouseSubcategories(),
+                                    *categoryList.getListOfClothesSubcategories(),
+                                    *categoryList.getListOfElectronicsSubcategories(),
+                                    *categoryList.getListOfWorkSubcategories())
                         }
                     }
                 })
@@ -49,8 +51,14 @@ class RoomModule(application: Application) {
 
     @ApplicationScope
     @Provides
-    fun providesCategoryDao(appDatabase: AppDatabase): CategoryDao {
-        return appDatabase.getCategoryDao()
+    fun providesChildCategoryDao(appDatabase: AppDatabase): CategoryChildDao {
+        return appDatabase.getCategoryChildDao()
+    }
+
+    @ApplicationScope
+    @Provides
+    fun providesParentCategoryDao(appDatabase: AppDatabase): CategoryParentDao {
+        return appDatabase.getCategoryParentDao()
     }
 
     @ApplicationScope
