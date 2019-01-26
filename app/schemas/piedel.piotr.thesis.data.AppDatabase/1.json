@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cf39897bab543830133dd629fa94aa70",
+    "identityHash": "cbbc4c3b7eba17f587246c1eea016fe9",
     "entities": [
       {
         "tableName": "category_child_table",
@@ -47,35 +47,35 @@
       },
       {
         "tableName": "category_parent_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT, `category_title` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id_parent` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `category_title_parent` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "categoryId",
-            "columnName": "categoryId",
+            "fieldPath": "category_id_parent",
+            "columnName": "category_id_parent",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "category_title",
-            "columnName": "category_title",
+            "fieldPath": "category_title_parent",
+            "columnName": "category_title_parent",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "categoryId"
+            "category_id_parent"
           ],
           "autoGenerate": true
         },
         "indices": [
           {
-            "name": "index_category_parent_table_categoryId",
+            "name": "index_category_parent_table_category_id_parent",
             "unique": true,
             "columnNames": [
-              "categoryId"
+              "category_id_parent"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_category_parent_table_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+            "createSql": "CREATE UNIQUE INDEX `index_category_parent_table_category_id_parent` ON `${TABLE_NAME}` (`category_id_parent`)"
           }
         ],
         "foreignKeys": []
@@ -189,7 +189,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cf39897bab543830133dd629fa94aa70\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cbbc4c3b7eba17f587246c1eea016fe9\")"
     ]
   }
 }

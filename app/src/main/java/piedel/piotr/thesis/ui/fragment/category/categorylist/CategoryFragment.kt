@@ -32,7 +32,6 @@ class CategoryFragment : BaseFragment(), CategoryView {
         getFragmentComponent().inject(this)
         categoryPresenter.attachView(this)
         getMainActivity().hideKeyboard()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +41,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
     }
 
     private fun initFragment() {
-        categoryPresenter.loadParentCategories()
+        categoryPresenter.loadCategories()
     }
 
     private fun setLayoutManager() {

@@ -1,12 +1,10 @@
 package piedel.piotr.thesis.ui.fragment.receipt.receiptlist
 
-import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import piedel.piotr.thesis.util.rxutils.subscriber.CompletableObserverMain
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,7 +25,6 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
 
     private fun loadReceiptList() {
         disposable = receiptRepository.selectAllReceipts()
-                .compose(SchedulerUtils.ioToMain<MutableList<Receipt>>())
                 .subscribe({ receipts ->
                     view?.showProgressBar(false)
                     view?.updateList(receipts)
@@ -44,8 +41,7 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
     }
 
     fun deleteActionReceipt(receipt: Receipt, itemPosition: Int) {
-        Completable.fromAction { receiptRepository.deleteReceipt(receipt) }
-                .compose(SchedulerUtils.ioToMain<Receipt>())
+        receiptRepository.deleteReceipt(receipt)
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
                         Timber.d("deleteActionReceipt on Complete")
@@ -59,8 +55,7 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
     }
 
     fun deleteAllReceiptsAction() {
-        Completable.fromAction { receiptRepository.deleteAllReceipts() }
-                .compose(SchedulerUtils.ioToMain<Receipt>())
+        receiptRepository.deleteAllReceipts()
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
                         val receiptsList = mutableListOf<Receipt>()

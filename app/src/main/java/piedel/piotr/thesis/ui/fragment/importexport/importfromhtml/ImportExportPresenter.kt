@@ -9,7 +9,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.squareup.moshi.Moshi
-import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import org.json.JSONArray
@@ -20,7 +19,6 @@ import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.parseHTMLFileToJsonArray
-import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import java.io.File
@@ -32,8 +30,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
 
 
     private fun insertOperation(vararg operation: Operation) {
-        Completable.fromAction { operationsRepository.insertOperation(*operation) }
-                .compose(SchedulerUtils.ioToMain<Operation>())
+        operationsRepository.insertOperation(*operation)
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         view?.showInsertCompleteToast()

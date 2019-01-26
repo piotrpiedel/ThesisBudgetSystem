@@ -87,7 +87,7 @@ class PieCharFragment : BaseFragment(), PieChartView {
                 summaryValueOfAllItems += items.sumValueForCategory
             }
             for (items in loadedData) {
-                entries.add(PieEntry((items.sumValueForCategory / summaryValueOfAllItems * 100).toFloat(), items.category_title))
+                entries.add(PieEntry((items.sumValueForCategory / summaryValueOfAllItems * 100).toFloat(), items.category_title_parent))
             }
         }
 

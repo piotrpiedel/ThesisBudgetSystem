@@ -17,7 +17,6 @@ import piedel.piotr.thesis.data.model.operation.DateValueTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateMonthYearFormat
-import timber.log.Timber
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -91,7 +90,6 @@ class BarChartFragment : BaseFragment(), BarChartView {
             YearMonthPickerDialog(requireContext(), YearMonthPickerDialog.OnDateSetListener { years, month ->
                 setSelectedDate(cal, years, month)
                 chosenDate = cal.time
-                Timber.d(chosenDate?.toString())
                 val dateFormat = simpleDateMonthYearFormat()
                 textViewDate.text = (dateFormat.format(cal.time))
                 setNewDataAfterChoiceOfDate(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR))

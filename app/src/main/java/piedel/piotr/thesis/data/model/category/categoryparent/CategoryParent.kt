@@ -6,20 +6,18 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "category_parent_table", indices = [Index(value = ["categoryId"], unique = true)])
-data class CategoryParent(@PrimaryKey(autoGenerate = true) val categoryId: Int?, val category_title: String) : Parcelable {
-
-    constructor(categoryTitle: String) : this(null, categoryTitle)
+@Entity(tableName = "category_parent_table", indices = [Index(value = ["category_id_parent"], unique = true)])
+data class CategoryParent(@PrimaryKey(autoGenerate = true) val category_id_parent: Int, val category_title_parent: String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readValue(Int::class.java.classLoader) as? Int,
+            parcel.readInt(),
             parcel.readString() as String) {
     }
 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(categoryId)
-        parcel.writeString(category_title)
+        parcel.writeValue(category_id_parent)
+        parcel.writeString(category_title_parent)
     }
 
     override fun describeContents(): Int {

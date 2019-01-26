@@ -3,11 +3,10 @@ package piedel.piotr.thesis.ui.fragment.operation.operationaddview
 import android.annotation.SuppressLint
 import android.widget.EditText
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
+import piedel.piotr.thesis.data.model.category.CategoryRepository
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
-import piedel.piotr.thesis.data.model.category.categorychild.CategoryChildRepository
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
@@ -22,7 +21,7 @@ import javax.inject.Inject
 
 @ConfigPersistent
 class AddOperationPresenter @Inject
-constructor(private val operationsRepository: OperationRepository, private val categoryChildRepository: CategoryChildRepository) : BasePresenter<AddOperationView>() {
+constructor(private val operationsRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<AddOperationView>() {
 
     private var disposable: Disposable? = null
 
@@ -32,7 +31,6 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
     private fun updateOrInsertOperation(operation: Operation) {
         disposable = operationsRepository.selectOperation(operation.id)
-                .compose(SchedulerUtils.ioToMain<Operation>())
                 .subscribe(
                         {
                             Timber.d("OnSucces: updateOrInsertOperation onSucces update and return ")
@@ -52,14 +50,15 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
 
     private fun insertOperation(operation: Operation) {
-        Completable.fromAction { operationsRepository.insertOperation(operation) }
-                .compose(SchedulerUtils.ioToMain<Operation>())
+        operationsRepository.insertOperation(operation)
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         view?.returnFromFragment()
                     }
+
                     override fun onSubscribe(d: Disposable) {
                     }
+
                     override fun onError(e: Throwable) {
                         Timber.d(e)
                     }
@@ -67,16 +66,17 @@ constructor(private val operationsRepository: OperationRepository, private val c
     }
 
     private fun updateOperation(operation: Operation) {
-        Completable.fromAction { operationsRepository.updateOperation(operation) }
-                .compose(SchedulerUtils.ioToMain<Operation>())
+        operationsRepository.updateOperation(operation)
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         Timber.d("updateOperation onComplete")
                         view?.returnFromFragment()
                     }
+
                     override fun onSubscribe(d: Disposable) {
                         Timber.d("updateOperation onSubscribe")
                     }
+
                     override fun onError(e: Throwable) {
                         Timber.d("updateOperation onError")
                         Timber.d(e)
@@ -139,8 +139,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
 
 
     private fun loadOperationWithCategory(operation: Operation, operationId: Int) {
-        disposable = categoryChildRepository.selectCategory(operationId)
-                .compose(SchedulerUtils.ioToMain<List<CategoryChild>>())
+        disposable = categoryRepository.selectCategory(operationId)
                 .subscribe({
                     val categoryForOperation = it.first()
                     view?.fillTheData(operation, categoryForOperation)

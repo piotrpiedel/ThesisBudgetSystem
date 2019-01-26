@@ -1,7 +1,16 @@
 package piedel.piotr.thesis.data.model.category.categorychild
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
+import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParent
 
 @Dao
 interface CategoryChildDao {
@@ -25,17 +34,19 @@ interface CategoryChildDao {
     fun selectChildCategory(idCategoryOther: Int, parentCategoryOther: Int): Maybe<List<CategoryChild>>
 
     @Query("SELECT * from category_child_table WHERE parentCategoryId =:parentCategoryOther")
-    fun selectAllChildFromParentCategory(parentCategoryOther: Int): Maybe<List<CategoryChild>>
+    fun selectAllChildFromParentCategory(parentCategoryOther: Int): Observable<List<CategoryChild>>
 
     @Query("SELECT * from category_child_table WHERE parentCategoryId IS NOT NULL")
-    fun selectAllChildFromParents(): Maybe<List<CategoryChild>>
+    fun selectAllChildFromParents(): Observable<List<CategoryChild>>
 
     @Query("SELECT * FROM category_child_table")
-    fun selectAllCategories(): Maybe<List<CategoryChild>>
+    fun selectChildCategories(): Flowable<List<CategoryChild>>
 
-    @Query("SELECT * FROM category_child_table WHERE parentCategoryId IS NULL")
-    fun selectParentCategories(): Maybe<List<CategoryChild>>
+    @Query("SELECT * FROM category_parent_table ")
+    fun selectParentCategories(): Observable<List<CategoryParent>>
 
+    @Query("SELECT categoryId,child.category_title, parentCategoryId, category_id_parent, parent.category_title_parent,COUNT(category_id_parent) as countParent FROM category_parent_table as parent  LEFT JOIN category_child_table as child  ON child.parentCategoryId== parent.category_id_parent ")
+    fun selectCategoriesDividedByParents(): Maybe<List<CategoryChildParentTuple>>
 
     @Query("DELETE FROM category_child_table")
     fun deleteAllCategories()

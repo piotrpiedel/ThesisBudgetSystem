@@ -7,41 +7,27 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import io.reactivex.Maybe
-import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 
 @Dao
 interface CategoryParentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCategory(categoryChild: CategoryChild);
+    fun insertCategory(categoryParent: CategoryParent);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllCategory(vararg categoryChild: CategoryChild)
+    fun insertAllCategory(vararg categoryParent: CategoryParent)
 
     @Update
-    fun updateCategory(categoryChild: CategoryChild)
+    fun updateCategory(categoryParent: CategoryParent)
 
     @Delete
-    fun deleteCategory(categoryChild: CategoryChild)
+    fun deleteCategory(categoryParent: CategoryParent)
 
-    @Query("SELECT * from category_parent_table WHERE categoryId =:idCategoryOther")
-    fun selectCategory(idCategoryOther: Int): Maybe<List<CategoryChild>>
-
-//    @Query("SELECT * from category_parent_table WHERE categoryId =:idCategoryOther AND parentCategoryId =:parentCategoryOther")
-//    fun selectChildCategory(idCategoryOther: Int, parentCategoryOther: Int): Maybe<List<CategoryChild>>
-//
-//    @Query("SELECT * from category_parent_table WHERE parentCategoryId =:parentCategoryOther")
-//    fun selectAllChildFromParentCategory(parentCategoryOther: Int): Maybe<List<CategoryChild>>
-//
-//    @Query("SELECT * from category_parent_table WHERE parentCategoryId IS NOT NULL")
-//    fun selectAllChildFromParents(): Maybe<List<CategoryChild>>
+    @Query("SELECT * from category_parent_table WHERE category_id_parent =:idCategoryOther")
+    fun selectCategory(idCategoryOther: Int): Maybe<List<CategoryParent>>
 
     @Query("SELECT * FROM category_parent_table")
-    fun selectAllCategories(): Maybe<List<CategoryChild>>
-
-//    @Query("SELECT * FROM category_parent_table WHERE parentCategoryId IS NULL")
-//    fun selectParentCategories(): Maybe<List<CategoryChild>>
-
+    fun selectAllCategories(): Maybe<List<CategoryParent>>
 
     @Query("DELETE FROM category_parent_table")
     fun deleteAllCategories()

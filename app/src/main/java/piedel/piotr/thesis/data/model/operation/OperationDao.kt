@@ -29,18 +29,14 @@ interface OperationDao {
     @Query("SELECT * FROM operation_table")
     fun selectAllOperations(): Maybe<List<Operation>>
 
-
     @Query("SELECT date, SUM(value) as sumValueForDate FROM operation_table GROUP BY date ORDER BY date ASC")
     fun selectSumOfOperationByDate(): Maybe<List<DateValueTuple>>
 
     @Query("SELECT date, SUM(value) as sumValueForDate FROM operation_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year GROUP BY date ")
     fun selectSumOfOperationByDateMonthly(month: String, year: String): Maybe<List<DateValueTuple>>
 
-    @Query("SELECT date, SUM(value)  as sumValueForCategory, categoryId, category_title FROM operation_table, category_child_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year AND other_category_id=categoryId GROUP BY categoryId ")
+    @Query("SELECT date, SUM(value)  as sumValueForCategory, category_id_parent, category_title_parent FROM operation_table, category_child_table,category_parent_table WHERE strftime('%m', date) =:month  AND strftime('%Y', date) =:year AND other_category_id=categoryId AND parentCategoryId==category_id_parent GROUP BY category_id_parent ")
     fun selectSummaryOperationByCategoryMonthly(month: String, year: String): Maybe<List<DateValueCategoryTuple>>
-
-//    @Query("SELECT date, SUM(value) as sumValueForDate FROM operation_table WHERE strftime('%m', `date`) =:month  AND strftime('%Y', `date`) =:year GROUP BY date ORDER BY date ASC  ")
-//    fun selectSumOfOperationByDateMonthly(month: Int, year: Int): Maybe<List<DateValueTuple>>
 
     @Query("SELECT * FROM operation_table LEFT JOIN category_child_table ON other_category_id == categoryId  ")
     fun selectAllOperationsWithCategories(): Maybe<List<OperationCategoryTuple>>
@@ -48,7 +44,7 @@ interface OperationDao {
     @Query("SELECT value, operationType from operation_table")
     fun selectValueOperationList(): Maybe<List<OperationValueOperationType>>
 
-    @Query("DELETE FROM operation_table")
+    @Query("delete from operation_table")
     fun deleteAllOperations()
 
 }

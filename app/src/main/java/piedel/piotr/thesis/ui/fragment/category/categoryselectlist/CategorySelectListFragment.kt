@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CategorySelectListFragment : BaseFragment(), CategorySelectListView, CategorySelectListAdapter.CategorySelectListAdapterOnClickHandler {
 
 
-    lateinit var categorySelectListAdapter: CategorySelectListAdapter
+    private lateinit var categorySelectListAdapter: CategorySelectListAdapter
 
     @Inject
     lateinit var categorySelectListPresenter: CategorySelectListPresenter
@@ -46,7 +46,7 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListView, Categ
     }
 
     private fun initFragment() {
-        categorySelectListPresenter.loadParentCategories()
+        categorySelectListPresenter.loadCategories()
     }
 
     override fun onChildClick(childCategoryChild: CategoryChild) {

@@ -45,7 +45,6 @@ class CategoryAdapter constructor(var group: MutableList<CategoryExpandableGroup
     fun updateList(passedList: MutableList<CategoryExpandableGroup>) {
         this.group.clear()
         this.group.addAll(passedList)
-        Timber.d("updateList" + passedList.toString())
         notifyDataSetChanged()
     }
 
@@ -76,4 +75,4 @@ class CategoryChildViewHolder(itemView: View) : ChildViewHolder(itemView) {
     }
 }
 
-class CategoryExpandableGroup(praentCategoryChild: CategoryChild, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(praentCategoryChild.category_title, items)
+class CategoryExpandableGroup(parentCategoryChild: CategoryChild, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(parentCategoryChild.category_title, items)

@@ -24,18 +24,15 @@ class RoomModule(application: Application) {
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         ioThread {
-                            //                            Timber.d("iothread" + arrayOfCategories.contentToString())
-//                            Timber.d("iothread" + arrayOfFoodSubcategories.contentToString())
-//                            Timber.d("iothread" + arrayOfentertainmentsSubcategories.contentToString())
                             val categoryList = CategoryList(application)
 
-                            providesRoomDatabase().getCategoryChildDao().insertAllCategory(*categoryList.getListOfParentCategories(),
-                                    *categoryList.getListOfFoodSubcategories(),
+                            providesRoomDatabase().getCategoryChildDao().insertAllCategory(*categoryList.getListOfFoodSubcategories(),
                                     *categoryList.getListOfEntertainmentSubcategories(),
                                     *categoryList.getListOfHouseSubcategories(),
                                     *categoryList.getListOfClothesSubcategories(),
                                     *categoryList.getListOfElectronicsSubcategories(),
                                     *categoryList.getListOfWorkSubcategories())
+                            providesRoomDatabase().getCategoryParentDao().insertAllCategory(*categoryList.getListOfParentCategories())
                         }
                     }
                 })

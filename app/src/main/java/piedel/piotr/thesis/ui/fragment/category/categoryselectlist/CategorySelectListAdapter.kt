@@ -54,7 +54,6 @@ class CategorySelectListAdapter constructor(var group: MutableList<CategoryExpan
     fun updateList(passedList: MutableList<CategoryExpandableGroup>) {
         this.group.clear()
         this.group.addAll(passedList)
-        Timber.d("updateList" + passedList.toString())
         notifyDataSetChanged()
     }
 
@@ -91,5 +90,4 @@ class CategorySelectListAdapter constructor(var group: MutableList<CategoryExpan
     }
 }
 
-
-class CategoryExpandableGroup(parentCategoryChild: CategoryChild, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(parentCategoryChild.category_title, items)
+class CategoryExpandableGroup(category_title_parent: String, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(category_title_parent, items)

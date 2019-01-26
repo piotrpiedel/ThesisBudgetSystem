@@ -26,9 +26,11 @@ interface ApplicationComponent {
 
     fun categoryChildDao(): CategoryChildDao
 
+    fun categoryParentDao() : CategoryParentDao
+
     fun operationDao(): OperationDao
 
     fun receiptDao(): ReceiptDao
 
-    fun categoryParentDao() : CategoryParentDao
+
 }

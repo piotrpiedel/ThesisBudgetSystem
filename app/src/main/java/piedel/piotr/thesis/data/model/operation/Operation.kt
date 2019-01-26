@@ -66,8 +66,6 @@ data class OperationValueOperationType(var value: Double, var operationType: Ope
 
 data class OperationCategoryTuple(@Embedded var operation: Operation, @Embedded var categoryChild: CategoryChild?)
 
-//data class DateValueTuple(var date: Date, var sumValueForDate: Double)
-
 data class DateValueTuple(var date: Date, var sumValueForDate: Double)
 
-data class DateValueCategoryTuple(var date: Date, var sumValueForCategory: Double, var categoryId: Int, var category_title: String)
+data class DateValueCategoryTuple(var date: Date, var sumValueForCategory: Double, var category_id_parent: Int, var category_title_parent: String)

@@ -1,7 +1,6 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationlist
 
 import android.annotation.SuppressLint
-import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
@@ -55,8 +54,8 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     @SuppressLint("CheckResult")
     fun loadOperationsWithCategories() {
         disposable = operationRepository.selectAllOperationsWithCategories()
-                .compose(SchedulerUtils.ioToMain<List<OperationCategoryTuple>>())
                 .subscribe({ operations ->
+                    //                    Timber.d("loadOperationsWithCategories %s", operations.toString())
                     view?.updateList(operations)
                     loadSummary()
                 }, { throwable ->
@@ -68,11 +67,9 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     }
 
     fun deleteActionOperation(operation: Operation, itemPosition: Int) {
-        Completable.fromAction { operationRepository.deleteOperation(operation) }
-                .compose(SchedulerUtils.ioToMain<Operation>())
+        operationRepository.deleteOperation(operation)
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
-                        Timber.d("deleteActionOperation on Complete")
                         notifyAdapterItemRemoved(itemPosition)
                     }
                 })
@@ -84,8 +81,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     }
 
     fun deleteAllOperationsAction() {
-        Completable.fromAction { operationRepository.deleteAllOperations() }
-                .compose(SchedulerUtils.ioToMain<Operation>())
+        operationRepository.deleteAllOperations()
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
                         val operations = emptyList<OperationCategoryTuple>()

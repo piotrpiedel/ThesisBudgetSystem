@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -105,7 +104,6 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
 
     private fun insertReceiptStart(receipt: Receipt) {
         disposable = receiptRepository.insertReceipt(receipt)
-                .compose(SchedulerUtils.ioToMain<Long>())
                 .subscribe(
                         {
                             receipt.id = it.toInt()
@@ -120,8 +118,7 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
     }
 
     fun updateReceipt(receipt: Receipt) {
-        Completable.fromAction { receiptRepository.updateReceipt(receipt) }
-                .compose(SchedulerUtils.ioToMain<Receipt>())
+        receiptRepository.updateReceipt(receipt)
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         view?.returnFromFragment()
