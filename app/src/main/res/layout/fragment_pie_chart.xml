@@ -36,10 +36,20 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/chart_title_outcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chart_calendar_container"
+        android:gravity="center"
+        android:text="@string/outcome_monthly_divided_by_categories"
+        android:padding="@dimen/global_padding"
+        tools:text="Outcome - monthly - divided by categories" />
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/bar_chart_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/chart_calendar_container" />
+        android:layout_below="@id/chart_title_outcome" />
 
 </RelativeLayout>

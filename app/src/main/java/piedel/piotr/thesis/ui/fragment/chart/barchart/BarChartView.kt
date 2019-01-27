@@ -1,14 +1,15 @@
 package piedel.piotr.thesis.ui.fragment.chart.barchart
 
-import piedel.piotr.thesis.data.model.operation.DateValueTuple
+import com.github.mikephil.charting.data.BarEntry
 import piedel.piotr.thesis.ui.base.BaseView
 
 interface BarChartView : BaseView {
-
-    fun passTheData(passedData: MutableList<DateValueTuple>)
 
     fun showError(throwable: Throwable?)
 
     fun setDateToThisMonth()
 
+    fun setChartData(barChartEntries: MutableList<BarEntry>)
+
+    fun setBarChart()
 }

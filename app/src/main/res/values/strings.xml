@@ -110,4 +110,5 @@
     <string name="uncategorized">Uncategorized</string>
     <string name="delete_all">Delete all operations</string>
     <string name="delete_all_receipts">Delete all receipts</string>
+    <string name="outcome_monthly_divided_by_categories">Outcome - monthly - divided by categories</string>
 </resources>

@@ -7,15 +7,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.twinkle94.monthyearpicker.picker.YearMonthPickerDialog
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.operation.DateValueCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.util.getColorsFromTemplate
 import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateMonthYearFormat
 import java.util.Calendar
@@ -42,7 +42,7 @@ class PieCharFragment : BaseFragment(), PieChartView {
     override val toolbarTitle: String
         get() = context?.getString(R.string.pie_chart).toString()
 
-    val calendarInstance = Calendar.getInstance()
+    private val calendarInstance: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,13 @@ class PieCharFragment : BaseFragment(), PieChartView {
         super.onViewCreated(view, savedInstanceState)
         setDatePickerDialog()
         pieChartPresenter.initFragment(calendarInstance)
+
+    }
+
+    override fun setPieChart() {
+        val description = Description()
+        description.text = "Categories - outcome"
+        chart.description = description
     }
 
     private fun setDatePickerDialog() {
@@ -75,54 +82,21 @@ class PieCharFragment : BaseFragment(), PieChartView {
         pieChartPresenter.updateDataBySelectedMonthAndYear(selectedMonth, selectedYear)
     }
 
-    override fun loadDataToPieChart(selectedData: List<DateValueCategoryTuple>?) {
-        setData(selectedData)
+    override fun loadDataToPieChart(entries: ArrayList<PieEntry>) {
+        setData(entries)
     }
 
-    private fun setData(loadedData: List<DateValueCategoryTuple>?) {
-        val entries = arrayListOf<PieEntry>()
-        var summaryValueOfAllItems = 0.0
-        if (loadedData != null) {
-            for (items in loadedData) {
-                summaryValueOfAllItems += items.sumValueForCategory
-            }
-            for (items in loadedData) {
-                entries.add(PieEntry((items.sumValueForCategory / summaryValueOfAllItems * 100).toFloat(), items.category_title_parent))
-            }
-        }
-
+    private fun setData(entries: ArrayList<PieEntry>) {
         val dataSet = PieDataSet(entries, getString(R.string.categories_pie_chart))
-
         dataSet.setDrawIcons(false)
-
         dataSet.sliceSpace = 3f
         dataSet.iconsOffset = MPPointF(0f, 40f)
         dataSet.selectionShift = 5f
 
-        // add a lot of colors
-
-        val colors = arrayListOf<Int>()
-
-        for (c in ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c)
-
-        for (c in ColorTemplate.JOYFUL_COLORS)
-            colors.add(c)
-
-        for (c in ColorTemplate.COLORFUL_COLORS)
-            colors.add(c)
-
-        for (c in ColorTemplate.LIBERTY_COLORS)
-            colors.add(c)
-
-        for (c in ColorTemplate.PASTEL_COLORS)
-            colors.add(c)
-
-        colors.add(ColorTemplate.getHoloBlue())
-
-        dataSet.setColors(colors)
+        val colors = getColorsFromTemplate() // add a lot of colors
+        dataSet.colors = colors
         val data = PieData(dataSet)
-//        data.setValueFormatter(PercentFormatter(chart))
+
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data

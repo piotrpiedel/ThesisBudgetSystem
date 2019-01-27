@@ -25,12 +25,12 @@ class CategoryList(application: Application) {
 
     /////////////////////
     private val foodMain = CategoryChild(7, context.getString(R.string.food_main), food.category_id_parent)
-    private val foodSchop = CategoryChild(8, context.getString(R.string.food_supermarket), food.category_id_parent)
+    private val foodShop = CategoryChild(8, context.getString(R.string.food_supermarket), food.category_id_parent)
     private val foodWork = CategoryChild(9, context.getString(R.string.food_work), food.category_id_parent)
     private val foodFast = CategoryChild(10, context.getString(R.string.food_fast_foods), food.category_id_parent)
     private val foodCommon = CategoryChild(11, context.getString(R.string.food_common), food.category_id_parent)
 
-    private val arrayOfFoodSubcategories = arrayOf(foodMain, foodSchop, foodWork, foodWork, foodFast, foodCommon)
+    private val arrayOfFoodSubcategories = arrayOf(foodMain, foodShop, foodWork, foodWork, foodFast, foodCommon)
 
     fun getListOfFoodSubcategories(): Array<CategoryChild> {
         return arrayOfFoodSubcategories

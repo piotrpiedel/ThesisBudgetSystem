@@ -60,6 +60,12 @@ class OperationRepository @Inject constructor(private val operationDao: Operatio
                 .compose(SchedulerUtils.ioToMain<List<DateValueCategoryTuple>>())
     }
 
+    fun selectSummaryOperationByCategoryMonthlyOnlyOutcome(monthOfOperations: Int, yearOfOperations: Int): Maybe<List<DateValueCategoryTuple>> {
+        val monthFixedForDatabase = fixNumberOfMonth(monthOfOperations)
+        return operationDao.selectSummaryOperationByCategoryMonthlyOnlyOutcome(monthFixedForDatabase, yearOfOperations.toString())
+                .compose(SchedulerUtils.ioToMain<List<DateValueCategoryTuple>>())
+    }
+
     fun selectValueOperationList(): Maybe<List<OperationValueOperationType>> {
         return operationDao.selectValueOperationList()
                 .compose(SchedulerUtils.ioToMain<List<OperationValueOperationType>>())
