@@ -20,9 +20,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         testInstrumentationRunner "${applicationId}.runner.RxAndroidJUnitRunner"
-        versionCode 1016
+        versionCode 1017
         // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
-        versionName '0.2.7'
+        versionName '0.2.8'
 
 //        buildConfigField("String", "POKEAPI_API_URL",
 //                "\"${PokeapiApiUrl}\"")
