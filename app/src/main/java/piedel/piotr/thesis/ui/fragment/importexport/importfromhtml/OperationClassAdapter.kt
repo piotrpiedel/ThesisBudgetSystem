@@ -3,7 +3,7 @@ package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 import com.squareup.moshi.*
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
-import piedel.piotr.thesis.util.simpleDateFormatFromJson
+import piedel.piotr.thesis.util.simpleDateYearMonthDay
 import java.io.IOException
 import java.text.DateFormat
 import java.text.NumberFormat
@@ -33,7 +33,6 @@ class OperationClassAdapter() : JsonAdapter<Operation>() {
         var title: String? = null
         var operationType: OperationType? = null
         var date: Date? = null
-//        var other_category_id: Int? = null
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.selectName(options)) {
@@ -41,7 +40,6 @@ class OperationClassAdapter() : JsonAdapter<Operation>() {
                 1 -> title = stringAdapter.fromJson(reader) ?: throw JsonDataException("Non-null value 'title' was null at ${reader.path}")
                 2 -> operationType = operationTypeAdapter.fromJson(reader) ?: throw JsonDataException("Non-null value 'operationType' was null at ${reader.path}")
                 3 -> date = dateAdapter.fromJson(reader) ?: throw JsonDataException("Non-null value 'date' was null at ${reader.path}")
-//                4 -> other_category_id = intAdapter.fromJson(reader) ?: throw JsonDataException("Non-null value 'other_category_id' was null at ${reader.path}")
                 -1 -> {
                     // Unknown name, skip it.
                     reader.skipName()
@@ -54,12 +52,11 @@ class OperationClassAdapter() : JsonAdapter<Operation>() {
     }
 
     override fun toJson(writer: JsonWriter, value: Operation?) {
-        // Removed for brevity
     }
 }
 
 class CustomDateFormatAdapter : JsonAdapter<Date>() {
-    var dateFormatForJson: DateFormat = simpleDateFormatFromJson()
+    private var dateFormatForJson: DateFormat = simpleDateYearMonthDay()
 
     @Synchronized
     @Throws(IOException::class)

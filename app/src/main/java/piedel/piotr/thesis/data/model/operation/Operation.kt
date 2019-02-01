@@ -18,7 +18,7 @@ import java.util.Date
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
         )))
-data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int?) : Parcelable { //null without categoryChild
+data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int?) : Parcelable { //null without category
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 

@@ -12,7 +12,7 @@ import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.util.dateFrom_DAY_MONTH_YEAR_TO_YEAR_MONT_DAY
+import piedel.piotr.thesis.util.dateFromDayMonthYearToYearMonthDay
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
 import java.util.Date
@@ -33,7 +33,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
         disposable = operationsRepository.selectOperation(operation.id)
                 .subscribe(
                         {
-                            Timber.d("OnSucces: updateOrInsertOperation onSucces update and return ")
+                            Timber.d("OnSuccess: updateOrInsertOperation onSuccess update and return ")
                             updateOperation(operation)
                             view?.returnFromFragment()
                         },
@@ -100,7 +100,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
         if (valueOfOperation == OperationType.OUTCOME) {
             valueOfOperationOther *= -1
         }
-        val dateFromString = dateFrom_DAY_MONTH_YEAR_TO_YEAR_MONT_DAY(dateOtherString)
+        val dateFromString = dateFromDayMonthYearToYearMonthDay(dateOtherString)
         Timber.d("date %s", dateFromString?.toString())
         return operationOther
                 ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, categoryChild))

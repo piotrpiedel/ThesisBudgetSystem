@@ -18,7 +18,6 @@
     <string name="export">Wyeksportuj</string>
     <string name="export_operations_to_json_file_format">Wyeksportuj operacje do pliku JSON</string>
     <string name="localization_of_html_file">Ścieżka do pliku HTML</string>
-    <string name="bilans_konta">Bilans konta</string>
     <string name="select_category">Wybierz kategorię</string>
     <string name="navigation_receipt_list_text">Kwitki</string>
     <string name="load_receipt_from_gallery">Załaduj kwitek z galerii</string>
@@ -102,4 +101,6 @@
     <string name="uncategorized">Nieskategoryzowane</string>
     <string name="delete_all">Usuń wszystkie operacje</string>
     <string name="delete_all_receipts">Usuń wszystkie kwitki</string>
+    <string name="outcome_monthly_divided_by_categories">Wydatki - miesięcznie - podzielone na kategorie</string>
+    <string name="account_balance">Bilans konta</string>
 </resources>

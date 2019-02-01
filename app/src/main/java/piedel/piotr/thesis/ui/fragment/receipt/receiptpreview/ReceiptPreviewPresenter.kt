@@ -34,7 +34,6 @@ class ReceiptPreviewPresenter @Inject constructor(private val receiptRepository:
                         }
 
                         override fun onResourceReady(resource: Bitmap, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                            Timber.d("loadPictureFromGallery onResourceReady")
                             view?.setImageViewWithBitmap(resource)
                             return true
                         }

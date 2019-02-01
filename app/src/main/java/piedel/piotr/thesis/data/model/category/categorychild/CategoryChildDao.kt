@@ -45,7 +45,7 @@ interface CategoryChildDao {
     @Query("SELECT * FROM category_parent_table ")
     fun selectParentCategories(): Observable<List<CategoryParent>>
 
-    @Query("SELECT categoryId,child.category_title, parentCategoryId, category_id_parent, parent.category_title_parent,COUNT(category_id_parent) as countParent FROM category_parent_table as parent  LEFT JOIN category_child_table as child  ON child.parentCategoryId== parent.category_id_parent ")
+    @Query("SELECT categoryId,child.category_title, parentCategoryId, category_id_parent, parent.category_title_parent,COUNT(category_id_parent) as countParent FROM category_parent_table as parent LEFT JOIN category_child_table as child  ON child.parentCategoryId== parent.category_id_parent ")
     fun selectCategoriesDividedByParents(): Maybe<List<CategoryChildParentTuple>>
 
     @Query("DELETE FROM category_child_table")

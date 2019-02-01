@@ -55,7 +55,6 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     fun loadOperationsWithCategories() {
         disposable = operationRepository.selectAllOperationsWithCategories()
                 .subscribe({ operations ->
-                    //                    Timber.d("loadOperationsWithCategories %s", operations.toString())
                     view?.updateList(operations)
                     loadSummary()
                 }, { throwable ->

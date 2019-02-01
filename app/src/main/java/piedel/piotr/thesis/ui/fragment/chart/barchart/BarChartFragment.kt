@@ -103,7 +103,6 @@ class BarChartFragment : BaseFragment(), BarChartView {
     }
 
     override fun setChartData(barChartEntries: MutableList<BarEntry>) {
-        // w zaleznosci od miesiąca wczytywac ilosc dni w miesiącu oraz jednoczesnie zmieniac nazwy na axis na ten miesiąc
         val set = BarDataSet(barChartEntries, getString(R.string.summar_of_income_outcome_per_day))
         setColorDataSetBarChart(set, requireContext())
         val barData = BarData(set)

@@ -44,7 +44,6 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
         receiptRepository.deleteReceipt(receipt)
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
-                        Timber.d("deleteActionReceipt on Complete")
                         notifyAdapterItemRemoved(itemPosition)
                     }
                 })

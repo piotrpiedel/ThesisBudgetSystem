@@ -6,7 +6,7 @@ import io.reactivex.Maybe
 @Dao
 interface ReceiptDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertReceipt(Receipt: Receipt): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
@@ -26,9 +26,6 @@ interface ReceiptDao {
 
     @Query("SELECT * FROM receipt_table")
     fun selectAllReceiptsWithCategories(): Maybe<MutableList<Receipt>>
-
-//    @Query("SELECT value,ReceiptType from Receipt_table")
-//    fun selectValueReceiptList(): Maybe<List<ReceiptValueReceiptType>>
 
     @Query("DELETE FROM receipt_table")
     fun deleteAllReceipts()

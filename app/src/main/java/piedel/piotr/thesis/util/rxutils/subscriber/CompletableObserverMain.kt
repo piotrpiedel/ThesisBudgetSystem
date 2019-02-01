@@ -7,15 +7,15 @@ import timber.log.Timber
 open class CompletableObserverMain : CompletableObserver {
 
     override fun onComplete() {
-        Timber.d(" CompletableObserverMain onSubscribe: finished with Succes")
+        Timber.d(" CompletableObserverMain onComplete: finished with Success")
     }
 
     override fun onSubscribe(d: Disposable) {
-        Timber.d(" CompletableObserverMain  onSubscribe:  " + d + " Disposable : to String():  " + d.toString())
+        Timber.d(" CompletableObserverMain  onSubscribe: %s, Disposable : to String(): %s  ", d, d.toString())
 
     }
 
     override fun onError(e: Throwable) {
-        Timber.d(" CompletableObserverMain  onError:  " + e + " throwable : to String():  " + e.toString())
+        Timber.d(e, " CompletableObserverMain  onError toString(): %s  ", e.toString())
     }
 }

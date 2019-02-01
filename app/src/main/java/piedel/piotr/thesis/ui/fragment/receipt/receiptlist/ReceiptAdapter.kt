@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.Target
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.injection.scopes.ActivityContext
-import piedel.piotr.thesis.util.dateToTextString
+import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.requestGlideBuilderOptionsAsSmallBitmap
 import timber.log.Timber
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
         holder.receipt = receiptItem
         loadPictureFromGallery(context, receiptItem.receiptImageSourcePath, holder)
         holder.receiptTitle.text = receiptItem.title
-        holder.receiptDate.text = dateToTextString(receiptItem.date)
+        holder.receiptDate.text = dateToDayMonthYearFormatString(receiptItem.date)
         holder.receiptValueOf.text = receiptItem.value.toString()
     }
 
@@ -64,7 +64,6 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
                         }
 
                         override fun onResourceReady(resource: Bitmap, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                            Timber.d("loadPictureFromGallery onResourceReady")
                             holder.receiptThumbNail.setImageBitmap(resource)
                             return true
                         }

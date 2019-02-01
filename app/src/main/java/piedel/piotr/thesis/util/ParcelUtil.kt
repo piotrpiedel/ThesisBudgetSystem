@@ -3,7 +3,6 @@ package piedel.piotr.thesis.util
 import android.os.Parcel
 import java.util.*
 
-
 fun Parcel.writeDate(date: Date?) {
     writeLong(date?.time ?: -1)
 }

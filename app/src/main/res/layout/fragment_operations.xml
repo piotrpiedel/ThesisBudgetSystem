@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/global_padding"
-            android:text="@string/bilans_konta"
+            android:text="@string/account_balance"
             tools:textColor="@color/FireBrick" />
 
         <TextView

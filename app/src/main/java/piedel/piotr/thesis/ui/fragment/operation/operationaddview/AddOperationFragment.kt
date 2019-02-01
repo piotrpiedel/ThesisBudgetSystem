@@ -5,11 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
@@ -20,10 +16,10 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
 import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.addOperationFragmentRequestCode
-import piedel.piotr.thesis.util.simpleDateFormat
-import piedel.piotr.thesis.util.stringFormatDate
+import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
+import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
 import java.lang.Math.abs
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 
@@ -137,7 +133,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
-            textViewDate.text = simpleDateFormat().format(cal.time)
+            textViewDate.text = simpleDateFormatDayMonthYear().format(cal.time)
         }
     }
 
@@ -155,7 +151,7 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
             editTextInputValue.setText(abs(operation.value).toString())
             operationCategoryChild?.let { it1 -> categorySelection.setView(it1) }
             editTextTitle.setText(operation.title)
-            textViewDate.text = stringFormatDate(operation.date)
+            textViewDate.text = dateToDayMonthYearFormatString(operation.date)
             setRadioButtonChecked()
         }
 

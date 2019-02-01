@@ -6,12 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
@@ -21,9 +16,9 @@ import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.Ch
 import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.dateFromStringNullCheck
 import piedel.piotr.thesis.util.saveImageFile
-import piedel.piotr.thesis.util.simpleDateFormat
+import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
 import timber.log.Timber
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 
@@ -109,7 +104,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
-            receiptDate.text = simpleDateFormat().format(cal.time)
+            receiptDate.text = simpleDateFormatDayMonthYear().format(cal.time)
         }
     }
 

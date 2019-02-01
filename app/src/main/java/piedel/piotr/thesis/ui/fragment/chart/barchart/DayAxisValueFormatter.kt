@@ -15,10 +15,10 @@ class DayAxisValueFormatter(private val chart: BarLineChartBase<*>, private val 
 
         val calendarInstance = Calendar.getInstance()
 
-        var year: Int = calendarInstance.get(Calendar.YEAR) // Jeśli nie ma wybranej żadnej daty to będzie domyślna data z obecnego miesiąca
-        var month: Int = calendarInstance.get(Calendar.MONTH) // Jeśli nie ma wybranej żadnej daty to będzie domyślna data z obecnego roku
+        var year: Int = calendarInstance.get(Calendar.YEAR) // Default is current  month
+        var month: Int = calendarInstance.get(Calendar.MONTH) // Default is current year
 
-        if (chosenDate != null) { // Jeśli wybrana  data to będzie  data  wybranej daty
+        if (chosenDate != null) { // If date chosen -> change to chosen date
             calendarInstance.time = chosenDate
             month = calendarInstance.get(Calendar.MONTH)
             year = calendarInstance.get(Calendar.YEAR)

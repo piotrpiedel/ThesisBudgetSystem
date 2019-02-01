@@ -23,7 +23,6 @@
     <string name="export">EXPORT</string>
     <string name="export_operations_to_json_file_format">Export operations to JSON file format: </string>
     <string name="localization_of_html_file">Localization of html file:</string>
-    <string name="bilans_konta">Bilans konta</string>
     <string name="select_category">Select category</string>
     <string name="navigation_receipt_list_text">Receipts</string>
     <string name="load_receipt_from_gallery">Load receipt from gallery</string>
@@ -111,4 +110,5 @@
     <string name="delete_all">Delete all operations</string>
     <string name="delete_all_receipts">Delete all receipts</string>
     <string name="outcome_monthly_divided_by_categories">Outcome - monthly - divided by categories</string>
+    <string name="account_balance">Account balance</string>
 </resources>

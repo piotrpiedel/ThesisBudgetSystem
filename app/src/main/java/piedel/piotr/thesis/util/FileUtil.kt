@@ -25,7 +25,7 @@ fun getPath(context: Context, uri: Uri): String? {
             }
             cursor?.close()
         } catch (e: Exception) {
-            Timber.d("" + e.toString())
+            Timber.d("%s", e.toString())
         }
     } else if ("file".equals(uri.scheme, ignoreCase = true)) {
         return uri.path

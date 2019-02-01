@@ -11,7 +11,7 @@ fun parseHTMLFileToJsonArray(fileToParse: File): JSONArray {
 
     val htmlFile: Document = Jsoup.parse(fileToParse, "UTF-8") // get HTML file to String
 
-    val innerHTMLSignsString = htmlFile.getElementsByClass("data").html() //@return string of all element's inner HTML
+    val innerHTMLSignsString = htmlFile.getElementsByClass("data").html() //return string of all element's inner HTML
 
     val listOfStringsToParse = parseStringToStringArray(innerHTMLSignsString.substring(innerHTMLSignsString.lastIndexOf("</table>") + 9))
 

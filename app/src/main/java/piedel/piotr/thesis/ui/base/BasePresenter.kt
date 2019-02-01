@@ -3,8 +3,6 @@ package piedel.piotr.thesis.ui.base
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-//import rx.Subscription
-//import rx.subscriptions.CompositeSubscription
 
 /**
  * Base class that implements the Presenter interface and provides a base implementation for
@@ -35,10 +33,6 @@ open class BasePresenter<T : BaseView> : Presenter<T> {
     fun checkViewAttached() {
         if (!isViewAttached) throw MvpViewNotAttachedException()
     }
-
-//    fun addSubscription(subscription: Subscription?) {
-//        compositeSubscription.add(subscription)
-//    }
 
     fun addDisposable(disposable: Disposable?) {
         disposable?.let { compositeDisposable.add(it) }

@@ -30,7 +30,7 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
 
     private fun checkPermissionForCameraAndStorage(passedActivityFragment: FragmentActivity) {
         Dexter.withActivity(passedActivityFragment)
-                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)//Manifest.permission.READ_EXTERNAL_STORAGE
+                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                         when {
@@ -54,7 +54,7 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
 
     private fun checkPermissionForReadAndWriteStorage(passedActivityFragment: FragmentActivity) {
         Dexter.withActivity(passedActivityFragment)
-                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)//Manifest.permission.READ_EXTERNAL_STORAGE
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                         when {

@@ -30,8 +30,8 @@ constructor(private val operationRepository: OperationRepository, private val ca
 
     @SuppressLint("CheckResult")
     fun loadBarChartDataMonthlyInitially() {
-        val year: Int = calendar.get(Calendar.YEAR) // Jeśli nie ma wybranej żadnej daty to będzie domyślna data z obecnego miesiąca
-        val month: Int = calendar.get(Calendar.MONTH) + 1 // Jeśli nie ma wybranej żadnej daty to będzie domyślna data z obecnego roku
+        val year: Int = calendar.get(Calendar.YEAR) // Default is current  month
+        val month: Int = calendar.get(Calendar.MONTH) + 1 // Default is current  year
         disposable = operationRepository.selectSumOfOperationByDateMonthly(month, year)
                 .subscribe({ selectedData ->
                     view?.setChartData(getEntriesForBarChart(selectedData, year, month))

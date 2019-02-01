@@ -1,6 +1,5 @@
 package piedel.piotr.thesis
 
-//import com.tspoon.traceur.Traceur
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
@@ -26,10 +25,7 @@ class MyApplication : MultiDexApplication() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("com.piedel.piotr.thesis"))
-//            Stetho.initializeWithDefaults(this)
             LeakCanary.install(this)
-         //   Sherlock.init(this)
-//            Traceur.enableLogging()
         }
     }
 

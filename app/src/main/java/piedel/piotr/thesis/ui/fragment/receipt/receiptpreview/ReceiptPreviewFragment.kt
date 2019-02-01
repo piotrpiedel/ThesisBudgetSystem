@@ -12,7 +12,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.GlideApp
-import piedel.piotr.thesis.util.dateToTextString
+import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.imageViewToBitmap
 import javax.inject.Inject
 
@@ -62,7 +62,7 @@ class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewView {
 
     override fun fillTheReceiptPreviewFragmentWithData(receipt: Receipt?) {
         receipt?.apply {
-            receiptDate.text = dateToTextString(date)
+            receiptDate.text = dateToDayMonthYearFormatString(date)
             receiptTitle.text = receipt.title
             valueInput.text = receipt.value.toString()
         }

@@ -11,10 +11,10 @@ import io.reactivex.Maybe
 @Dao
 interface OperationDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOperation(operation: Operation)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)     //    @WorkerThread
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOperation(vararg operation: Operation)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
