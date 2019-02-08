@@ -137,6 +137,10 @@ constructor(private val operationsRepository: OperationRepository, private val c
         }
     }
 
+    fun setRadioButtonChecked() {
+        view?.setRadioButtonChecked()
+    }
+
 
     private fun loadOperationWithCategory(operation: Operation, operationId: Int) {
         disposable = categoryRepository.selectCategory(operationId)

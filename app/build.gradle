@@ -24,9 +24,6 @@ android {
         // Major -> Millions, Minor -> Thousands, Bugfix -> Hundreds. E.g 1.3.72 == 1,003,072
         versionName '0.2.8'
 
-//        buildConfigField("String", "POKEAPI_API_URL",
-//                "\"${PokeapiApiUrl}\"")
-
         multiDexEnabled true
 
     }
@@ -117,19 +114,12 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
-//    implementation('com.github.bumptech.glide:okhttp3-integration:1.4.0') {
-//        exclude group: 'glide-parent'
-//    }
 
     //MonthPicker
     implementation 'com.github.twinkle942910:monthyearpicker:0.0.1'
 
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
-
-    //GraphView
-    //implementation 'com.jjoe64:graphview:4.2.2'
-
 
     //HTML parse Library
     implementation 'org.jsoup:jsoup:1.11.3'
@@ -147,33 +137,15 @@ dependencies {
     //Library for full screen image view
     implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 
-    //RxPermission for easy runtime permission management
-   // implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
-
     implementation "com.jakewharton:butterknife:$versions.butterKnife"
     implementation "com.jakewharton.timber:timber:$versions.timber"
-   // implementation "com.facebook.stetho:stetho-okhttp3:$versions.stethOkhttp"
 
     implementation("com.github.bumptech.glide:recyclerview-integration:4.8.0") {
         // Excludes the support library because it's already included by Glide.
         transitive = false
     }
 
-    // RoundedLetterView library  for Put First Letter on View in RoundImageView
     implementation 'com.github.pavlospt:roundedletterview:1.2'
-
-//    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
-
-//    debugImplementation 'com.readystatesoftware.chuck:library:1.0.4'
-//    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.0.4'
-
-
-   // debugImplementation('com.github.ajitsing:sherlock:1.0.4@aar') {
-   //     transitive = true
-   // }
-   // releaseImplementation('com.github.ajitsing:sherlock-no-op:1.0.4@aar')
-
-//    implementation 'com.tspoon.traceur:traceur:1.0.1'
 
     implementation "com.google.dagger:dagger:$versions.dagger"
     compileOnly 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
@@ -188,8 +160,6 @@ dependencies {
     kaptTest daggerCompiler
     kaptAndroidTest daggerCompiler
 
-   // testImplementation unitTestLibs
-    //androidTestImplementation androidTestsLibs
 }
 
 // Log out test results to console

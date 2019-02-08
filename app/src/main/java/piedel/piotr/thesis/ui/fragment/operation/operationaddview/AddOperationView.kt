@@ -12,4 +12,6 @@ interface AddOperationView : BaseView {
 
     fun enableSaveButton(isEnabled: Boolean)
 
+    fun setRadioButtonChecked()
+
 }
