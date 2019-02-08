@@ -118,7 +118,6 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         categorySelection.setView(categoryChild)
     }
 
-    //TODO: refactor : Do some Util out of this class
     private fun setOnDateClickListener(dateSetListener: DatePickerDialog.OnDateSetListener, cal: Calendar) {
         linearLayout.setOnClickListener {
             DatePickerDialog(requireContext(), dateSetListener,
@@ -129,7 +128,6 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
         }
     }
 
-    //TODO: refactor : Do some Util out of this class
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
@@ -152,13 +150,12 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
             operationCategoryChild?.let { it1 -> categorySelection.setView(it1) }
             editTextTitle.setText(operation.title)
             textViewDate.text = dateToDayMonthYearFormatString(operation.date)
-            setRadioButtonChecked()
+            addOperationPresenter.setRadioButtonChecked()
         }
 
     }
 
-    //TODO: refactor : Do some Util out of this class or presenter?
-    private fun setRadioButtonChecked() {
+    override fun setRadioButtonChecked() {
         if (operation?.operationType == OperationType.OUTCOME) {
             radioButtonOutcomeOperation.isChecked = true
         } else {
