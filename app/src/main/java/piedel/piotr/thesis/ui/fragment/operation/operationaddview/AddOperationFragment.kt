@@ -171,7 +171,6 @@ class AddOperationFragment : BaseFragment(), AddOperationView {
                 operationCategoryChild)
     }
 
-    //TODO: find some other way?
     private fun radioButtonChecked(): OperationType {
         return if (radioButtonIncomeOperation.isChecked) {
             OperationType.INCOME
