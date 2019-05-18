@@ -1,28 +1,26 @@
 ext {
     versions = [
             androidx      : "1.0.0",
-            firebase      : '11.0.2',
-            okHttp        : "3.12.0",
+            firebase      : '16.0.9',
+            okHttp        : "3.14.1",
             retrofit      : '2.5.0',
             espresso      : '3.1.0',
             espressoRunner: '1.1.0',
-            powerMock     : '1.6.6',
-            hamcrest      : '1.3',
-            restMock      : '0.3.2',
-            dagger        : '2.16',
-            butterKnife   : '10.0.0',
+            dagger        : '2.22.1',
+            butterKnife   : '10.1.0',
             leakcanary    : '1.6.2',
-            robolectric   : '4.0.2',
+            robolectric   : '4.2',
             assertj       : '1.1.1',
+            dexter        : '5.0.0',
+            glide         : '4.9.0',
             rxKotlin      : '2.3.0',
-            rxAndroid     : '2.1.0',
+            rxAndroid     : '2.1.1',
             mockito       : '2.23.4',
             junit         : '4.12',
-            sqlbrite      : '1.1.2',
             timber        : '4.7.1',
-            stethOkhttp   : '1.5.0',
-            multiDex      : '1.0.3',
-            room_version  : '1.1.1',
+            stethOkhttp   : '1.5.1',
+            multiDex      : '2.0.1',
+            room_version  : '2.1.0-alpha07',
             rxBindings    : '3.0.0-alpha2'
     ]
 
@@ -32,7 +30,7 @@ ext {
             design           : "com.google.android.material:material:1.0.0-rc01",
             recyclerView     : "androidx.recyclerview:recyclerview:$versions.androidx",
             supportAnnotation: "androidx.annotation:annotation:$versions.androidx",
-            multiDex         : "androidx.multidex:multidex:2.0.0"
+            multiDex         : "androidx.multidex:multidex:$versions.multiDex"
     ]
 
     rxJava = [
@@ -47,8 +45,8 @@ ext {
     ]
 
     room = [
-            room      : "androidx.room:room-runtime:2.0.0-rc01",
-            roomRxJava: "androidx.room:room-rxjava2:2.0.0-rc01"
+            room      : "androidx.room:room-runtime:$versions.room_version",
+            roomRxJava: "androidx.room:room-rxjava2:$versions.room_version"
     ]
 
     rxBindings = [
@@ -58,13 +56,22 @@ ext {
             appcompat         : "com.jakewharton.rxbinding3:rxbinding-appcompat:$versions.rxBindings"
     ]
 
+    dagger = [
+            daggerCompiler                  : "com.google.dagger:dagger-compiler:$versions.dagger",
+            daggerAnnotation                : "com.google.dagger:dagger-compiler:$versions.dagger",
+            daggerAndroidCompiler           : "com.google.dagger:dagger-android:$versions.dagger",
+            daggerAndroidSupportCompiler    : "com.google.dagger:dagger-android-support:$versions.dagger", // if you use the support libraries
+            daggerAndroidAnnotation         :  "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+    ]
+
     supportLibs = supportDeps.values()
     rxJavaLibs = rxJava.values()
     googlePlayLibs = googlePlay.values()
     roomLibs = room.values()
     rxBindingsLibs = rxBindings.values()
-
+    daggerLibs =  dagger.values()
     leakCannary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
-    daggerCompiler = "com.google.dagger:dagger-compiler:$versions.dagger"
-    roomCompiler = "androidx.room:room-compiler:2.0.0-rc01"
+
+    roomCompiler = "androidx.room:room-compiler:$versions.room_version"
 }
