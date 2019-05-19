@@ -20,8 +20,7 @@ import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFr
 import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
 
-class OperationFragment : BaseFragment(), OperationView, OperationAdapter.OperationAdapteListener {
-
+class OperationFragment : BaseFragment(), OperationContract.OperationView, OperationAdapter.OperationAdapteListener {
 
     @Inject
     lateinit var operationPresenter: OperationPresenter

@@ -17,12 +17,11 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.setColorDataSetBarChart
 import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateMonthYearFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 
-class BarChartFragment : BaseFragment(), BarChartView {
+class BarChartFragment : BaseFragment(), BarCharContract.BarChartView {
 
     @Inject
     lateinit var barChartPresenter: BarChartPresenter

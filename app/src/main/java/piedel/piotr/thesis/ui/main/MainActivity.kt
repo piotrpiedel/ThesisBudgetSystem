@@ -23,7 +23,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     lateinit var mainPresenter: MainPresenter

@@ -12,20 +12,22 @@ import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.AddOperationView
+import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.PresenterContract
 import piedel.piotr.thesis.util.dateFromDayMonthYearToYearMonthDay
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
-import java.util.Date
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ConfigPersistent
 class AddOperationPresenter @Inject
-constructor(private val operationsRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<AddOperationView>() {
+constructor(private val operationsRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<AddOperationView>(), PresenterContract<AddOperationView> {
 
     private var disposable: Disposable? = null
 
-    fun onSaveOperationButtonClicked(operation: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, operationCategoryChild: CategoryChild?) {
+    override fun onSaveOperationButtonClicked(operation: Operation?, inputValue: String, textTitle: String, valueOfOperation: OperationType, dateOther: String, operationCategoryChild: CategoryChild?) {
         updateOrInsertOperation(returnPreparedNewOperationOrUpdated(operation, inputValue, textTitle, valueOfOperation, dateOther, operationCategoryChild))
     }
 
@@ -84,17 +86,17 @@ constructor(private val operationsRepository: OperationRepository, private val c
                 })
     }
 
-    fun returnPreparedNewOperationOrUpdated(operation: Operation?, inputValue: String,
-                                            textTitle: String, valueOfOperation: OperationType,
-                                            dateOther: String, operationCategoryChild: CategoryChild?): Operation {
+    private fun returnPreparedNewOperationOrUpdated(operation: Operation?, inputValue: String,
+                                                    textTitle: String, valueOfOperation: OperationType,
+                                                    dateOther: String, operationCategoryChild: CategoryChild?): Operation {
         return prepareNewOrUpdateOperation(operation, inputValue, textTitle,
                 valueOfOperation, dateOther, operationCategoryChild)
 
     }
 
-    fun prepareNewOrUpdateOperation(operationOther: Operation?, inputValue: String,
-                                    textTitle: String, valueOfOperation: OperationType,
-                                    dateOtherString: String, categoryChild: CategoryChild?): Operation {
+    private fun prepareNewOrUpdateOperation(operationOther: Operation?, inputValue: String,
+                                            textTitle: String, valueOfOperation: OperationType,
+                                            dateOtherString: String, categoryChild: CategoryChild?): Operation {
 
         var valueOfOperationOther = inputValue.toDouble()
         if (valueOfOperation == OperationType.OUTCOME) {
@@ -127,7 +129,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
         }
     }
 
-    fun fillTheData(operation: Operation?) {
+    override fun fillTheData(operation: Operation?) {
         operation?.other_category_id?.let {
             loadOperationWithCategory(operation, it)
         } ?: run {
@@ -137,7 +139,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
         }
     }
 
-    fun setRadioButtonChecked() {
+    override fun setRadioButtonChecked() {
         view?.setRadioButtonChecked()
     }
 
@@ -158,7 +160,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
     }
 
     @SuppressLint("CheckResult")
-    fun observeTheInputValue(editTextInputValue: EditText) {
+    override fun observeTheInputValue(editTextInputValue: EditText) {
         editTextInputValue.textChanges()
                 .skip(1)
                 .debounce(700, TimeUnit.MILLISECONDS)

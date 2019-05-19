@@ -8,6 +8,8 @@ import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationValueOperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationContract.OperationView
+import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationContract.PresenterContract
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import piedel.piotr.thesis.util.rxutils.subscriber.CompletableObserverMain
 import timber.log.Timber
@@ -18,11 +20,11 @@ import javax.inject.Inject
 
 @ConfigPersistent
 class OperationPresenter @Inject
-constructor(private val operationRepository: OperationRepository) : BasePresenter<OperationView>() {
+constructor(private val operationRepository: OperationRepository) : BasePresenter<OperationView>(), PresenterContract<OperationView> {
 
     private var disposable: Disposable? = null
 
-    fun initFragment() {
+    override fun initFragment() {
         checkViewAttached()
         view?.setOperationsRecyclerView()
         view?.setAdapter()
@@ -47,12 +49,12 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
         addDisposable(disposable)
     }
 
-    fun addOperation() {
+    override fun addOperation() {
         view?.openAddOperationFragment()
     }
 
     @SuppressLint("CheckResult")
-    fun loadOperationsWithCategories() {
+    override fun loadOperationsWithCategories() {
         disposable = operationRepository.selectAllOperationsWithCategories()
                 .subscribe({ operations ->
                     view?.updateList(operations)
@@ -65,7 +67,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
         addDisposable(disposable)
     }
 
-    fun deleteActionOperation(operation: Operation, itemPosition: Int) {
+    override fun deleteActionOperation(operation: Operation, itemPosition: Int) {
         operationRepository.deleteOperation(operation)
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
@@ -79,7 +81,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
         loadSummary()
     }
 
-    fun deleteAllOperationsAction() {
+    override fun deleteAllOperationsAction() {
         operationRepository.deleteAllOperations()
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {

@@ -22,7 +22,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ReceiptAddFragment : BaseFragment(), ReceiptAddView {
+class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
 
     @Inject
     lateinit var receiptAddPresenter: ReceiptAddPresenter

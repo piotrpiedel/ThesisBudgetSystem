@@ -14,7 +14,7 @@ import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
 
-class CategorySelectListFragment : BaseFragment(), CategorySelectListView, CategorySelectListAdapter.CategorySelectListAdapterOnClickHandler {
+class CategorySelectListFragment : BaseFragment(), CategorySelectListContract.CategorySelectListView, CategorySelectListAdapter.CategorySelectListAdapterOnClickHandler {
 
 
     private lateinit var categorySelectListAdapter: CategorySelectListAdapter

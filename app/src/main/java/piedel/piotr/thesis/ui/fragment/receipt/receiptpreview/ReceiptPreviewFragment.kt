@@ -16,7 +16,7 @@ import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.imageViewToBitmap
 import javax.inject.Inject
 
-class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewView {
+class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewContract.ReceiptPreviewView {
 
     @Inject
     lateinit var receiptPreviewPresenter: ReceiptPreviewPresenter

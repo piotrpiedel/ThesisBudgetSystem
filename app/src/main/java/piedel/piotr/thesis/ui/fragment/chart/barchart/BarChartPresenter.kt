@@ -8,20 +8,21 @@ import piedel.piotr.thesis.data.model.operation.DateValueTuple
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.chart.barchart.BarCharContract.BarChartView
+import piedel.piotr.thesis.ui.fragment.chart.barchart.BarCharContract.PresenterContract
 import timber.log.Timber
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 
 @ConfigPersistent
 class BarChartPresenter @Inject
-constructor(private val operationRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<BarChartView>() {
+constructor(private val operationRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<BarChartView>(), PresenterContract<BarChartView> {
 
     private var disposable: Disposable? = null
     private val calendar = Calendar.getInstance()
 
-    fun initFragment() {
+    override fun initFragment() {
         checkViewAttached()
         view?.setBarChart()
         view?.setDateToThisMonth()
@@ -29,7 +30,7 @@ constructor(private val operationRepository: OperationRepository, private val ca
     }
 
     @SuppressLint("CheckResult")
-    fun loadBarChartDataMonthlyInitially() {
+    override fun loadBarChartDataMonthlyInitially() {
         val year: Int = calendar.get(Calendar.YEAR) // Default is current  month
         val month: Int = calendar.get(Calendar.MONTH) + 1 // Default is current  year
         disposable = operationRepository.selectSumOfOperationByDateMonthly(month, year)
@@ -44,7 +45,7 @@ constructor(private val operationRepository: OperationRepository, private val ca
     }
 
     @SuppressLint("CheckResult")
-    fun loadBarChartDataMonthlyAfterDateSelected(selectedMonth: Int, selectedYear: Int) {
+    override fun loadBarChartDataMonthlyAfterDateSelected(selectedMonth: Int, selectedYear: Int) {
         val fixedMonth = selectedMonth + 1 //cause 0 is January
         disposable = operationRepository.selectSumOfOperationByDateMonthly(fixedMonth, selectedYear)
                 .subscribe({ selectedData ->
@@ -57,7 +58,7 @@ constructor(private val operationRepository: OperationRepository, private val ca
         addDisposable(disposable)
     }
 
-    fun getEntriesForBarChart(selectedData: List<DateValueTuple>, selectedMonth: Int, selectedYear: Int): MutableList<BarEntry> {
+    private fun getEntriesForBarChart(selectedData: List<DateValueTuple>, selectedMonth: Int, selectedYear: Int): MutableList<BarEntry> {
         val entries = mutableListOf<BarEntry>()
         if (selectedData.isNotEmpty()) {
             for (items in selectedData) {

@@ -12,12 +12,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class CategorySelectListPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategorySelectListView>() {
+class CategorySelectListPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategorySelectListContract.CategorySelectListView>(), CategorySelectListContract.PresenterContract<CategorySelectListContract.CategorySelectListView> {
 
 
     private var disposable: Disposable? = null
 
-    fun loadCategories() {
+    override fun loadCategories() {
         checkViewAttached()
         disposable =
                 categoryRepository.selectParentCategories() // get all parent Categories

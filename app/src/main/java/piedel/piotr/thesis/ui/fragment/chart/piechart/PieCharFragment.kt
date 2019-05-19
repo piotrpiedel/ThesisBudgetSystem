@@ -18,11 +18,11 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.getColorsFromTemplate
 import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateMonthYearFormat
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 
-class PieCharFragment : BaseFragment(), PieChartView {
+class PieCharFragment : BaseFragment(), PieChartContract.PieChartView {
 
     @Inject
     lateinit var pieChartPresenter: PieChartPresenter

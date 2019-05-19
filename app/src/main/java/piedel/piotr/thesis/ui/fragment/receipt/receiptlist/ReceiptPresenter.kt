@@ -5,17 +5,19 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptContract.ReceiptView
 import piedel.piotr.thesis.util.rxutils.subscriber.CompletableObserverMain
 import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class ReceiptPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptView>() {
+class ReceiptPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptView>(), PresenterContract<ReceiptView> {
 
     private var disposable: Disposable? = null
 
 
-    fun initFragment() {
+    override fun initFragment() {
         checkViewAttached()
         view?.showProgressBar(true)
         view?.setReceiptListRecyclerView()
@@ -36,11 +38,11 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
         addDisposable(disposable)
     }
 
-    fun onAddNewReceiptClicked() {
+    override fun onAddNewReceiptClicked() {
         view?.replaceWithAddReceiptFragment()
     }
 
-    fun deleteActionReceipt(receipt: Receipt, itemPosition: Int) {
+    override fun deleteActionReceipt(receipt: Receipt, itemPosition: Int) {
         receiptRepository.deleteReceipt(receipt)
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
@@ -53,7 +55,7 @@ class ReceiptPresenter @Inject constructor(private val receiptRepository: Receip
         view?.notifyItemRemoved(itemPosition)
     }
 
-    fun deleteAllReceiptsAction() {
+    override fun deleteAllReceiptsAction() {
         receiptRepository.deleteAllReceipts()
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {

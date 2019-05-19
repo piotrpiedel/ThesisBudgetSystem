@@ -10,14 +10,16 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewContract.ReceiptPreviewView
 import piedel.piotr.thesis.util.requestGlideBuilderOptionsAsBitmap
 import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class ReceiptPreviewPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptPreviewView>() {
+class ReceiptPreviewPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptPreviewView>(), PresenterContract<ReceiptPreviewView> {
 
-    fun initFragment(receipt: Receipt?, requireContext: Context) {
+    override fun initFragment(receipt: Receipt?, requireContext: Context) {
         checkViewAttached()
         getImageForReceipt(receipt, requireContext)
         view?.fillTheReceiptPreviewFragmentWithData(receipt)

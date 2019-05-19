@@ -11,7 +11,7 @@ import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpan
 import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
-class CategoryFragment : BaseFragment(), CategoryView {
+class CategoryFragment : BaseFragment(), CategoryContract.CategoryView {
 
     private lateinit var categoryAdapter: CategoryAdapter
 
