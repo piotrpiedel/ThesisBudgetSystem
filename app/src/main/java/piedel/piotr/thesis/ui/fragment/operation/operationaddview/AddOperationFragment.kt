@@ -23,7 +23,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AddOperationFragment : BaseFragment(), AddOperationView {
+class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationView {
 
     @Inject
     lateinit var addOperationPresenter: AddOperationPresenter

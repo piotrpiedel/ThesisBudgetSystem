@@ -17,7 +17,7 @@ import piedel.piotr.thesis.util.FILE_SELECT_REQUEST_CODE
 import piedel.piotr.thesis.util.showToast
 
 
-class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogView {
+class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogContract.ChoosePictureSourceDialogView {
 
     private val choosePictureSourceDialogPresenter = ChoosePictureSourceDialogPresenter()
 

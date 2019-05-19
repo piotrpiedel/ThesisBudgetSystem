@@ -8,7 +8,7 @@ import piedel.piotr.thesis.ui.fragment.chart.barchart.BarChartFragment
 import piedel.piotr.thesis.ui.fragment.chart.piechart.PieCharFragment
 import javax.inject.Inject
 
-class ChooseChartFragment : BaseFragment(), ChooseChartView {
+class ChooseChartFragment : BaseFragment(), ChooseChartContract.ChooseChartView {
 
     @Inject
     lateinit var chooseChartPresenter: ChooseChartPresenter

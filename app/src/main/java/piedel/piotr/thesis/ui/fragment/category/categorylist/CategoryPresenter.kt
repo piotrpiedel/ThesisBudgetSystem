@@ -8,16 +8,17 @@ import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParent
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
 import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class CategoryPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategoryView>() {
+class CategoryPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategoryContract.CategoryView>(), CategoryContract.PresenterContract<CategoryContract.CategoryView> {
 
     private var disposable: Disposable? = null
 
-    fun loadCategories() {
+    override fun loadCategories() {
         checkViewAttached()
         disposable =
                 categoryRepository.selectParentCategories() // get all parent Categories

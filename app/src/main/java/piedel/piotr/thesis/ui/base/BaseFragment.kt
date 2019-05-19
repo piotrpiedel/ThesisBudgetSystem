@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong
  * creation of Dagger components and makes sure that instances of ConfigPersistentComponent are kept
  * across configuration changes.
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), BaseView {
 
     private var fragmentComponent: FragmentComponent? = null
     private var fragmentId = 0L

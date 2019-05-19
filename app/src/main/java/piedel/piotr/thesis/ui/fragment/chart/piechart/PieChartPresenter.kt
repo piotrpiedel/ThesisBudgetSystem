@@ -7,17 +7,19 @@ import piedel.piotr.thesis.data.model.operation.DateValueCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.chart.piechart.PieChartContract.PieChartView
+import piedel.piotr.thesis.ui.fragment.chart.piechart.PieChartContract.PresenterContract
 import timber.log.Timber
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
 @ConfigPersistent
-class PieChartPresenter @Inject constructor(private val operationRepository: OperationRepository) : BasePresenter<PieChartView>() {
+class PieChartPresenter @Inject constructor(private val operationRepository: OperationRepository) : BasePresenter<PieChartView>(), PresenterContract<PieChartView> {
 
     private var disposable: Disposable? = null
 
-    fun initFragment(calendarInstance: Calendar) {
+    override fun initFragment(calendarInstance: Calendar) {
         checkViewAttached()
         view?.setPieChart()
         view?.setDateToThisMonth()
@@ -54,7 +56,7 @@ class PieChartPresenter @Inject constructor(private val operationRepository: Ope
         }
     }
 
-    fun updateDataBySelectedMonthAndYear(selectedMonth: Int, selectedYear: Int) {
+    override fun updateDataBySelectedMonthAndYear(selectedMonth: Int, selectedYear: Int) {
         loadMonthlySummaryByCategory(selectedMonth, selectedYear)
     }
 }

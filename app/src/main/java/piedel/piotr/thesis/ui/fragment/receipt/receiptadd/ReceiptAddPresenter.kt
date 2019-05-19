@@ -24,6 +24,8 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.ReceiptAddView
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
 import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.getCircularProgressDrawable
@@ -33,17 +35,17 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ConfigPersistent
-class ReceiptAddPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptAddView>() {
+class ReceiptAddPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptAddView>(), PresenterContract<ReceiptAddView> {
 
     private var disposable: Disposable? = null
 
-    fun initFragment(receipt: Receipt?) {
+    override fun initFragment(receipt: Receipt?) {
         checkViewAttached()
         loadReceiptData(receipt)
         view?.setOnCalendarClickListener()
     }
 
-    fun initChooseDialog() {
+    override fun initChooseDialog() {
         checkViewAttached()
         view?.setOnCalendarClickListener()
         view?.showChooseDialog()
@@ -54,7 +56,7 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
         } ?: return
     }
 
-    fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?, passedActivity: FragmentActivity) {
+    override fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?, passedActivity: FragmentActivity) {
         if (requestCode == choosePictureSourceDialogRequestCode && resultCode == Activity.RESULT_OK) {
             if (data?.hasExtra(ChoosePictureSourceDialog.INTENT_WITH_PICTURE_FROM_CAMERA) == true) {
                 val passedData = data.getParcelableExtra<Intent>(ChoosePictureSourceDialog.INTENT_WITH_PICTURE_FROM_CAMERA)
@@ -74,7 +76,7 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
     }
 
     @SuppressLint("CheckResult")
-    fun loadPictureFromGallery(fragmentActivity: FragmentActivity, picturePath: String?) {
+    override fun loadPictureFromGallery(fragmentActivity: FragmentActivity, picturePath: String?) {
         val requestOptions = RequestOptions()
         requestOptions.placeholder(getCircularProgressDrawable(fragmentActivity))
         requestOptions.error(R.drawable.ic_outline_error_outline)
@@ -97,7 +99,7 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
                 .submit()
     }
 
-    fun onSaveOperationButtonClicked() {
+    override fun onSaveOperationButtonClicked() {
         view?.showProgressBar(true)
         view?.startCreatingReceipt()
     }
@@ -117,7 +119,7 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
         addDisposable(disposable)
     }
 
-    fun updateReceipt(receipt: Receipt) {
+    override fun updateReceipt(receipt: Receipt) {
         receiptRepository.updateReceipt(receipt)
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
@@ -131,12 +133,12 @@ class ReceiptAddPresenter @Inject constructor(private val receiptRepository: Rec
                 })
     }
 
-    fun generateEmptyReceipt() {
+    override fun generateEmptyReceipt() {
         val receipt = Receipt()
         insertReceiptStart(receipt)
     }
 
-    fun observeTheInputValue(titleEditText: EditText, dateTextView: TextView, valueEditText: EditText) {
+    override fun observeTheInputValue(titleEditText: EditText, dateTextView: TextView, valueEditText: EditText) {
         val titleObservable: Observable<CharSequence> = observableBuilder(titleEditText)
         val valueObservable: Observable<CharSequence> = observableBuilder(valueEditText)
         val dateObservable: Observable<CharSequence> = observableBuilder(dateTextView)

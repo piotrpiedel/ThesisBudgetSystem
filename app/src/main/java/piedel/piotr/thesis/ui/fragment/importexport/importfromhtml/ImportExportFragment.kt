@@ -12,7 +12,7 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import javax.inject.Inject
 
 
-class ImportExportFragment : BaseFragment(), ImportExportView {
+class ImportExportFragment : BaseFragment(), ImportExportContract.ImportExportView {
 
     @BindView(R.id.import_file_localization)
     lateinit var importFileLocation: EditText

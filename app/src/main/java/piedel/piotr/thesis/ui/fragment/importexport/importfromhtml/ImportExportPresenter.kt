@@ -17,6 +17,8 @@ import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportContract.ImportExportView
+import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportContract.PresenterContract
 import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.parseHTMLFileToJsonArray
 import piedel.piotr.thesis.util.showToast
@@ -26,7 +28,7 @@ import javax.inject.Inject
 
 
 @ConfigPersistent
-class ImportExportPresenter @Inject constructor(private val operationsRepository: OperationRepository) : BasePresenter<ImportExportView>() {
+class ImportExportPresenter @Inject constructor(private val operationsRepository: OperationRepository) : BasePresenter<ImportExportView>(), PresenterContract<ImportExportView> {
 
 
     private fun insertOperation(vararg operation: Operation) {
@@ -45,7 +47,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
                 })
     }
 
-    fun checkPermissions(fragmentActivity: FragmentActivity) {
+    override fun checkPermissions(fragmentActivity: FragmentActivity) {
         val permission = Manifest.permission.READ_EXTERNAL_STORAGE
         if (ContextCompat.checkSelfPermission(fragmentActivity, permission) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(fragmentActivity, permission)) {
@@ -58,7 +60,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
         }
     }
 
-    fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray) {
+    override fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray) {
         when (requestCode) {
             ImportExportFragment.PERMISSIONS_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -70,7 +72,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
         }
     }
 
-    fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity) {
+    override fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity) {
         when (requestCode) {
             ImportExportFragment.FILE_SELECT_CODE -> if (resultCode == Activity.RESULT_OK) {
                 val uri = data?.data    // Get the Uri of the selected file
@@ -81,8 +83,8 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
         }
     }
 
-    fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity) {
-        var fileToParse: File?
+    override fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity) {
+        val fileToParse: File?
         if (path != null) {
             fileToParse = File(path)
             if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {

@@ -17,7 +17,7 @@ import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewFragment
 import javax.inject.Inject
 
-class ReceiptFragment : BaseFragment(), ReceiptView, ReceiptAdapter.ReceiptAdapterListener {
+class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdapter.ReceiptAdapterListener {
 
     @Inject
     lateinit var receiptPresenter: ReceiptPresenter
