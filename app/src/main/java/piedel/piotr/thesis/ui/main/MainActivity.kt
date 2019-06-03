@@ -16,6 +16,7 @@ import piedel.piotr.thesis.ui.base.BaseActivity
 import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
 import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
+import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
 import piedel.piotr.thesis.util.showToast
@@ -111,6 +112,11 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         ChooseChartFragment(),
                         ChooseChartFragment.FRAGMENT_TAG)
+            }
+            R.id.navigation_drive_ocr -> {
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
+                        ImportFromImageDriveFragment(),
+                        ImportFromImageDriveFragment.FRAGMENT_TAG)
             }
         }
         drawerActivity.closeDrawer(GravityCompat.START)

@@ -9,13 +9,13 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.addOperationFragmentRequestCode
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
 import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
-import piedel.piotr.thesis.util.addOperationFragmentRequestCode
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
 import java.lang.Math.abs

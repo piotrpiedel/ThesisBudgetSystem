@@ -23,5 +23,9 @@
             android:id="@+id/navigation_chart"
             android:icon="@drawable/bar_chart"
             android:title="@string/statistics" />
+        <item
+            android:id="@+id/navigation_drive_ocr"
+            android:icon="@drawable/ic_round_photo_camera_24px"
+            android:title="@string/google_drive_ocr" />
     </group>
 </menu>

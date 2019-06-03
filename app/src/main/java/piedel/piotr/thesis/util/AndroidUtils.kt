@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 
-fun ImageView.loadImageFromUrl(url: String) {
+fun ImageView.loadImageFromUrl(context: Context, url: String) {
     Glide.with(context)
             .load(url)
             .into(this)

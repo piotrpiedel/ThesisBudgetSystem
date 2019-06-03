@@ -2,7 +2,6 @@ package piedel.piotr.thesis.ui.fragment.receipt.receiptlist
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.injection.scopes.ActivityContext
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
-import piedel.piotr.thesis.util.requestGlideBuilderOptionsAsSmallBitmap
-import timber.log.Timber
+import piedel.piotr.thesis.util.glide.glideLoadAsSmallBitmap
 import javax.inject.Inject
 
 
@@ -55,19 +49,9 @@ class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) 
 
     @SuppressLint("CheckResult")
     private fun loadPictureFromGallery(context: Context, picturePath: String?, holder: ReceiptViewHolder) {
-        if (!picturePath.isNullOrEmpty() && !picturePath.equals("Empty Uri"))
-            requestGlideBuilderOptionsAsSmallBitmap(context, picturePath)
-                    .listener(object : RequestListener<Bitmap> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                            Timber.d("loadPictureFromGallery onLoadFailed")
-                            return true
-                        }
-
-                        override fun onResourceReady(resource: Bitmap, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            holder.receiptThumbNail.setImageBitmap(resource)
-                            return true
-                        }
-                    })
+        if (!picturePath.isNullOrEmpty() && picturePath != "Empty Uri")
+            glideLoadAsSmallBitmap(context, picturePath)
+                    .listener(HolderGlideRequestListener(context,holder))
                     .submit()
     }
 

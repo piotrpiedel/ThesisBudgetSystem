@@ -11,11 +11,11 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.CAMERA_PIC_REQUEST_CODE
+import piedel.piotr.thesis.configuration.FILE_SELECT_REQUEST_CODE
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialogContract.ChoosePictureSourceDialogView
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialogContract.PresenterContract
-import piedel.piotr.thesis.util.CAMERA_PIC_REQUEST_CODE
-import piedel.piotr.thesis.util.FILE_SELECT_REQUEST_CODE
 import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.showToast
 
@@ -50,7 +50,6 @@ class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDial
 
                 })
                 .check()
-
     }
 
 

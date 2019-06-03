@@ -59,6 +59,7 @@
     <string name="select_a_picture_to_load">Wybierz grafikę do załadowania</string>
     <string name="the_graphic_file_to_load_need_to_be">Plik graficzny powinien być w formacie JPG, lub PNG</string>
     <string name="the_permission_is_denied_permanently">Pozwolenie zostało całkowicie odmówione. Przywrócić można je w ustawieniach uządzenia</string>
+    <string name="the_permission_is_denied">The permission is denied </string>
     <string name="please_install_camera">Proszę zainstalować aplikację kamery</string>
     <string name="app_require_permission_to_store_receipts">Aplikacja wymaga zezwolenia uprawnień do przechowywania kwitków</string>
     <string name="food">Jedzenie</string>
@@ -103,4 +104,11 @@
     <string name="delete_all_receipts">Usuń wszystkie kwitki</string>
     <string name="outcome_monthly_divided_by_categories">Wydatki - miesięcznie - podzielone na kategorie</string>
     <string name="account_balance">Bilans konta</string>
+    <string name="import_from_image_drive">Importuj operacje z obrazu - Google Drive OCR</string>
+    <string name="import_from_image_drive_ocr_text">Tutaj znajdzie się zaimportowany tekst</string>
+    <string name="load_operations_from_image_drive">Załaduj operacje z obrazu z wykorzystaniem Google Drive OCR: </string>
+    <string name="google_drive_ocr">Google Drive OCR</string>
+    <string name="permission_required_storage_camera_optional">Uprawniena do pamieci wewnetrznej sa obowiazkowe, kamery opcjonalne</string>
+
+
 </resources>

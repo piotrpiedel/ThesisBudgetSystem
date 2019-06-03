@@ -8,6 +8,7 @@ import butterknife.BindView
 import butterknife.OnClick
 import io.reactivex.annotations.NonNull
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.ImportExportFragment_FILE_SELECT_CODE
 import piedel.piotr.thesis.ui.base.BaseFragment
 import javax.inject.Inject
 
@@ -57,7 +58,7 @@ class ImportExportFragment : BaseFragment(), ImportExportContract.ImportExportVi
         intent.type = "*/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
-            startActivityForResult(Intent.createChooser(intent, "Select a File to open"), FILE_SELECT_CODE)
+            startActivityForResult(Intent.createChooser(intent, "Select a File to open"), ImportExportFragment_FILE_SELECT_CODE)
         } catch (ex: android.content.ActivityNotFoundException) {
             Toast.makeText(context, getString(R.string.please_install_file_manager), Toast.LENGTH_SHORT).show()
             Toast.makeText(context, ex.localizedMessage, Toast.LENGTH_SHORT).show()
@@ -89,7 +90,5 @@ class ImportExportFragment : BaseFragment(), ImportExportContract.ImportExportVi
 
     companion object {
         const val FRAGMENT_TAG: String = "importExportFragment"
-        const val PERMISSIONS_REQUEST_CODE = 80
-        const val FILE_SELECT_CODE = 81
     }
 }

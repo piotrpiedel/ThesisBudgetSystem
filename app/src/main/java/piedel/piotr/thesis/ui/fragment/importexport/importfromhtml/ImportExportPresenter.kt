@@ -13,6 +13,8 @@ import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import org.json.JSONArray
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.ImportExportFragment_FILE_SELECT_CODE
+import piedel.piotr.thesis.configuration.ImportExportFragment_PERMISSIONS_REQUEST_CODE
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
@@ -53,7 +55,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
             if (ActivityCompat.shouldShowRequestPermissionRationale(fragmentActivity, permission)) {
                 view?.showError()
             } else {
-                ActivityCompat.requestPermissions(fragmentActivity, arrayOf(permission), ImportExportFragment.PERMISSIONS_REQUEST_CODE)
+                ActivityCompat.requestPermissions(fragmentActivity, arrayOf(permission), ImportExportFragment_PERMISSIONS_REQUEST_CODE)
             }
         } else {
             view?.showFileChooser()
@@ -62,7 +64,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
 
     override fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray) {
         when (requestCode) {
-            ImportExportFragment.PERMISSIONS_REQUEST_CODE -> {
+            ImportExportFragment_PERMISSIONS_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     view?.showFileChooser()
                 } else {
@@ -74,7 +76,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
 
     override fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity) {
         when (requestCode) {
-            ImportExportFragment.FILE_SELECT_CODE -> if (resultCode == Activity.RESULT_OK) {
+            ImportExportFragment_FILE_SELECT_CODE -> if (resultCode == Activity.RESULT_OK) {
                 val uri = data?.data    // Get the Uri of the selected file
                 val path = getPath(fragmentActivity, uri as Uri) // Get the FilePath of the selected file
                 fillEditTextWithPathOfFile(path) // Fill the EditText with FilePath

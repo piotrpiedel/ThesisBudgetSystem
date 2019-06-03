@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_import_from_image_drive_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Beige"
+    tools:context=".ui.fragment.ocr.googledrive.ImportFromImageDriveFragment">
+
+    <TextView
+        android:id="@+id/fragment_import_drive_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/global_margin"
+        android:gravity="center"
+        android:padding="@dimen/global_text_view_padding"
+        android:text="@string/load_operations_from_html_file" />
+
+    <Button
+        android:id="@+id/fragment_import_drive_button_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_drive_load"
+        android:layout_margin="@dimen/global_margin"
+        android:background="@color/primary"
+        android:text="@string/button_load"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/import_file_localization_drive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_import_drive_button_load"
+        android:layout_margin="@dimen/global_margin"
+        android:hint="@string/import_from_image_drive_ocr_text" />
+
+    <ImageView
+        android:id="@+id/import_picture_drive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/import_file_localization_drive"
+        android:layout_margin="@dimen/global_margin"
+        android:contentDescription="There will be loaded picture"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        tools:ignore="HardcodedText" />
+
+
+</RelativeLayout>

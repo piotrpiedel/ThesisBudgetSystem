@@ -10,10 +10,10 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
-import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.dateFromStringNullCheck
 import piedel.piotr.thesis.util.saveImageFile
 import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
@@ -120,7 +120,10 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
     }
 
     override fun setReceiptImageFromResource(bitmapImage: Bitmap) {
-        receiptPicture.setImageBitmap(bitmapImage)
+        requireActivity().runOnUiThread {
+            receiptPicture.setImageBitmap(bitmapImage)
+        }
+
     }
 
     //for autogenerating purposes

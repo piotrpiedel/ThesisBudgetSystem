@@ -12,8 +12,8 @@ import androidx.fragment.app.DialogFragment
 import butterknife.ButterKnife
 import butterknife.OnClick
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.util.CAMERA_PIC_REQUEST_CODE
-import piedel.piotr.thesis.util.FILE_SELECT_REQUEST_CODE
+import piedel.piotr.thesis.configuration.CAMERA_PIC_REQUEST_CODE
+import piedel.piotr.thesis.configuration.FILE_SELECT_REQUEST_CODE
 import piedel.piotr.thesis.util.showToast
 
 

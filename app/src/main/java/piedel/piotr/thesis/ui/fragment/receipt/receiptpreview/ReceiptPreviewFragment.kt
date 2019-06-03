@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
+import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.util.GlideApp
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.imageViewToBitmap
 import javax.inject.Inject
@@ -71,8 +71,12 @@ class ReceiptPreviewFragment : BaseFragment(), ReceiptPreviewContract.ReceiptPre
 
     @OnClick(R.id.receipt_picture)
     fun showImageViewFullScreen() {
+        loadImageOnFullScreenWithGlide()
+    }
+
+    private fun loadImageOnFullScreenWithGlide() {
         StfalconImageViewer.Builder<Bitmap>(context, arrayOf(imageViewToBitmap(receiptPicture))) { view, image ->
-            GlideApp.with(requireContext()).load(image).into(view)
+            Glide.with(this).load(image).into(view)
         }.show()
     }
 

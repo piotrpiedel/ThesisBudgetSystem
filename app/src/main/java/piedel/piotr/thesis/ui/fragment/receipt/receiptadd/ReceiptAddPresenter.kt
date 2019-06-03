@@ -20,6 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.configuration.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
@@ -27,7 +28,6 @@ import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.PresenterContract
 import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.ReceiptAddView
 import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
-import piedel.piotr.thesis.util.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.util.getCircularProgressDrawable
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber

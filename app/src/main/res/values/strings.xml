@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Thesis Budget System</string>
     <string name="activity_drawer_layout_open" translatable="false">Open Navigation Side Bar</string>
     <string name="activity_drawer_layout_close" translatable="false">Close Navigation Side Bar</string>
@@ -19,6 +19,7 @@
     <string name="categoryChildren">Categories</string>
     <string name="navigation_import_operations">Import your operations</string>
     <string name="load_operations_from_html_file">Load operations from html file: </string>
+    <string name="load_operations_from_image_drive">Load operations from image file with Google Drive OCR: </string>
     <string name="button_load">LOAD</string>
     <string name="export">EXPORT</string>
     <string name="export_operations_to_json_file_format">Export operations to JSON file format: </string>
@@ -67,8 +68,10 @@
     <string name="select_a_picture_to_load">Select a picture to load</string>
     <string name="the_graphic_file_to_load_need_to_be">The graphic file for receipt need to be jpg, or png</string>
     <string name="the_permission_is_denied_permanently">The permission is denied permanently - to change it go to options</string>
+    <string name="the_permission_is_denied">The permission is denied </string>
     <string name="please_install_camera">Please install a camera</string>
     <string name="app_require_permission_to_store_receipts">Application require permissions to store receipts</string>
+    <string name="app_require_permission_to_take_picture" tools:ignore="MissingTranslation">Application require permissions to ocr receipts</string>
     <string name="food">Food</string>
     <string name="entertainments">Entertainments</string>
     <string name="house">House</string>
@@ -111,4 +114,9 @@
     <string name="delete_all_receipts">Delete all receipts</string>
     <string name="outcome_monthly_divided_by_categories">Outcome - monthly - divided by categories</string>
     <string name="account_balance">Account balance</string>
+    <string name="import_from_image_drive">Import from image Google Drive OCR</string>
+    <string name="import_from_image_drive_ocr_text">There will be OCRed text</string>
+    <string name="google_drive_ocr">Google Drive OCR</string>
+    <string name="permission_required_storage_camera_optional">The permission are required to get file (storage is necessary, camera optional)</string>
+
 </resources>
