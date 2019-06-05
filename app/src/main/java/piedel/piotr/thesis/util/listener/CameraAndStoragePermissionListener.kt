@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.ocr.googledrive
+package piedel.piotr.thesis.util.listener
 
 import android.Manifest
 import com.karumi.dexter.MultiplePermissionsReport
@@ -6,13 +6,21 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
-class ImportFromImageMultiplePermissionsListener(var view: ImportFromImageDriveContract.ImportFromImageDriveView?) : MultiplePermissionsListener {
-    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-        handlePermissionResponses(report)
+open class CameraAndStoragePermissionListener(val view: CameraAndStorageViewInterface?) : MultiplePermissionsListener {
+
+    interface CameraAndStorageViewInterface {
+        fun showFileChooserOnlyGallery()
+        fun showFileChooserGalleryAndCamera()
+        fun onPermissionPermanentlyDenied()
+        fun showToastWithRequestOfPermissions()
     }
 
     override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
         token?.continuePermissionRequest()
+    }
+
+    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+        handlePermissionResponses(report)
     }
 
     private fun handlePermissionResponses(report: MultiplePermissionsReport) {
@@ -40,18 +48,18 @@ class ImportFromImageMultiplePermissionsListener(var view: ImportFromImageDriveC
                     .any { p -> p.permissionName == Manifest.permission.READ_EXTERNAL_STORAGE }
 
     private fun showFilePickerWhenAllPermissionsGiven() {
-        this.view?.showFileChooserGalleryAndCamera()
+        view?.showFileChooserGalleryAndCamera()
     }
 
     private fun showToastWhenPermissionPermanentlyDenied() {
-        this.view?.onPermissionPermanentlyDenied()
+        view?.onPermissionPermanentlyDenied()
     }
 
     private fun showToastWhenNoStoragePermissionGiven() {
-        this.view?.showToastWithRequestOfPermissions()
+        view?.showToastWithRequestOfPermissions()
     }
 
     private fun showFilePickerWithoutCamera() {
-        this.view?.showFileChooserOnlyGallery()
+        view?.showFileChooserOnlyGallery()
     }
 }

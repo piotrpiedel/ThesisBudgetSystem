@@ -10,6 +10,7 @@ import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryExpandableGroup
 import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 

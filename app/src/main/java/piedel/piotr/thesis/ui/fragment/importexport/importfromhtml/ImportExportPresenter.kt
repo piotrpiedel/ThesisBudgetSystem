@@ -1,29 +1,26 @@
 package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import com.squareup.moshi.Moshi
+import droidninja.filepicker.FilePickerConst
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import org.json.JSONArray
-import piedel.piotr.thesis.R
-import piedel.piotr.thesis.configuration.ImportExportFragment_FILE_SELECT_CODE
-import piedel.piotr.thesis.configuration.ImportExportFragment_PERMISSIONS_REQUEST_CODE
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportContract.ImportExportView
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportContract.PresenterContract
-import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.parseHTMLFileToJsonArray
-import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -50,57 +47,41 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
     }
 
     override fun checkPermissions(fragmentActivity: FragmentActivity) {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        if (ContextCompat.checkSelfPermission(fragmentActivity, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(fragmentActivity, permission)) {
-                view?.showError()
-            } else {
-                ActivityCompat.requestPermissions(fragmentActivity, arrayOf(permission), ImportExportFragment_PERMISSIONS_REQUEST_CODE)
-            }
-        } else {
-            view?.showFileChooser()
-        }
+        checkPermissionForStorage(fragmentActivity)
     }
 
-    override fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray) {
-        when (requestCode) {
-            ImportExportFragment_PERMISSIONS_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    view?.showFileChooser()
-                } else {
-                    view?.showError()
-                }
-            }
-        }
+    private fun checkPermissionForStorage(fragmentActivity: FragmentActivity) {
+        val permissions: String = Manifest.permission.READ_EXTERNAL_STORAGE
+        Dexter.withActivity(fragmentActivity)
+                .withPermission(permissions)
+                .withListener(object : PermissionListener {
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        view?.showFileChooser()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+                        view?.showError()
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        view?.showError()
+                    }
+
+                })
+                .check()
     }
 
-    override fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity) {
-        when (requestCode) {
-            ImportExportFragment_FILE_SELECT_CODE -> if (resultCode == Activity.RESULT_OK) {
-                val uri = data?.data    // Get the Uri of the selected file
-                val path = getPath(fragmentActivity, uri as Uri) // Get the FilePath of the selected file
-                fillEditTextWithPathOfFile(path) // Fill the EditText with FilePath
-                createAndParseHTMLFileFromPath(path, fragmentActivity)
-            }
-        }
+    override fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val stringPath = data?.extras?.getStringArrayList(FilePickerConst.KEY_SELECTED_DOCS)?.first() // using KEY_SELECTED_MEDIA return Array<String>
+        fillEditTextWithPathOfFile(stringPath) // Fill the EditText with FilePath
+        createAndParseHTMLFileFromPath(stringPath)
     }
 
-    override fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity) {
-        val fileToParse: File?
-        if (path != null) {
-            fileToParse = File(path)
-            if (fileToParse.exists() && checkIfFileIsHtml(fileToParse)) {
-                parseHTMLFromPath(fileToParse)
-            } else {
-                showToast(fragmentActivity, fragmentActivity.getString(R.string.file_you_want_to_import_must_be_html))
-            }
-        } else {
-            showToast(fragmentActivity, fragmentActivity.getString(R.string.to_import_file_you_should_use_file_manager))
+    private fun createAndParseHTMLFileFromPath(path: String?) {
+        val fileToParse: File? = File(path)
+        if (fileToParse?.exists() == true) {
+            parseHTMLFromPath(fileToParse)
         }
-    }
-
-    private fun checkIfFileIsHtml(fileToParse: File): Boolean {
-        return fileToParse.toString().toLowerCase().endsWith(".htm") || fileToParse.toString().toLowerCase().endsWith(".html")
     }
 
     private fun parseHTMLFromPath(fileToParse: File) {

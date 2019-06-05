@@ -8,6 +8,7 @@ import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParent
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryExpandableGroup
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,9 +42,9 @@ class CategorySelectListPresenter @Inject constructor(private val categoryReposi
                             for (i in 0 until list.size) {
                                 val pairFromList = list[i]
                                 if (!pairFromList.second.isEmpty()) { // uncategorized has no subcategories
-                                    categoryExpandableGroupList.add(CategoryExpandableGroup(pairFromList.first.category_title_parent, pairFromList.second))
+                                    categoryExpandableGroupList.add(CategoryExpandableGroup(pairFromList.first, pairFromList.second))
                                 } else {
-                                    categoryExpandableGroupList.add(CategoryExpandableGroup(pairFromList.first.category_title_parent, emptyList()))
+                                    categoryExpandableGroupList.add(CategoryExpandableGroup(pairFromList.first, emptyList()))
                                 }
                             }
                             view?.updateList(categoryExpandableGroupList)

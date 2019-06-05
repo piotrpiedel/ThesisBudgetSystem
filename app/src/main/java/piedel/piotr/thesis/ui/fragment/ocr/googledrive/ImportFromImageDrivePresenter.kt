@@ -23,6 +23,7 @@ import piedel.piotr.thesis.service.drive.DriveServiceHelper
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
+import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
         when (requestCode) {
             FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    handlePickingFileResult(resultCode, data)
+                    handlePickingFileResult(data)
                 }
             }
             REQUEST_CODE_SIGN_IN -> {
@@ -58,11 +59,11 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
         val permissionsList: List<String> = listOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
         Dexter.withActivity(passedActivityFragment)
                 .withPermissions(permissionsList)
-                .withListener(ImportFromImageMultiplePermissionsListener(view))
+                .withListener(CameraAndStoragePermissionListener(view))
                 .check()
     }
 
-    override fun handlePickingFileResult(resultCode: Int, data: Intent) {
+    private fun handlePickingFileResult(data: Intent) {
         val stringPath = data.extras?.getStringArrayList(FilePickerConst.KEY_SELECTED_MEDIA) // using KEY_SELECTED_MEDIA return Array<String>
         createObservableOfOCRResult(stringPath)
     }
@@ -101,7 +102,6 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
                 .build()
     }
 
-
     private fun handleSignInRequestResult(result: Intent) {
         GoogleSignIn.getSignedInAccountFromIntent(result)
                 .addOnSuccessListener { googleAccount ->
@@ -111,7 +111,6 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
                     Timber.e(exception, "Unable to sign in ")
                 }
     }
-
 
     private fun createDriveServiceHelper(account: GoogleSignInAccount?) {
         val credential = view?.getGoogleAccountCredentialUsingOAuth2()?.setSelectedAccount(account?.account)

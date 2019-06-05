@@ -6,16 +6,21 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.configuration.choosePictureSourceDialogRequestCode
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.ChoosePictureSourceDialog
 import piedel.piotr.thesis.util.dateFromStringNullCheck
+import piedel.piotr.thesis.util.getImageFilePicker
 import piedel.piotr.thesis.util.saveImageFile
+import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
 import timber.log.Timber
 import java.util.*
@@ -63,21 +68,38 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
         super.onViewCreated(view, savedInstanceState)
         receipt = arguments?.getParcelable(RECEIPT_ADD_KEY)
         initInputObservers()
-        receiptAddPresenter.initChooseDialog()
+        receiptAddPresenter.initFragment(receipt)
     }
 
     private fun initInputObservers() {
         receiptAddPresenter.observeTheInputValue(receiptTitle, receiptDate, valueInput)
     }
 
+    override fun checkPermissions() {
+        receiptAddPresenter.checkPermissionsForStorageAndCamera(requireActivity())
+    }
+
+
     override fun enableSaveButton(isEnabled: Boolean) {
         buttonSave.isEnabled = isEnabled
     }
 
-    override fun showChooseDialog() {
-        val choosePictureSourceDialog = ChoosePictureSourceDialog()
-        choosePictureSourceDialog.setTargetFragment(this, choosePictureSourceDialogRequestCode)
-        choosePictureSourceDialog.show(fragmentManager, ChoosePictureSourceDialog.FRAGMENT_TAG)
+    override fun showFileChooserGalleryAndCamera() {
+        getImageFilePicker(context, true)
+    }
+
+    override fun onPermissionPermanentlyDenied() {
+        showToast(requireContext(), getString(R.string.the_permission_is_denied_permanently))
+        activity?.onBackPressed()
+    }
+
+    override fun showToastWithRequestOfPermissions() {
+        showToast(requireContext(), getString(R.string.permission_required_storage_camera_optional))
+        activity?.onBackPressed()
+    }
+
+    override fun showFileChooserOnlyGallery() {
+        getImageFilePicker(context, false)
     }
 
 
@@ -123,10 +145,9 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
         requireActivity().runOnUiThread {
             receiptPicture.setImageBitmap(bitmapImage)
         }
-
     }
 
-    //for autogenerating purposes
+    //for autogeneration purposes
     override fun startCreatingReceipt() {
         receiptAddPresenter.generateEmptyReceipt()
     }

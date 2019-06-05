@@ -12,12 +12,11 @@ import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
-import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
+import piedel.piotr.thesis.data.model.category.categoryparent.CategoryParent
 import piedel.piotr.thesis.util.getRandomColor
-import timber.log.Timber
 
 
-class CategoryAdapter constructor(var group: MutableList<CategoryExpandableGroup>) : ExpandableRecyclerViewAdapter<CategoryGroupViewHolder, CategoryChildViewHolder>(group) {
+open class CategoryAdapter constructor(var group: MutableList<CategoryExpandableGroup>) : ExpandableRecyclerViewAdapter<CategoryGroupViewHolder, CategoryChildViewHolder>(group) {
 
 
     override fun onCreateGroupViewHolder(parent: ViewGroup?, viewType: Int): CategoryGroupViewHolder {
@@ -26,7 +25,7 @@ class CategoryAdapter constructor(var group: MutableList<CategoryExpandableGroup
         return CategoryGroupViewHolder(view)
     }
 
-    override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): CategoryChildViewHolder {
+    override fun onCreateChildViewHolder(parent: ViewGroup?, viewType: Int): CategoryChildViewHolder? {
         val view = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.categories_list_expandable_item, parent, false)
         return CategoryChildViewHolder(view)
@@ -63,7 +62,9 @@ class CategoryGroupViewHolder(itemView: View) : GroupViewHolder(itemView) {
 
 }
 
-class CategoryChildViewHolder(itemView: View) : ChildViewHolder(itemView) {
+open class CategoryChildViewHolder(itemView: View) : ChildViewHolder(itemView) {
+
+    var childCategoryChild: CategoryChild? = null
 
     private val childCategoryTitle = itemView.findViewById(R.id.categories_list_expandable_item_title) as TextView
     private val childCategoryTitleLetterView = itemView.findViewById(R.id.round_letter_view) as RoundedLetterView
@@ -75,4 +76,4 @@ class CategoryChildViewHolder(itemView: View) : ChildViewHolder(itemView) {
     }
 }
 
-class CategoryExpandableGroup(parentCategoryChild: CategoryChild, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(parentCategoryChild.category_title, items)
+class CategoryExpandableGroup(parentCategoryChild: CategoryParent, items: List<CategoryChild>) : ExpandableGroup<CategoryChild>(parentCategoryChild.category_title_parent, items)
