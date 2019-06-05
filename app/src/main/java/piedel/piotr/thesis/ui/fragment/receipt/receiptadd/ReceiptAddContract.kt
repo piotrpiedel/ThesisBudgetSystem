@@ -8,9 +8,10 @@ import androidx.fragment.app.FragmentActivity
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
+import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 
 interface ReceiptAddContract {
-    interface ReceiptAddView : BaseView {
+    interface ReceiptAddView : BaseView, CameraAndStoragePermissionListener.CameraAndStorageViewInterface {
 
         fun showError()
 
@@ -26,16 +27,14 @@ interface ReceiptAddContract {
 
         fun showProgressBar(show: Boolean)
 
-        fun showChooseDialog()
-
         fun enableSaveButton(isEnabled: Boolean)
+
+        fun checkPermissions()
 
     }
 
     interface PresenterContract<T : BaseView> : Presenter<T> {
         fun initFragment(receipt: Receipt?)
-
-        fun initChooseDialog()
 
         fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?, passedActivity: FragmentActivity)
 
@@ -48,5 +47,7 @@ interface ReceiptAddContract {
         fun generateEmptyReceipt()
 
         fun observeTheInputValue(titleEditText: EditText, dateTextView: TextView, valueEditText: EditText)
+
+        fun checkPermissionsForStorageAndCamera(passedActivityFragment: FragmentActivity)
     }
 }

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.widget.Toast
 import piedel.piotr.thesis.R
 
+
+@Deprecated("Please use FilePicker library instead")
 class FileChooser(val context: Activity, var fileSelectCode: Int) {
     var intent = Intent(Intent.ACTION_GET_CONTENT)
 

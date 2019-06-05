@@ -2,7 +2,6 @@ package piedel.piotr.thesis.ui.fragment.category.categorylist
 
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
-import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategoryExpandableGroup
 
 interface CategoryContract {
 

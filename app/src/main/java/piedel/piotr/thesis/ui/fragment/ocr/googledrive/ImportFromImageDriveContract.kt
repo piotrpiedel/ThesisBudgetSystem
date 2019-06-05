@@ -8,20 +8,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
+import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 
 interface ImportFromImageDriveContract {
-    interface ImportFromImageDriveView : BaseView {
+    interface ImportFromImageDriveView : BaseView, CameraAndStoragePermissionListener.CameraAndStorageViewInterface {
         fun showError()
-
-        fun showFileChooserOnlyGallery()
-
-        fun showFileChooserGalleryAndCamera()
-
-        fun onPermissionPermanentlyDenied()
-
-        fun onPermissionPartiallyDenied()
-
-        fun showToastWithRequestOfPermissions()
 
         fun setImageViewWithBitmap(resource: Bitmap?)
 
@@ -36,8 +27,6 @@ interface ImportFromImageDriveContract {
 
     interface PresenterContract<T : BaseView> : Presenter<T> {
         fun checkPermissions(fragmentActivity: FragmentActivity)
-
-        fun handlePickingFileResult(resultCode: Int, data: Intent)
 
         fun signWithAccount()
 

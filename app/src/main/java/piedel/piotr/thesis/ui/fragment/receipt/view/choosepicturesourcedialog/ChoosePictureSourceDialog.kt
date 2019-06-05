@@ -16,7 +16,7 @@ import piedel.piotr.thesis.configuration.CAMERA_PIC_REQUEST_CODE
 import piedel.piotr.thesis.configuration.FILE_SELECT_REQUEST_CODE
 import piedel.piotr.thesis.util.showToast
 
-
+@Deprecated("Replaced with FilePickerLibrary")
 class ChoosePictureSourceDialog : DialogFragment(), ChoosePictureSourceDialogContract.ChoosePictureSourceDialogView {
 
     private val choosePictureSourceDialogPresenter = ChoosePictureSourceDialogPresenter()

@@ -22,10 +22,6 @@ interface ImportExportContract {
     interface PresenterContract<T : BaseView> : Presenter<T> {
         fun checkPermissions(fragmentActivity: FragmentActivity)
 
-        fun resultFromRequestPermission(requestCode: Int, grantResults: IntArray)
-
-        fun getFilePathFromResult(requestCode: Int, resultCode: Int, data: Intent?, fragmentActivity: FragmentActivity)
-
-        fun createAndParseHTMLFileFromPath(path: String?, fragmentActivity: FragmentActivity)
+        fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     }
 }

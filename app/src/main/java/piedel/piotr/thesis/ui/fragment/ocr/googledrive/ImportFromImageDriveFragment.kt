@@ -13,11 +13,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.services.drive.DriveScopes
-import droidninja.filepicker.FilePickerBuilder
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.configuration.FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.util.getImageFilePicker
 import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,24 +59,14 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
     }
 
     override fun showFileChooserOnlyGallery() {
-        FilePickerBuilder.instance.setMaxCount(1)
-                .setActivityTheme(R.style.LibAppTheme)
-                .enableCameraSupport(false)
-                .pickPhoto(this, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
+        getImageFilePicker(context, false, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
     }
 
     override fun showFileChooserGalleryAndCamera() {
-        FilePickerBuilder.instance.setMaxCount(1)
-                .enableCameraSupport(true)
-                .setActivityTheme(R.style.LibAppTheme)
-                .pickPhoto(this, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
+        getImageFilePicker(context, true, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
     }
 
     override fun onPermissionPermanentlyDenied() {
-        showToast(requireContext(), getString(R.string.the_permission_is_denied_permanently))
-    }
-
-    override fun onPermissionPartiallyDenied() {
         showToast(requireContext(), getString(R.string.the_permission_is_denied_permanently))
     }
 

@@ -47,12 +47,12 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+        return when (item?.itemId) {
             R.id.delete_all_receipts -> {
                 receiptPresenter.deleteAllReceiptsAction()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
