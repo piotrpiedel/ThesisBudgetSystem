@@ -5,7 +5,11 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
@@ -17,7 +21,7 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
 import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
-import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
+import piedel.piotr.thesis.util.dateToString_DayFullMonthNameYearFormat
 import java.lang.Math.abs
 import java.util.*
 import javax.inject.Inject
@@ -131,7 +135,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
-            textViewDate.text = simpleDateFormatDayMonthYear().format(cal.time)
+            textViewDate.text = dateToString_DayFullMonthNameYearFormat(cal.time)
         }
     }
 

@@ -1,21 +1,20 @@
 package piedel.piotr.thesis.data.model.converters
 
 import androidx.room.TypeConverter
-import piedel.piotr.thesis.util.dateFromYearMonthDayConverter
 import piedel.piotr.thesis.util.dateToYearMonthDayFormatString
-import java.util.Date
+import piedel.piotr.thesis.util.stringToDate
+import java.util.*
 
+// desired format in app and database is yyyy-MM-DD
 class DateConverter {
 
     @TypeConverter
-    fun fromTimestamp(value: String?): Date? {
-        return if (value == null) null else {
-            return dateFromYearMonthDayConverter(value)
-        }
+    fun fromString(value: String?): Date? {
+        return Date().stringToDate(value)
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): String? {
+    fun dateToString(date: Date?): String? {
         return dateToYearMonthDayFormatString(date)
     }
 }

@@ -3,7 +3,7 @@ package piedel.piotr.thesis.ui.fragment.importexport.importfromhtml
 import com.squareup.moshi.*
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
-import piedel.piotr.thesis.util.simpleDateYearMonthDay
+import piedel.piotr.thesis.util.simpleDate_YYYY_MM_DD
 import java.io.IOException
 import java.text.DateFormat
 import java.text.NumberFormat
@@ -56,7 +56,7 @@ class OperationClassAdapter() : JsonAdapter<Operation>() {
 }
 
 class CustomDateFormatAdapter : JsonAdapter<Date>() {
-    private var dateFormatForJson: DateFormat = simpleDateYearMonthDay()
+    private var dateFormatForJson: DateFormat = simpleDate_YYYY_MM_DD()
 
     @Synchronized
     @Throws(IOException::class)

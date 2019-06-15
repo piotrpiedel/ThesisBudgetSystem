@@ -66,7 +66,6 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
                     override fun onPermissionDenied(response: PermissionDeniedResponse?) {
                         view?.showError()
                     }
-
                 })
                 .check()
     }
@@ -74,32 +73,38 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
     override fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val stringPath = data?.extras?.getStringArrayList(FilePickerConst.KEY_SELECTED_DOCS)?.first() // using KEY_SELECTED_MEDIA return Array<String>
         fillEditTextWithPathOfFile(stringPath) // Fill the EditText with FilePath
-        createAndParseHTMLFileFromPath(stringPath)
+        createOperationsFromImportedFile(stringPath)
     }
 
-    private fun createAndParseHTMLFileFromPath(path: String?) {
-        val fileToParse: File? = File(path)
+    private fun createOperationsFromImportedFile(stringPath: String?) {
+        val fileToParse = createFileFromPath(stringPath)
+        val jsonArray: JSONArray?
+
         if (fileToParse?.exists() == true) {
-            parseHTMLFromPath(fileToParse)
-        }
+            jsonArray = parseHTMLFileToArrayJson(fileToParse)
+        } else return
+
+        checkIfArrayCorrectAndCreateOperations(jsonArray)
     }
 
-    private fun parseHTMLFromPath(fileToParse: File) {
-        var jsonArray: JSONArray?
-        fileToParse.let {
-            jsonArray = parseHTMLFileToJsonArray(fileToParse)
-        }
-        jsonArray.let {
-            if (jsonArray?.length() != 0)
+    private fun createFileFromPath(path: String?): File? {
+        return File(path)
+    }
+
+    private fun parseHTMLFileToArrayJson(fileToParse: File): JSONArray? {
+        return parseHTMLFileToJsonArray(fileToParse)
+    }
+
+    private fun checkIfArrayCorrectAndCreateOperations(jsonArray: JSONArray?) {
+        jsonArray?.let {
+            if (jsonArray.length() != 0)
                 createOperationsFromJson(jsonArray)
             else view?.showError()
         }
     }
 
     private fun createOperationsFromJson(jsonArray: JSONArray?) {
-
-        val moshiBuilder = Moshi.Builder().add(Operation::class.java, OperationClassAdapter())
-        val moshi = moshiBuilder.build()
+        val moshi = Moshi.Builder().add(Operation::class.java, OperationClassAdapter()).build()
         val jsonAdapter = moshi.adapter(Operation::class.java)
         val arrayOfOperations: MutableList<Operation> = mutableListOf()
         for (iterator in 0 until jsonArray?.length() as Int) {
@@ -107,6 +112,10 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
             val operation = jsonAdapter.fromJson(operationObject)
             arrayOfOperations.add(operation as Operation)
         }
+        insertCreatedOperations(arrayOfOperations)
+    }
+
+    private fun insertCreatedOperations(arrayOfOperations: MutableList<Operation>) {
         insertOperation(*arrayOfOperations.toTypedArray())
     }
 

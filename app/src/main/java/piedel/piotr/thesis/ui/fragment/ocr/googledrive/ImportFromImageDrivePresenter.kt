@@ -23,6 +23,7 @@ import piedel.piotr.thesis.service.drive.DriveServiceHelper
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
+import piedel.piotr.thesis.util.gdrive.GoogleDriveTextParser
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 import timber.log.Timber
 import java.util.*
@@ -75,7 +76,7 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
                 }
                 ?.subscribe(
                         { outputString ->
-                            Timber.d("onSubscribe %s", outputString)
+                            val googleDriveTextParser = GoogleDriveTextParser(outputString)
                         },
                         { e ->
                             Timber.d("onError:  %s", e.toString())
