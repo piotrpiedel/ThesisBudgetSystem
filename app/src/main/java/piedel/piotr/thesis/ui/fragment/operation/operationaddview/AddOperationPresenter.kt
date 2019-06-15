@@ -14,8 +14,8 @@ import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.AddOperationView
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.PresenterContract
-import piedel.piotr.thesis.util.dateFromDayMonthYearToYearMonthDay
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
+import piedel.piotr.thesis.util.stringToDate
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -102,7 +102,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
         if (valueOfOperation == OperationType.OUTCOME) {
             valueOfOperationOther *= -1
         }
-        val dateFromString = dateFromDayMonthYearToYearMonthDay(dateOtherString)
+        val dateFromString = Date().stringToDate(dateOtherString)
         Timber.d("date %s", dateFromString?.toString())
         return operationOther
                 ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, categoryChild))

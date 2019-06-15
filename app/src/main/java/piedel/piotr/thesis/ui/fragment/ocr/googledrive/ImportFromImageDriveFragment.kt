@@ -59,11 +59,11 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
     }
 
     override fun showFileChooserOnlyGallery() {
-        getImageFilePicker(context, false, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
+        getImageFilePicker(this, false, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
     }
 
     override fun showFileChooserGalleryAndCamera() {
-        getImageFilePicker(context, true, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
+        getImageFilePicker(this, true, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
     }
 
     override fun onPermissionPermanentlyDenied() {

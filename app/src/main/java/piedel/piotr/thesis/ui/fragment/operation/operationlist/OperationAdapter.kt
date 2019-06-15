@@ -13,8 +13,8 @@ import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationType
+import piedel.piotr.thesis.util.dateToString_DayFullMonthNameYearFormat
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
-import piedel.piotr.thesis.util.simpleDateFormatDayMonthYear
 import javax.inject.Inject
 
 
@@ -73,7 +73,7 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
     private fun setDateTextView(holder: OperationViewHolder, operationItem: Operation?) {
         holder.operation?.date?.let {
             holder.dateTextView.visibility = View.VISIBLE
-            holder.dateTextView.text = simpleDateFormatDayMonthYear().format(operationItem?.date)
+            holder.dateTextView.text = operationItem?.date?.let { date -> dateToString_DayFullMonthNameYearFormat(date) }
         } ?: run {
             holder.dateTextView.visibility = View.GONE
         }
