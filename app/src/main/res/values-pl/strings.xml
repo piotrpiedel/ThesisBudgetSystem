@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Thesis Budget System</string>
+    <string name="app_name">Budget System</string>
     <string name="dialog_error_title">Przepraszamy</string>
     <string name="error_reload">Przeładuj</string>
     <string name="operation_input_text_view_plus_text">Przychód</string>
@@ -39,6 +39,7 @@
     <string name="importexport">Import | Eksport</string>
     <string name="please_install_file_manager">Proszę zainstalować Menadżera plików</string>
     <string name="loading_operation_from_html_success">Importowanie operacji przebiegło pomyślnie</string>
+    <string name="loading_operation_from_ocr_success">Importowanie operacji z rozpoznawania tekstu przebiegło pomyślnie</string>
     <string name="something_went_wrong_try_again_later">Coś poszło nie tak, spróbuj później</string>
     <string name="file_you_want_to_import_must_be_html">Plik do importu, powinien być plikiem HTML</string>
     <string name="to_import_file_you_should_use_file_manager">Do zaimportowania pliku proszę użyć Menadżera plików</string>

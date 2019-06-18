@@ -19,6 +19,7 @@ import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.getImageFilePicker
 import piedel.piotr.thesis.util.showToast
+import piedel.piotr.thesis.util.showToastLong
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -98,6 +99,23 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
 
     override fun showError() {
         Toast.makeText(context, getString(R.string.something_went_wrong_try_again_later), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun errorNetworkConnection() {
+        showToastLong(requireContext(), "Unable to resolve host - check your network connection")
+    }
+
+    override fun showImageContainsNoText() {
+        showToastLong(requireContext(), "Passed image did not contain any text - please input proper image")
+    }
+
+    override fun errorParsingReceipt() {
+        showToastLong(requireContext(), "Can't proceed OCR for receipt - " +
+                "not recognized format of receipt input or not containing operations - please send us report with image of receipt")
+    }
+
+    override fun showInsertCompleteToast() {
+        Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

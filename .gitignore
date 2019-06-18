@@ -12,3 +12,5 @@ fastlane
 app/release/app-release.apk
 app/release/output.json
 app/fabric.properties
+app/debug/output.json
+app/debug/app-debug.apk

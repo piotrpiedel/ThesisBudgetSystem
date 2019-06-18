@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Thesis Budget System</string>
+    <string name="app_name">Budget System</string>
     <string name="activity_drawer_layout_open" translatable="false">Open Navigation Side Bar</string>
     <string name="activity_drawer_layout_close" translatable="false">Close Navigation Side Bar</string>
     <string name="dialog_action_ok" translatable="false">OK</string>
@@ -48,6 +48,7 @@
     <string name="importexport">Import | Export</string>
     <string name="please_install_file_manager">Please install a File Manager.</string>
     <string name="loading_operation_from_html_success">Loading operation from HTML succeeded</string>
+    <string name="loading_operation_from_ocr_success">Loading operation from OCR image succeeded</string>
     <string name="something_went_wrong_try_again_later">Something went wrong, try again later</string>
     <string name="file_you_want_to_import_must_be_html">File you want to import, need to be HTML</string>
     <string name="to_import_file_you_should_use_file_manager">To import file you should to use FileManager - not other apps</string>

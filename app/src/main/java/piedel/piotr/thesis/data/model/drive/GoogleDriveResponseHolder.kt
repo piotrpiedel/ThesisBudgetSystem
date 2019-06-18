@@ -2,7 +2,7 @@ package piedel.piotr.thesis.data.model.drive
 
 import java.io.ByteArrayOutputStream
 
-data class GoogleDriveResponseHolder(val fileId: String, val responseByteArrayOutputStream: ByteArrayOutputStream?) {
+data class GoogleDriveResponseHolder(val responseByteArrayOutputStream: ByteArrayOutputStream?) {
 
     var plainTextFromOutputStream: String = responseByteArrayOutputStream?.toByteArray()?.let { String(it) }
             ?: "The response is null"

@@ -23,6 +23,14 @@ interface ImportFromImageDriveContract {
         fun getGoogleAccountCredentialUsingOAuth2(): GoogleAccountCredential
 
         fun getAlreadySignedAccount(): GoogleSignInAccount?
+
+        fun errorNetworkConnection()
+
+        fun showImageContainsNoText()
+
+        fun errorParsingReceipt()
+
+        fun showInsertCompleteToast()
     }
 
     interface PresenterContract<T : BaseView> : Presenter<T> {

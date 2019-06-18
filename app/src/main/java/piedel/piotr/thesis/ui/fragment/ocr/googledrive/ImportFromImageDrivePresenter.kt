@@ -15,23 +15,27 @@ import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.karumi.dexter.Dexter
 import droidninja.filepicker.FilePickerConst
+import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import piedel.piotr.thesis.configuration.FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
+import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.service.drive.DriveServiceHelper
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
-import piedel.piotr.thesis.util.gdrive.GoogleDriveTextParser
+import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParser
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 import timber.log.Timber
+import java.net.UnknownHostException
 import java.util.*
 import javax.inject.Inject
 
 
 @ConfigPersistent
-class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<ImportFromImageDriveView>(), PresenterContract<ImportFromImageDriveView> {
+class ImportFromImageDrivePresenter @Inject constructor(private val operationsRepository: OperationRepository) : BasePresenter<ImportFromImageDriveView>(), PresenterContract<ImportFromImageDriveView> {
 
     private var mDriveServiceHelper: DriveServiceHelper? = null
     private var disposable: Disposable? = null
@@ -70,20 +74,50 @@ class ImportFromImageDrivePresenter @Inject constructor() : BasePresenter<Import
     }
 
     private fun createObservableOfOCRResult(stringPath: ArrayList<String>?) {
+
         disposable = mDriveServiceHelper?.uploadImageFileToRootFolder(stringPath?.first())
-                ?.flatMap { fileDrive ->
-                    mDriveServiceHelper?.downloadConvertedFileToString(fileDrive.id.toString())
+                ?.flatMap { fileLocatedOnGoogleDrive ->
+                    mDriveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
                 }
                 ?.subscribe(
-                        { outputString ->
-                            val googleDriveTextParser = GoogleDriveTextParser(outputString)
+                        { googleDriveResponseHolder ->
+                            if (googleDriveResponseHolder.plainTextFromOutputStream.isEmpty()
+                                    || googleDriveResponseHolder.plainTextFromOutputStream.isBlank()) {
+                                view?.showImageContainsNoText()
+                                return@subscribe
+                            }
+                            //Fix if not operations contain itd; need to block some of operations on my app
+                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
+                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty())
+                                insertOperation(*googleDriveResponseParser.listOfOperations.toTypedArray())
+                            else view?.errorParsingReceipt()
                         },
                         { e ->
+                            if (e is UnknownHostException) {
+                                view?.errorNetworkConnection()
+                            }
                             Timber.d("onError:  %s", e.toString())
-                        },
-                        {}
+                        }
                 )
         addDisposable(disposable)
+    }
+
+    private fun insertOperation(vararg operation: Operation) {
+        operationsRepository.insertOperation(*operation)
+                .subscribe(object : CompletableObserver {
+                    override fun onComplete() {
+                        Timber.d("onComplete insertOperation ")
+                        view?.showInsertCompleteToast()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        Timber.d("onComplete insertOperation ")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Timber.d(e, "onError insertOperation")
+                    }
+                })
     }
 
     override fun signWithAccount() {

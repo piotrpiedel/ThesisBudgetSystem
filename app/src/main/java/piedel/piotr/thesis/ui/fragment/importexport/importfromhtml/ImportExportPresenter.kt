@@ -88,7 +88,7 @@ class ImportExportPresenter @Inject constructor(private val operationsRepository
     }
 
     private fun createFileFromPath(path: String?): File? {
-        return File(path)
+        path?.let { return File(path) } ?: return null
     }
 
     private fun parseHTMLFileToArrayJson(fileToParse: File): JSONArray? {

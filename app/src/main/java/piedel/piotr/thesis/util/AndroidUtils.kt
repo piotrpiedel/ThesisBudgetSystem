@@ -30,3 +30,7 @@ fun getCircularProgressDrawable(context: Context): CircularProgressDrawable {
 fun showToast(context: Context, textToToast: String) {
     Toast.makeText(context, textToToast, Toast.LENGTH_SHORT).show()
 }
+
+fun showToastLong(context: Context, textToToast: String) {
+    Toast.makeText(context, textToToast, Toast.LENGTH_LONG).show()
+}

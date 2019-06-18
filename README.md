@@ -1,3 +1,6 @@
+## Wiki with setting up project and so on is on private copy of repository;
+
+
 ## Thesis Budget System :
 An application written in Kotlin for the Android platform. <br/>
  Supported features: <br/>
