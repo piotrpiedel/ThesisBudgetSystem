@@ -10,7 +10,7 @@ class DateConverter {
 
     @TypeConverter
     fun fromString(value: String?): Date? {
-        return Date().stringToDate(value)
+        return value?.stringToDate()
     }
 
     @TypeConverter

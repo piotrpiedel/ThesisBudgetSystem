@@ -43,6 +43,11 @@ class OperationRepository @Inject constructor(private val operationDao: Operatio
                 .compose(SchedulerUtils.ioToMain<List<OperationCategoryTuple>>())
     }
 
+    fun selectAllOperationsWithCategoriesOrderByDateDesc(): Maybe<List<OperationCategoryTuple>> {
+        return operationDao.selectAllOperationsWithCategoriesOrderByDateDesc()
+                .compose(SchedulerUtils.ioToMain<List<OperationCategoryTuple>>())
+    }
+
     fun selectSumOfOperationByDate(): Maybe<List<DateValueTuple>> {
         return operationDao.selectSumOfOperationByDate()
                 .compose(SchedulerUtils.ioToMain<List<DateValueTuple>>())

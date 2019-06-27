@@ -12,7 +12,7 @@ import piedel.piotr.thesis.injection.component.ConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.DaggerConfigPersistentComponent
 import piedel.piotr.thesis.injection.component.FragmentComponent
 import piedel.piotr.thesis.injection.module.FragmentModule
-import piedel.piotr.thesis.ui.main.MainActivity
+import piedel.piotr.thesis.ui.activity.main.MainActivity
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 

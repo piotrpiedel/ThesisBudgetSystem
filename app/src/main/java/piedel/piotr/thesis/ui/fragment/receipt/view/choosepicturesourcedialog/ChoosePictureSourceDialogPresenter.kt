@@ -19,7 +19,6 @@ import piedel.piotr.thesis.ui.fragment.receipt.view.choosepicturesourcedialog.Ch
 import piedel.piotr.thesis.util.getPath
 import piedel.piotr.thesis.util.showToast
 
-@Deprecated("Replaced with FilePickerLibrary")
 class ChoosePictureSourceDialogPresenter : BasePresenter<ChoosePictureSourceDialogView>(), PresenterContract<ChoosePictureSourceDialogView> {
 
     override fun onLoadFromGalleryClick(passedActivityFragment: FragmentActivity) {

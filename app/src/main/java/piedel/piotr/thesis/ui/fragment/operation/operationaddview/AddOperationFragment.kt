@@ -13,7 +13,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.OnClick
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.configuration.addOperationFragmentRequestCode
+import piedel.piotr.thesis.configuration.addOperationTargetFragmentRequestCode
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
@@ -21,7 +21,6 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
 import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
-import piedel.piotr.thesis.util.dateToString_DayFullMonthNameYearFormat
 import java.lang.Math.abs
 import java.util.*
 import javax.inject.Inject
@@ -99,7 +98,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     private fun setOnCategoryListener() {
         categorySelection.setOnClickListener {
             val categorySelectListFragment = CategorySelectListFragment()
-            categorySelectListFragment.setTargetFragment(this, addOperationFragmentRequestCode)
+            categorySelectListFragment.setTargetFragment(this, addOperationTargetFragmentRequestCode)
             getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                     categorySelectListFragment,
                     CategorySelectListFragment.FRAGMENT_TAG)
@@ -113,7 +112,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == addOperationFragmentRequestCode && resultCode == Activity.RESULT_OK) {
+        if (requestCode == addOperationTargetFragmentRequestCode && resultCode == Activity.RESULT_OK) {
             operationCategoryChild = data?.getParcelableExtra(CategorySelectListFragment.FRAGMENT_INTENT_CATEGORY)
         }
     }
@@ -135,7 +134,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
-            textViewDate.text = dateToString_DayFullMonthNameYearFormat(cal.time)
+            textViewDate.text = dateToDayMonthYearFormatString(cal.time)
         }
     }
 

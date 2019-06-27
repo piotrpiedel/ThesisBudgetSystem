@@ -12,6 +12,10 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.net.URISyntaxException
 
+private fun getDirectoryOfApp(): File {
+    return File(Environment.getExternalStorageDirectory().toString() + "/Thesis")
+}
+
 @Throws(URISyntaxException::class)
 fun getPath(context: Context, uri: Uri): String? {
     if ("content".equals(uri.scheme, ignoreCase = true)) {
@@ -33,10 +37,23 @@ fun getPath(context: Context, uri: Uri): String? {
     return null
 }
 
+/**
+ * Calling this will delete the images from cache directory
+ * useful to clear some memory
+ */
+//This one is interesting to clear data after taking photo
+fun clearTemporaryFiles(paths: List<String>) {
+    for (path in paths) {
+        val fileFromPath = File(path)
+        if (fileFromPath.exists() && fileFromPath.isFile) {
+            fileFromPath.deleteOnExit()
+        }
+    }
+}
 
 fun saveImageFile(bitmap: Bitmap, receipt: Receipt): String {
     val out: FileOutputStream?
-    val directory = File(Environment.getExternalStorageDirectory().toString() + "/Thesis")
+    val directory = getDirectoryOfApp()
     if (!directory.exists()) {
         directory.mkdirs()
     }

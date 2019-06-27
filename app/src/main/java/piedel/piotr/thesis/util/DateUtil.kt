@@ -6,16 +6,14 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Date.stringToDate(stringDateToParse: String?): Date? {
-    val datePattern_YYYY_MM_DD = """([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"""
-    val datePattern_DD_MM_YYYY = """([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}"""
-    return if (!stringDateToParse.isNullOrBlank()) {
+fun String.stringToDate(): Date? {
+    return if (this.isNotBlank() && this.isNotEmpty()) {
         when {
-            stringDateToParse.contains(Regex(datePattern_YYYY_MM_DD)) -> simpleDate_YYYY_MM_DD().parse(stringDateToParse)
-            stringDateToParse.contains(Regex(datePattern_DD_MM_YYYY)) ->
+            this.contains(regexDatePattern_YYYY_MM_DD()) -> simpleDate_YYYY_MM_DD().parse(this)
+            this.contains(regexDatePattern_DD_MM_YYYY()) ->
                 simpleDate_YYYY_MM_DD().parse( // parse return Date in desired pattern  yyyy-MM-DD
                         simpleDate_YYYY_MM_DD().format( // format return String in desired  pattern yyyy-MM-DD
-                                simpleDateFormat_DD_MM_YYYY().parse(stringDateToParse))) // parse return Date in current
+                                simpleDateFormat_DD_MM_YYYY().parse(this))) // parse return Date in current
             else -> {
                 Timber.e("DateUtil fun stringToDate() NOT SUPPORTED DATE PATTERN (Check and add it) ")
                 null
@@ -24,12 +22,14 @@ fun Date.stringToDate(stringDateToParse: String?): Date? {
     } else null
 }
 
+
+// Check how to refactor it and let month have full name from date to string and string to date
 fun dateToString_DayFullMonthNameYearFormat(dateToFormat: Date): String {
     return simpleDateFormat_DD_MMMMM_YYYY().format(dateToFormat)
 }
 
-fun dateFromStringNullCheck(value: String): Date {
-    return Date().stringToDate(value) ?: Date()
+fun dateFromStringNullCheck(value: String?): Date {
+    return value?.stringToDate() ?: Date()
 }
 
 fun dateToDayMonthYearFormatString(date: Date?): String? {
@@ -48,20 +48,15 @@ fun fixNumberOfMonth(monthNumber: Int): String {
 }
 
 fun getAnyDateIfStringContainsDate(stringToCheck: String): String? {
-    // | means or
-    // match (year{1 or 2}{and match 3 digits}) {-} (month{match 01-09 | 10-12}) {-} (day{01-09 | 1 or 2 and any digit(0-9)| 3 and (0 or 1)})
-    val datePattern_YYYY_MM_DD = """([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"""
-
-    // (day{01-09 | 1 or 2 and any digit(0-9)| 3 and (0 or 1)}) {-} (month{match 01-09 | 10-12}) {-} (year{1 or 2}{and match 3 digits})
-    val datePattern_DD_MM_YYYY = """([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\d{4}"""
-    val regexDate_YYYY_MM_DD: String? = Regex(datePattern_YYYY_MM_DD).find(stringToCheck)?.value
-    val regexDate_DD_MM_YYYY: String? = Regex(datePattern_DD_MM_YYYY).find(stringToCheck)?.value
+    val dateString_YYYY_MM_DD: String? = regexDatePattern_YYYY_MM_DD().find(stringToCheck)?.value
+    val dateString_DD_MM_YYYY: String? = regexDatePattern_DD_MM_YYYY().find(stringToCheck)?.value
     return when {
-        regexDate_YYYY_MM_DD != null -> regexDate_YYYY_MM_DD
-        regexDate_DD_MM_YYYY != null -> regexDate_DD_MM_YYYY
+        dateString_YYYY_MM_DD != null -> dateString_YYYY_MM_DD
+        dateString_DD_MM_YYYY != null -> dateString_DD_MM_YYYY
         else -> null
     }
 }
+
 
 // DD is the Day of year
 // dd is the Day of the month <- correct
@@ -72,21 +67,17 @@ fun getAnyDateIfStringContainsDate(stringToCheck: String): String? {
 // MMM short name of month <- correct
 
 fun simpleDateFormat_DD_MM_YYYY(): SimpleDateFormat {  // only number of month
-    val myFormat = "dd-MM-yyyy"
-    return SimpleDateFormat(myFormat, Locale.getDefault())
+    return SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 }
 
 fun simpleDate_YYYY_MM_DD(): SimpleDateFormat {
-    val myFormat = "yyyy-MM-dd"
-    return SimpleDateFormat(myFormat, Locale.getDefault())
+    return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 }
 
 fun simpleDateFormat_DD_MMMMM_YYYY(): SimpleDateFormat { // full month name
-    val myFormat = "dd MMMM yyyy"
-    return SimpleDateFormat(myFormat, Locale.getDefault())
+    return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
 }
 
 fun simpleDateMonthYearFormat(): SimpleDateFormat {
-    val myFormat = "MMMM yyyy"
-    return SimpleDateFormat(myFormat, Locale.getDefault())
+    return SimpleDateFormat("MMMM yyyy", Locale.getDefault())
 }

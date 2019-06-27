@@ -1,6 +1,5 @@
 package piedel.piotr.thesis.ui.fragment.ocr.googledrive
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
@@ -13,24 +12,21 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import com.karumi.dexter.Dexter
-import droidninja.filepicker.FilePickerConst
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
-import piedel.piotr.thesis.configuration.FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
+import piedel.piotr.thesis.configuration.START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.service.drive.DriveServiceHelper
+import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity.Companion.INTENT_RESULT_PATH_IMAGE_PICKER_ACTIVITY
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
 import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParser
-import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 import timber.log.Timber
 import java.net.UnknownHostException
-import java.util.*
 import javax.inject.Inject
 
 
@@ -42,40 +38,39 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
 
 
     override fun checkPermissions(fragmentActivity: FragmentActivity) {
-        checkPermissionForCameraAndStorage(fragmentActivity)
+        showImagePickerOptions()
     }
 
     override fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE -> {
+            START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     handlePickingFileResult(data)
                 }
             }
             REQUEST_CODE_SIGN_IN -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
+                    Timber.d("handleOnActivityResult REQUEST_CODE_SIGN_IN is inside if")
                     handleSignInRequestResult(data)
                 }
             }
         }
     }
 
-    private fun checkPermissionForCameraAndStorage(passedActivityFragment: FragmentActivity) {
-        val permissionsList: List<String> = listOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-        Dexter.withActivity(passedActivityFragment)
-                .withPermissions(permissionsList)
-                .withListener(CameraAndStoragePermissionListener(view))
-                .check()
+    private fun showImagePickerOptions() {
+        view?.startImagePickerActivity()
     }
 
+
     private fun handlePickingFileResult(data: Intent) {
-        val stringPath = data.extras?.getStringArrayList(FilePickerConst.KEY_SELECTED_MEDIA) // using KEY_SELECTED_MEDIA return Array<String>
+        // TODO: check if path is correct
+        val stringPath = data.getStringExtra(INTENT_RESULT_PATH_IMAGE_PICKER_ACTIVITY)
         createObservableOfOCRResult(stringPath)
     }
 
-    private fun createObservableOfOCRResult(stringPath: ArrayList<String>?) {
+    private fun createObservableOfOCRResult(stringPath: String?) {
 
-        disposable = mDriveServiceHelper?.uploadImageFileToRootFolder(stringPath?.first())
+        disposable = mDriveServiceHelper?.uploadImageFileToRootFolder(stringPath)
                 ?.flatMap { fileLocatedOnGoogleDrive ->
                     mDriveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
                 }
@@ -131,7 +126,8 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     }
 
     private fun getSignInOptions(): GoogleSignInOptions {
-        return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        return GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestScopes(Scope(DriveScopes.DRIVE_FILE))
                 .build()
@@ -157,11 +153,11 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                 AndroidHttp.newCompatibleTransport(),
                 GsonFactory(),
                 credential)
-                .setApplicationName("Drive.Builder function")
                 .build()
     }
 
     private fun createDriveHelper(googleDriveService: Drive) {
+        Timber.d("fun createDriveHelper")
         mDriveServiceHelper = DriveServiceHelper.getInstance(googleDriveService) // TODO: refactor this somehow
         importFile()
     }

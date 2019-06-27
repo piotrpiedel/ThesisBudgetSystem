@@ -14,11 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.services.drive.DriveScopes
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.configuration.FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
+import piedel.piotr.thesis.configuration.START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE
+import piedel.piotr.thesis.data.buildier.ImagePickerActivityOptions
+import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.util.getImageFilePicker
-import piedel.piotr.thesis.util.showToast
 import piedel.piotr.thesis.util.showToastLong
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,24 +59,7 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
         importFromImageDrivePresenter.signWithAccount()
     }
 
-    override fun showFileChooserOnlyGallery() {
-        getImageFilePicker(this, false, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
-    }
-
-    override fun showFileChooserGalleryAndCamera() {
-        getImageFilePicker(this, true, FILE_PICKER_BUILDER_IMAGE_REQUEST_CODE)
-    }
-
-    override fun onPermissionPermanentlyDenied() {
-        showToast(requireContext(), getString(R.string.the_permission_is_denied_permanently))
-    }
-
-    override fun showToastWithRequestOfPermissions() {
-        showToast(requireContext(), getString(R.string.permission_required_storage_camera_optional))
-    }
-
     override fun requestSignIn(signInOptions: GoogleSignInOptions) {
-        Timber.d("Request Sign in fun requestSignIn")
         val signInClient = GoogleSignIn.getClient(requireActivity(), signInOptions)
         startActivityForResult(signInClient.signInIntent, REQUEST_CODE_SIGN_IN);
     }
@@ -116,6 +99,16 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
 
     override fun showInsertCompleteToast() {
         Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun startImagePickerActivity() {
+        launchImagePickerActivity()
+    }
+
+    private fun launchImagePickerActivity() {
+        val intent = Intent(requireContext(), ImagePickerActivity::class.java)
+                .putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTIONS_PARCELABLE, ImagePickerActivityOptions())
+        startActivityForResult(intent, START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE);
     }
 
     companion object {

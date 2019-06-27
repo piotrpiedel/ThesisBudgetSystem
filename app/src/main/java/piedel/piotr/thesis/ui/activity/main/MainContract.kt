@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.main
+package piedel.piotr.thesis.ui.activity.main
 
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter

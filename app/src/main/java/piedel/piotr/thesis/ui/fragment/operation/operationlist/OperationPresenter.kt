@@ -55,7 +55,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
 
     @SuppressLint("CheckResult")
     override fun loadOperationsWithCategories() {
-        disposable = operationRepository.selectAllOperationsWithCategories()
+        disposable = operationRepository.selectAllOperationsWithCategoriesOrderByDateDesc()
                 .subscribe({ operations ->
                     view?.updateList(operations)
                     loadSummary()

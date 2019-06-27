@@ -44,6 +44,9 @@ interface OperationDao {
     @Query("SELECT * FROM operation_table LEFT JOIN category_child_table ON other_category_id == categoryId  ")
     fun selectAllOperationsWithCategories(): Maybe<List<OperationCategoryTuple>>
 
+    @Query("SELECT * FROM operation_table LEFT JOIN category_child_table ON other_category_id == categoryId  order by date desc")
+    fun selectAllOperationsWithCategoriesOrderByDateDesc(): Maybe<List<OperationCategoryTuple>>
+
     @Query("SELECT value, operationType from operation_table")
     fun selectValueOperationList(): Maybe<List<OperationValueOperationType>>
 

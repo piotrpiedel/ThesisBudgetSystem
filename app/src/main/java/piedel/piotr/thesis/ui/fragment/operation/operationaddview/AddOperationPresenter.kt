@@ -102,8 +102,8 @@ constructor(private val operationsRepository: OperationRepository, private val c
         if (valueOfOperation == OperationType.OUTCOME) {
             valueOfOperationOther *= -1
         }
-        val dateFromString = Date().stringToDate(dateOtherString)
-        Timber.d("date %s", dateFromString?.toString())
+
+        val dateFromString = dateOtherString.stringToDate()
         return operationOther
                 ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, categoryChild))
                 ?: run {
