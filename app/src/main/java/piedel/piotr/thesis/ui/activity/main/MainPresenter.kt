@@ -1,9 +1,9 @@
-package piedel.piotr.thesis.ui.main
+package piedel.piotr.thesis.ui.activity.main
 
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.ui.main.MainContract.MainView
-import piedel.piotr.thesis.ui.main.MainContract.PresenterContract
+import piedel.piotr.thesis.ui.activity.main.MainContract.MainView
+import piedel.piotr.thesis.ui.activity.main.MainContract.PresenterContract
 import javax.inject.Inject
 
 @ConfigPersistent

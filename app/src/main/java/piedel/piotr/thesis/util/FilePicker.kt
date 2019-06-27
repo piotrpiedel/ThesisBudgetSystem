@@ -33,7 +33,7 @@ private fun filePickerBuilder(enableCamera: Boolean): FilePickerBuilder {
     return FilePickerBuilder
             .instance
             .setMaxCount(1)
-            .setActivityTheme(R.style.LibAppTheme)
+            .setActivityTheme(R.style.AppTheme)
             .enableCameraSupport(enableCamera)
 }
 

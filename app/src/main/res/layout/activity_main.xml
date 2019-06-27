@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.main.MainActivity"
+    tools:context=".ui.activity.main.MainActivity"
     tools:openDrawer="start">
 
     <RelativeLayout
         android:id="@+id/view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.activity.main.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/activity_bar_container"

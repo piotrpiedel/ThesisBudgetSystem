@@ -18,7 +18,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.dateFromStringNullCheck
-import piedel.piotr.thesis.util.dateToString_DayFullMonthNameYearFormat
+import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.getImageFilePicker
 import piedel.piotr.thesis.util.saveImageFile
 import piedel.piotr.thesis.util.showToast
@@ -126,7 +126,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
     private fun onDateSetListener(cal: Calendar): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, years, monthOfYear, dayOfMonth ->
             setSelectedDate(cal, years, monthOfYear, dayOfMonth)
-            receiptDate.text = dateToString_DayFullMonthNameYearFormat(cal.time)
+            receiptDate.text = dateToDayMonthYearFormatString(cal.time)
         }
     }
 

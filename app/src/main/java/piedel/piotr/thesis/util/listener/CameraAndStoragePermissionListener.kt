@@ -51,15 +51,15 @@ open class CameraAndStoragePermissionListener(val view: CameraAndStorageViewInte
         view?.showFileChooserGalleryAndCamera()
     }
 
+    private fun showFilePickerWithoutCamera() {
+        view?.showFileChooserOnlyGallery()
+    }
+
     private fun showToastWhenPermissionPermanentlyDenied() {
         view?.onPermissionPermanentlyDenied()
     }
 
     private fun showToastWhenNoStoragePermissionGiven() {
         view?.showToastWithRequestOfPermissions()
-    }
-
-    private fun showFilePickerWithoutCamera() {
-        view?.showFileChooserOnlyGallery()
     }
 }

@@ -11,7 +11,7 @@ import piedel.piotr.thesis.ui.base.Presenter
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 
 interface ImportFromImageDriveContract {
-    interface ImportFromImageDriveView : BaseView, CameraAndStoragePermissionListener.CameraAndStorageViewInterface {
+    interface ImportFromImageDriveView : BaseView {
         fun showError()
 
         fun setImageViewWithBitmap(resource: Bitmap?)
@@ -31,6 +31,8 @@ interface ImportFromImageDriveContract {
         fun errorParsingReceipt()
 
         fun showInsertCompleteToast()
+
+        fun startImagePickerActivity()
     }
 
     interface PresenterContract<T : BaseView> : Presenter<T> {

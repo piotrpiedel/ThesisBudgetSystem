@@ -5,6 +5,8 @@ import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.util.getAnyDateIfStringContainsDate
 import piedel.piotr.thesis.util.parseStringWithCommaSeparatorToDouble
+import piedel.piotr.thesis.util.regexReceiptWord
+import piedel.piotr.thesis.util.regexTwoNumberCommaWhiteSpaceAndLetterA_D
 import piedel.piotr.thesis.util.stringToDate
 import piedel.piotr.thesis.util.toPair
 import java.util.*
@@ -18,7 +20,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
         private set
 
     init {
-        date = Date().stringToDate(getAnyDateIfStringContainsDate(responseString).orEmpty())
+        date = getAnyDateIfStringContainsDate(responseString)?.stringToDate() ?: Date()
         responseString = substringAfterWordsFiscalReceipt()
         val dividedString: List<String> = splitStringToListWithRegexPattern(responseString)
         val operationList = parseOCRDriveOutputToOperations(dividedString)
@@ -32,7 +34,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     }
 
     private fun parseOCRDriveOutputToOperations(dividedString: List<String>): List<Operation> {
-        var pairTitleOperationValueOperation: List<Pair<String, String>> = emptyList()
+        var pairTitleOperationValueOperation: List<Pair<String, String>>
         val operationList: MutableList<Operation> = mutableListOf()
         if (!dividedString.isNullOrEmpty()) {
             pairTitleOperationValueOperation = dividedString.toPair()
@@ -47,7 +49,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
             Operation(pair.second.parseStringWithCommaSeparatorToDouble(), pair.first, OperationType.OUTCOME, date)
 
     private fun substringAfterWordsFiscalReceipt(): String {
-        val regex = Regex("""\b(?i)(paragon fiskalny|fiskalny|paragon)\b""") // (?i) -> ignore case of words to detect
+        val regex = regexReceiptWord()
         regex.find(responseString).let { matchedResult ->
             return matchedResult?.let { notNullMatchResult ->
                 // fun: return substring after occurrence of one of regex above to the end of string
@@ -57,8 +59,8 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     }
 
     private fun splitStringToListWithRegexPattern(substring: String): List<String> {
-        val regexString = """\b\d{1,10}[,]\d{2}\s*(?i)[A-D]{1}\b"""  // (1-10 numbers)(,)(one or more spaces)(one letter A-D)
-        return splitStringKeepingDelimiters(substring, (Regex(regexString)))
+        val regex = regexTwoNumberCommaWhiteSpaceAndLetterA_D()
+        return splitStringKeepingDelimiters(substring, regex)
     }
 
     private fun splitStringKeepingDelimiters(stringToSplit: String, regex: Regex, keep_empty: Boolean = false, addStringAfterLastMatch: Boolean = false): List<String> {

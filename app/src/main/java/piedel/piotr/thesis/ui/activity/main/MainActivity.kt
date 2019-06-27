@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.main
+package piedel.piotr.thesis.ui.activity.main
 
 import android.os.Bundle
 import android.view.Menu

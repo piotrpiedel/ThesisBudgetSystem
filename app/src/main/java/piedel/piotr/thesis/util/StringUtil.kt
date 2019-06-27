@@ -4,6 +4,12 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 
+fun String.suffixAppendToFileNameBeforeExtension(suffixToFile: String): String {
+    val dotIndex = this.lastIndexOf(".");
+    return if (dotIndex == -1) this + suffixToFile;
+    else this.substring(0, dotIndex) + suffixToFile + this.substring(dotIndex);
+}
+
 fun doubleToStringInTwoPlacesAfterComma(doubleToFormat: Double?): String {
     val decimalFormat = DecimalFormat("##.##")
     decimalFormat.roundingMode = RoundingMode.FLOOR
