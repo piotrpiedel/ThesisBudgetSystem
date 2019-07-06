@@ -1,9 +1,0 @@
-{
-  "generator-android-mvp-starter": {
-    "promptValues": {
-      "name": "Thesis",
-      "targetSdk": "25",
-      "minSdk": "24"
-    }
-  }
-}
