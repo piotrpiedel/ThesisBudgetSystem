@@ -105,9 +105,9 @@
     <string name="delete_all_receipts">Usuń wszystkie kwitki</string>
     <string name="outcome_monthly_divided_by_categories">Wydatki - miesięcznie - podzielone na kategorie</string>
     <string name="account_balance">Bilans konta</string>
-    <string name="import_from_image_drive">Importuj operacje z obrazu - Google Drive OCR</string>
-    <string name="import_from_image_drive_ocr_text">Tutaj znajdzie się zaimportowany tekst</string>
-    <string name="load_operations_from_image_drive">Załaduj operacje z obrazu z wykorzystaniem Google Drive OCR: </string>
+    <string name="import_from_image_drive_fragment_title">Importuj operacje z obrazu - Google Drive OCR</string>
+    <string name="import_from_image_drive_ocr_text">Tutaj znajdzie się zaimportowany tekst: </string>
+    <string name="load_operations_from_image_drive_text_view">Załaduj operacje z obrazu z wykorzystaniem Google Drive OCR - zalecane jest ciagle uzywanie lampy blyskowej podczas robienia zdjec dla uzyskania lepszego kontrastu; na zdjeciu powinny sie znalezc slowa paragon fiskalny, data oraz operacje z paragonu </string>
     <string name="google_drive_ocr">Google Drive OCR</string>
     <string name="permission_required_storage_camera_optional">Uprawniena do pamieci wewnetrznej sa obowiazkowe, kamery opcjonalne</string>
 

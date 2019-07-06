@@ -14,8 +14,9 @@
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/global_margin"
         android:gravity="center"
+        android:textSize="12sp"
         android:padding="@dimen/global_text_view_padding"
-        android:text="@string/load_operations_from_html_file" />
+        android:text="@string/load_operations_from_image_drive_text_view" />
 
     <Button
         android:id="@+id/fragment_import_drive_button_load"
@@ -28,23 +29,22 @@
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/import_file_localization_drive"
+        android:id="@+id/text_from_file_ocred_before_creating_operations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_import_drive_button_load"
         android:layout_margin="@dimen/global_margin"
-        android:hint="@string/import_from_image_drive_ocr_text" />
+        android:hint="There is imported operation list for debugging purposes why not imported correctly"
+        android:textSize="12sp" />
 
-    <ImageView
-        android:id="@+id/import_picture_drive"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/text_from_file_ocred_raw"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/import_file_localization_drive"
+        android:layout_below="@+id/text_from_file_ocred_before_creating_operations"
         android:layout_margin="@dimen/global_margin"
-        android:contentDescription="There will be loaded picture"
-        android:maxWidth="200dp"
-        android:maxHeight="200dp"
-        tools:ignore="HardcodedText" />
+        android:hint="Response from google drive ocr whole receipt"
+        android:textSize="12sp" />
 
 
 </RelativeLayout>

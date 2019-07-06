@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.yalantis.ucrop.UCrop
 import droidninja.filepicker.FilePickerConst
 import piedel.piotr.thesis.R
@@ -14,9 +13,7 @@ import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerContract.ImagePick
 import piedel.piotr.thesis.ui.base.BaseActivity
 import piedel.piotr.thesis.util.getImageFilePicker
 import piedel.piotr.thesis.util.showToast
-import piedel.piotr.thesis.util.suffixAppendToFileNameBeforeExtension
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 
@@ -92,23 +89,20 @@ class ImagePickerActivity : BaseActivity(), ImagePickerView {
     }
 
     private fun cropImage(sourcePathToFile: String?) {
-        val uriFromString = Uri.fromFile(File(sourcePathToFile))
-        val destinationUri = Uri.parse(uriFromString.toString().suffixAppendToFileNameBeforeExtension("_crop"))
-        val options = UCrop.Options().apply {
-            setCompressionQuality(imagePickerOptions.imageCompression)
-            setTheme(R.style.AppTheme)
+        if (!sourcePathToFile.isNullOrBlank()) {
+            val uriToModifiedBitmap = imagePickerPresenter.getOriginalToGrayScaleToModifiedBitmap(sourcePathToFile, this)
+            startUcropActivity(uriToModifiedBitmap)
+        } else {
+            Timber.e("cropImage() sourcePathToFile blank or null")
+            setResultCancelled()
         }
-        if (imagePickerOptions.lockAspectRatio)
-            options.withAspectRatio(imagePickerOptions.aspectRatio_X, imagePickerOptions.aspectRatio_Y)
-
-        if (imagePickerOptions.setBitmapMaxWidthHeight)
-            options.withMaxResultSize(imagePickerOptions.bitmapMaxWidth, imagePickerOptions.bitmapMaxHeight)
-
-        UCrop.of(uriFromString, destinationUri)
-                .withOptions(options)
-                .start(this)
     }
 
+    private fun startUcropActivity(uriToModifiedBitmap: Uri) {
+        UCrop.of(uriToModifiedBitmap, uriToModifiedBitmap)
+                .withOptions(imagePickerPresenter.setOptionsFromPassedIntentOrDefault(imagePickerOptions))
+                .start(this)
+    }
 
     private fun handleUCropResult(data: Intent?) {
         if (data == null) {

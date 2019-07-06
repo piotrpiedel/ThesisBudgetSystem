@@ -81,8 +81,10 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                                 view?.showImageContainsNoText()
                                 return@subscribe
                             }
+                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
                             //Fix if not operations contain itd; need to block some of operations on my app
                             val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
+                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
                             if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty())
                                 insertOperation(*googleDriveResponseParser.listOfOperations.toTypedArray())
                             else view?.errorParsingReceipt()
@@ -102,6 +104,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         Timber.d("onComplete insertOperation ")
+
                         view?.showInsertCompleteToast()
                     }
 

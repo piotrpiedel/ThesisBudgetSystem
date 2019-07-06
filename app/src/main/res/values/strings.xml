@@ -19,7 +19,7 @@
     <string name="categoryChildren">Categories</string>
     <string name="navigation_import_operations">Import your operations</string>
     <string name="load_operations_from_html_file">Load operations from html file: </string>
-    <string name="load_operations_from_image_drive">Load operations from image file with Google Drive OCR: </string>
+    <string name="load_operations_from_image_drive_text_view">Import from image Google Drive OCR - recommended to always use camera wish flash for better contrast  </string>
     <string name="button_load">LOAD</string>
     <string name="export">EXPORT</string>
     <string name="export_operations_to_json_file_format">Export operations to JSON file format: </string>
@@ -115,8 +115,8 @@
     <string name="delete_all_receipts">Delete all receipts</string>
     <string name="outcome_monthly_divided_by_categories">Outcome - monthly - divided by categories</string>
     <string name="account_balance">Account balance</string>
-    <string name="import_from_image_drive">Import from image Google Drive OCR</string>
-    <string name="import_from_image_drive_ocr_text">There will be OCRed text</string>
+    <string name="import_from_image_drive_fragment_title">Import from image Google Drive OCR</string>
+    <string name="import_from_image_drive_ocr_text">There will be OCRed text: </string>
     <string name="google_drive_ocr">Google Drive OCR</string>
     <string name="permission_required_storage_camera_optional">The permission are required to get file (storage is necessary, camera optional)</string>
 
