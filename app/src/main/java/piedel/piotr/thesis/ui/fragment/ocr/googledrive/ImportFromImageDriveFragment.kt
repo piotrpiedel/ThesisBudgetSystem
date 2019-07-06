@@ -1,9 +1,7 @@
 package piedel.piotr.thesis.ui.fragment.ocr.googledrive
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
@@ -20,22 +18,21 @@ import piedel.piotr.thesis.data.buildier.ImagePickerActivityOptions
 import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToastLong
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContract.ImportFromImageDriveView {
 
-    @BindView(R.id.import_file_localization_drive)
-    lateinit var importedTextFromOcr: TextView
+    @BindView(R.id.text_from_file_ocred_raw)
+    lateinit var importedTextFromOcrRaw: TextView
 
-    @BindView(R.id.import_picture_drive)
-    lateinit var receiptPictureOCRLoaded: ImageView
+    @BindView(R.id.text_from_file_ocred_before_creating_operations)
+    lateinit var importedTextDividedStringForDebug: TextView
 
     override val layout: Int
         get() = R.layout.fragment_import_from_image_drive_ocr
     override val toolbarTitle: String
-        get() = context?.getString(R.string.import_from_image_drive).toString()
+        get() = context?.getString(R.string.import_from_image_drive_fragment_title).toString()
 
     @Inject
     lateinit var importFromImageDrivePresenter: ImportFromImageDrivePresenter
@@ -76,10 +73,6 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
         return GoogleSignIn.getLastSignedInAccount(requireContext())
     }
 
-    override fun setImageViewWithBitmap(resource: Bitmap?) {
-        receiptPictureOCRLoaded.setImageBitmap(resource)
-    }
-
     override fun showError() {
         Toast.makeText(context, getString(R.string.something_went_wrong_try_again_later), Toast.LENGTH_SHORT).show()
     }
@@ -99,6 +92,14 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
 
     override fun showInsertCompleteToast() {
         Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun setImportedTextFromImage(plainTextFromOutputStream: String) {
+        importedTextFromOcrRaw.text = plainTextFromOutputStream
+    }
+
+    override fun setDividedStringOnlyForDebuggingPurposes(dividedStringPublicForDebugging: List<String>) {
+        importedTextDividedStringForDebug.text = dividedStringPublicForDebugging.toString()
     }
 
     override fun startImagePickerActivity() {

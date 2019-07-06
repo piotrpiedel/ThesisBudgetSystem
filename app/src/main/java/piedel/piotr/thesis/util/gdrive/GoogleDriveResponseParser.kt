@@ -3,28 +3,60 @@ package piedel.piotr.thesis.util.gdrive
 import piedel.piotr.thesis.data.model.drive.GoogleDriveResponseHolder
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
-import piedel.piotr.thesis.util.getAnyDateIfStringContainsDate
-import piedel.piotr.thesis.util.parseStringWithCommaSeparatorToDouble
-import piedel.piotr.thesis.util.regexReceiptWord
-import piedel.piotr.thesis.util.regexTwoNumberCommaWhiteSpaceAndLetterA_D
-import piedel.piotr.thesis.util.stringToDate
-import piedel.piotr.thesis.util.toPair
+import piedel.piotr.thesis.util.*
 import java.util.*
 
 
+@Suppress("FunctionName")
 class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHolder) {
 
     private var responseString: String = googleDriveResponseHolder.plainTextFromOutputStream
     private var date: Date? = null
+    var dividedStringPublicForDebugging: List<String> = mutableListOf()
     var listOfOperations: MutableList<Operation> = mutableListOf()
         private set
 
     init {
         date = getAnyDateIfStringContainsDate(responseString)?.stringToDate() ?: Date()
-        responseString = substringAfterWordsFiscalReceipt()
-        val dividedString: List<String> = splitStringToListWithRegexPattern(responseString)
+        responseString = substringAfterWordsFiscalReceiptOrDefault()
+        var dividedString: List<String> = firstRegex()
+        // return result only if first regex fail, because this may cause problems and first one is more secure way
+        // if not empty return default
+        //TODO: invent some other way?
+        dividedString = secondRegexIfFirstFails(dividedString)
+
+        //return result only if first&&second regex fail, because this will probably split in wrong way, but still better to try
+        // if not empty return default
+        //TODO: invent some other way?
+        dividedString = thirdRegexOnlyIfSecondAndFirstFails(dividedString)
+
+        dividedStringPublicForDebugging = dividedString
         val operationList = parseOCRDriveOutputToOperations(dividedString)
         addResultToOperationList(operationList)
+    }
+
+    private fun firstRegex(): List<String> {
+        return splitToListWithRegexPattern(responseString, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D())
+    }
+
+    private fun secondRegexIfFirstFails(dividedString: List<String>): List<String> {
+        return splitIfPassedListEmptyOrReturnOrigin(dividedString, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D())
+    }
+
+    private fun thirdRegexOnlyIfSecondAndFirstFails(dividedString: List<String>): List<String> {
+        return splitIfPassedListEmptyOrReturnOrigin(dividedString, regexOneToTenDigitsDotOrCommaWThreeDigits())
+    }
+
+    private fun splitIfPassedListEmptyOrReturnOrigin(dividedListOfStrings: List<String>, regex: Regex): List<String> {
+        if (dividedListOfStrings.isEmpty()) {
+            //TODO: invent some other workaround
+            return splitToListWithRegexPattern(responseString, regex)
+        }
+        return dividedListOfStrings
+    }
+
+    private fun splitToListWithRegexPattern(responseString: String, regex: Regex): List<String> {
+        return splitStringKeepingDelimiters(responseString, regex)
     }
 
     private fun addResultToOperationList(operationList: List<Operation>) {
@@ -34,7 +66,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     }
 
     private fun parseOCRDriveOutputToOperations(dividedString: List<String>): List<Operation> {
-        var pairTitleOperationValueOperation: List<Pair<String, String>>
+        val pairTitleOperationValueOperation: List<Pair<String, String>>
         val operationList: MutableList<Operation> = mutableListOf()
         if (!dividedString.isNullOrEmpty()) {
             pairTitleOperationValueOperation = dividedString.toPair()
@@ -48,7 +80,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     private fun createOperationFromPair(pair: Pair<String, String>) =
             Operation(pair.second.parseStringWithCommaSeparatorToDouble(), pair.first, OperationType.OUTCOME, date)
 
-    private fun substringAfterWordsFiscalReceipt(): String {
+    private fun substringAfterWordsFiscalReceiptOrDefault(): String {
         val regex = regexReceiptWord()
         regex.find(responseString).let { matchedResult ->
             return matchedResult?.let { notNullMatchResult ->
@@ -58,10 +90,6 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
         }
     }
 
-    private fun splitStringToListWithRegexPattern(substring: String): List<String> {
-        val regex = regexTwoNumberCommaWhiteSpaceAndLetterA_D()
-        return splitStringKeepingDelimiters(substring, regex)
-    }
 
     private fun splitStringKeepingDelimiters(stringToSplit: String, regex: Regex, keep_empty: Boolean = false, addStringAfterLastMatch: Boolean = false): List<String> {
         val listOfStringDividedByDelimiter = mutableListOf<String>() // Declare the mutable list var
