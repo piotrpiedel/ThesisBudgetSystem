@@ -12,5 +12,5 @@ void root(const uchar4 *v_in, uchar4 *v_out) {
 }
 
 void init(){
-	rsDebug("Called init", rsUptimeMillis());
+	rsDebug("Called init grayscale", rsUptimeMillis());
 }

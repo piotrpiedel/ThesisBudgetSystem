@@ -7,8 +7,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import piedel.piotr.thesis.exception.ProcessorException
 import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface
-import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.BINARIZE
-import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.GRAYSCALE
+import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.*
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
@@ -31,6 +30,20 @@ fun Bitmap.bitmapToGrayScale(): Bitmap {
     paint.colorFilter = f
     c.drawBitmap(this, 0F, 0F, paint)
     return bmpGrayScale
+}
+
+// context may be activity, baseApplicationContext or Fragment
+fun Bitmap.autoBrightnessUsingRenderScript(context: Context): Bitmap {
+    val processorInterface = ProcessorInterface.getProcessorInterfaceInstance(context)
+    try {
+        Timber.d("bitmap got brightened using Image Util")
+        return processorInterface.processBitmapWithImageProcessor(this, BRIGHTNESS)
+    } catch (e: ProcessorException) {
+        e.printStackTrace()
+        Timber.e(e, "toGrayScaleUsingRenderScript")
+        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        return this
+    }
 }
 
 // context may be activity, baseApplicationContext or Fragment
