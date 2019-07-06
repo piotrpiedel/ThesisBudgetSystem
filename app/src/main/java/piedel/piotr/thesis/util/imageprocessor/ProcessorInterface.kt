@@ -5,8 +5,7 @@ import android.graphics.Bitmap
 import android.renderscript.RSRuntimeException
 import android.renderscript.RenderScript
 import piedel.piotr.thesis.exception.ProcessorException
-import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.BINARIZE
-import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.GRAYSCALE
+import piedel.piotr.thesis.util.imageprocessor.ProcessorInterface.ProcessorType.*
 import timber.log.Timber
 
 //  use singleton pattern to ensure there is only one processorInterface and renderScriptInstance
@@ -29,7 +28,7 @@ class ProcessorInterface private constructor(context: Context) {
         when (processorType) {
             BINARIZE -> imageProcessor = BinarizeProcessor(renderScriptInstance)
             GRAYSCALE -> imageProcessor = GrayScaleProcessor(renderScriptInstance)
-            //            ProcessorInterface.ProcessorType.SOBEL -> processorInterface = SobelProcessor(renderScriptInstance)
+            BRIGHTNESS -> imageProcessor = BrightnessProcessor(renderScriptInstance)
             else -> throw ProcessorException(ProcessorException.UNKNOWN_PROCESSOR_TYPE)
         }
 
@@ -44,7 +43,7 @@ class ProcessorInterface private constructor(context: Context) {
     }
 
     enum class ProcessorType {
-        BINARIZE, GRAYSCALE
+        BINARIZE, GRAYSCALE, BRIGHTNESS
         //, SOBEL
     }
 }
