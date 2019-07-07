@@ -10,11 +10,11 @@ class ThresholdAdaptive(renderScriptInstance: RenderScript) : SuperProcessor(ren
         val inputAllocation = Allocation.createFromBitmap(renderScriptInstance, inputBitmap)
         val outputAllocation = Allocation.createFromBitmap(renderScriptInstance, outputBitmap)
         val thresholdAdaptiveScript = ScriptC_thresholdadaptive(renderScriptInstance)
-        thresholdAdaptiveScript.set_kernelSize(blockSize);
-        thresholdAdaptiveScript.set_imgIn(mInAllocation);
-        thresholdAdaptiveScript.set_width(bmp.getWidth());
-        thresholdAdaptiveScript.set_thresholdValue(15);
-        thresholdAdaptiveScript.set_thresholdMaxValue(255);
+        thresholdAdaptiveScript._kernelSize = 15;
+        thresholdAdaptiveScript._imgIn = inputAllocation;
+        thresholdAdaptiveScript._width = inputBitmap.width.toLong();
+        thresholdAdaptiveScript._height = inputBitmap.height.toLong();
+        thresholdAdaptiveScript._thresholdMaxValue = 255.0f;
 
         //for each root fun which is working for every bit
         thresholdAdaptiveScript.forEach_root(inputAllocation, outputAllocation)
