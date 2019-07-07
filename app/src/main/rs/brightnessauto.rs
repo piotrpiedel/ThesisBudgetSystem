@@ -1,7 +1,7 @@
 #pragma version(1)
 #pragma rs java_package_name(piedel.piotr.thesis.util.imageprocessor)
 
-float brightness = 0.175;
+float brightness = 0.25;
 
 void root(const uchar4 *v_in, uchar4 *v_out) {
     float4 f4 = rsUnpackColor8888(*v_in);

@@ -47,6 +47,20 @@ fun Bitmap.autoBrightnessUsingRenderScript(context: Context): Bitmap {
 }
 
 // context may be activity, baseApplicationContext or Fragment
+fun Bitmap.thresholdAdaptiveUsingRenderScript(context: Context): Bitmap {
+    val processorInterface = ProcessorInterface.getProcessorInterfaceInstance(context)
+    try {
+        Timber.d("bitmap got brightened using Image Util")
+        return processorInterface.processBitmapWithImageProcessor(this, THRESHOLD_ADAPTIVE)
+    } catch (e: ProcessorException) {
+        e.printStackTrace()
+        Timber.e(e, "toGrayScaleUsingRenderScript")
+        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        return this
+    }
+}
+
+// context may be activity, baseApplicationContext or Fragment
 fun Bitmap.toGrayScaleUsingRenderScript(context: Context): Bitmap {
     val processorInterface = ProcessorInterface.getProcessorInterfaceInstance(context)
     try {
