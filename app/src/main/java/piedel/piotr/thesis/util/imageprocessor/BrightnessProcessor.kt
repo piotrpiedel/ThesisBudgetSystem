@@ -12,7 +12,6 @@ class BrightnessProcessor(renderScriptInstance: RenderScript) : SuperProcessor(r
         val brightnessScript = ScriptC_brightnessauto(renderScriptInstance)
 
         //for each root fun which is working for every bit
-        // TODO: check how exactly this work
         brightnessScript.forEach_root(inputAllocation, outputAllocation)
         outputAllocation.copyTo(outputBitmap)
 

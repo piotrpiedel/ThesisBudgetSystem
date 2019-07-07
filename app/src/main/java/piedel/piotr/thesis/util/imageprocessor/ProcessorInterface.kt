@@ -29,6 +29,7 @@ class ProcessorInterface private constructor(context: Context) {
             BINARIZE -> imageProcessor = BinarizeProcessor(renderScriptInstance)
             GRAYSCALE -> imageProcessor = GrayScaleProcessor(renderScriptInstance)
             BRIGHTNESS -> imageProcessor = BrightnessProcessor(renderScriptInstance)
+            THRESHOLD_ADAPTIVE -> imageProcessor = ThresholdAdaptive(renderScriptInstance)
             else -> throw ProcessorException(ProcessorException.UNKNOWN_PROCESSOR_TYPE)
         }
 
@@ -43,7 +44,7 @@ class ProcessorInterface private constructor(context: Context) {
     }
 
     enum class ProcessorType {
-        BINARIZE, GRAYSCALE, BRIGHTNESS
+        BINARIZE, GRAYSCALE, BRIGHTNESS, THRESHOLD_ADAPTIVE
         //, SOBEL
     }
 }
