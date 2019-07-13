@@ -11,6 +11,7 @@ import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.chart.piechart.PieCharFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationaddlist.OperationAddListFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
@@ -49,5 +50,7 @@ interface FragmentComponent {
     fun inject(pieCharFragment: PieCharFragment)
 
     fun inject(importFromImageDriveFragment: ImportFromImageDriveFragment)
+
+    fun inject(operationAddListFragment: OperationAddListFragment)
 
 }
