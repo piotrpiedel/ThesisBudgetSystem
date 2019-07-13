@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import piedel.piotr.thesis.R
+import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
@@ -24,6 +25,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     @BindView(R.id.recycler_view_operations)
     lateinit var operationsRecyclerView: RecyclerView
 
+    private var operationArrayList: ArrayList<Operation>? = null
 
     override val toolbarTitle: String
         get() = context?.getString(R.string.operations_list).toString()
@@ -35,6 +37,10 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
         operationAddListPresenter.attachView(this)
+        setMenuEnabled()
+    }
+
+    private fun setMenuEnabled() {
         setHasOptionsMenu(true)
     }
 
@@ -58,13 +64,19 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        operationAddListPresenter.initFragment()
+        operationArrayList = arguments?.getParcelableArrayList(OPERATION_LIST_PASSED)
+        operationAddListPresenter.initFragment(operationArrayList)
+
     }
 
     override fun setOperationsRecyclerView() {
         operationsRecyclerView.layoutManager = LinearLayoutManager(context)
     }
 
+    override fun setAdapter() {
+        operationsRecyclerView.adapter = operationAddListAdapter
+//        operationAdapter.setClickListener(this)
+    }
 
     override fun showError(throwable: Throwable) {
         showToast(requireContext(), getString(R.string.there_is_problem_with_operations_tr_again_later))
@@ -72,5 +84,15 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     companion object {
         const val FRAGMENT_TAG: String = "OperationAddListFragment"
+        const val OPERATION_LIST_PASSED: String = "OPERATION_KEY"
+
+        fun newInstance(operationList: ArrayList<Operation>): OperationAddListFragment {
+            val operationAddListFragment = OperationAddListFragment()
+            val args = Bundle().apply {
+                putParcelableArrayList(OPERATION_LIST_PASSED, operationList)
+            }
+            operationAddListFragment.arguments = args
+            return operationAddListFragment
+        }
     }
 }
