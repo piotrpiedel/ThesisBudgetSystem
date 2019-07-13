@@ -3,6 +3,7 @@ package piedel.piotr.thesis.ui.fragment.receipt.receiptlist
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -41,9 +42,9 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
         setHasOptionsMenu(true)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.delete_all_operations)?.isVisible = false
-        super.onPrepareOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.fragment_receipt_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

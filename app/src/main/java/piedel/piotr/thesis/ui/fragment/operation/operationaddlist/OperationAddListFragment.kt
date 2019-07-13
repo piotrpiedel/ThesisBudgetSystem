@@ -2,6 +2,7 @@ package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,14 +39,21 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.delete_all_receipts)?.isVisible = false
         super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.fragment_operation_add_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
-            R.id.delete_all_operations -> {
-                operationAddListPresenter.deleteAllOperationsAction()
+            R.id.save_action -> {
+                true
+            }
+            R.id.cancel_action -> {
+                activity?.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

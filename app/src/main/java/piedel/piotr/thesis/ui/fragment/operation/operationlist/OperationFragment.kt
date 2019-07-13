@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -47,9 +48,9 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
         setHasOptionsMenu(true)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.delete_all_receipts)?.isVisible = false
-        super.onPrepareOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.fragment_operation_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -125,6 +126,6 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
     }
 
     companion object {
-        const val FRAGMENT_TAG: String = "OperationFragment"
+        const val FRAGMENT_TAG: String = "OperationListFragment"
     }
 }
