@@ -27,7 +27,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     override fun initFragment() {
         checkViewAttached()
         view?.setOperationsRecyclerView()
-        view?.setAdapter()
+//        view?.setAdapter()
         loadOperationsWithCategories()
         loadSummary()
     }
@@ -41,7 +41,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                         summary += item.value
                     }
                     val truncatedSummary = BigDecimal.valueOf(summary).setScale(3, RoundingMode.FLOOR).toDouble()
-                    view?.updateSummary(truncatedSummary)
+//                    view?.updateSummary(truncatedSummary)
                 }, { throwable ->
                     Timber.d(throwable.localizedMessage)
                     view?.showError(throwable)
@@ -50,14 +50,14 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     }
 
     override fun addOperation() {
-        view?.openAddOperationFragment()
+//        view?.openAddOperationFragment()
     }
 
     @SuppressLint("CheckResult")
     override fun loadOperationsWithCategories() {
         disposable = operationRepository.selectAllOperationsWithCategoriesOrderByDateDesc()
                 .subscribe({ operations ->
-                    view?.updateList(operations)
+                    //                    view?.updateList(operations)
                     loadSummary()
                 }, { throwable ->
                     Timber.d(throwable.localizedMessage)
@@ -77,7 +77,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     }
 
     private fun notifyAdapterItemRemoved(itemPosition: Int) {
-        view?.notifyItemRemoved(itemPosition)
+//        view?.notifyItemRemoved(itemPosition)
         loadSummary()
     }
 
@@ -86,7 +86,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                 .subscribe(object : CompletableObserverMain() {
                     override fun onComplete() {
                         val operations = emptyList<OperationCategoryTuple>()
-                        view?.updateList(operations)
+//                        view?.updateList(operations)
                     }
                 })
     }

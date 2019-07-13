@@ -8,19 +8,9 @@ import piedel.piotr.thesis.ui.base.Presenter
 interface OperationAddListContract {
     interface OperationView : BaseView {
 
-        fun openAddOperationFragment()
-
-        fun updateList(operationsList: List<OperationCategoryTuple>)
-
-        fun notifyItemRemoved(itemPosition: Int)
-
         fun showError(throwable: Throwable)
 
         fun setOperationsRecyclerView()
-
-        fun setAdapter()
-
-        fun updateSummary(summary: Double)
 
     }
 
