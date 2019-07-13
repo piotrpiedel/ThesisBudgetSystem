@@ -17,6 +17,7 @@ import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
 import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationaddlist.OperationAddListFragment
 import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
 import piedel.piotr.thesis.util.showToast
@@ -44,8 +45,6 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
     @BindView(R.id.fragment_container_activity_main)
     lateinit var fragmentContainer: View
 
-    var menu: Menu? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getActivityComponent().inject(this)
@@ -54,12 +53,6 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
         setOpenSideBarListener()
         navigationView.setNavigationItemSelectedListener(this)
         mainPresenter.initStartingFragment()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
-        menuInflater.inflate(R.menu.menu_options, menu);
-        return false;
     }
 
     fun getToolbarFromActivity(): Toolbar {
@@ -117,6 +110,11 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                         ImportFromImageDriveFragment(),
                         ImportFromImageDriveFragment.FRAGMENT_TAG)
+            }
+            R.id.navigation_drive_temp -> {
+                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
+                        OperationAddListFragment(),
+                        OperationAddListFragment.FRAGMENT_TAG)
             }
         }
         drawerActivity.closeDrawer(GravityCompat.START)

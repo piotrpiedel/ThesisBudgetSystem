@@ -87,6 +87,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                     override fun onComplete() {
                         val operations = emptyList<OperationCategoryTuple>()
                         view?.updateList(operations)
+                        loadSummary()
                     }
                 })
     }
