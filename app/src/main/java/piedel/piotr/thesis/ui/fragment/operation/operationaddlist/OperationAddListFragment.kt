@@ -38,10 +38,6 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         setHasOptionsMenu(true)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.fragment_operation_add_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater)
