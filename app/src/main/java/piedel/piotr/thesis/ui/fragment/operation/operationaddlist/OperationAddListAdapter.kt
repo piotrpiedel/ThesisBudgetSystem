@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
-import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
@@ -20,13 +18,13 @@ import javax.inject.Inject
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
-    private var operationWithCategoryList: MutableList<OperationCategoryTuple> = mutableListOf()
+    private var operationWithCategoryList: MutableList<Operation> = mutableListOf()
 
     private var adapterListener: OperationAdapteListener? = null
 
-    fun updateListOfOperations(operationListOther: List<OperationCategoryTuple>) {
+    fun updateListOfOperations(operationListOther: List<Operation>?) {
         operationWithCategoryList.clear()
-        operationWithCategoryList.addAll(operationListOther)
+        operationListOther?.let { operationWithCategoryList.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -46,25 +44,25 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
 
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
         val operationItem = operationWithCategoryList[position]
-        holder.operation = operationItem.operation
+        holder.operation = operationItem
 
-        setCategoryTextView(holder, operationItem.categoryChild)
+        setCategoryTextView(holder, operationItem.other_category_id?.toString())
 
-        setDateTextView(holder, operationItem.operation)
+        setDateTextView(holder, operationItem)
 
         holder.titleTextView.text = holder.operation?.title
         holder.valueTextView.text = doubleToStringInTwoPlacesAfterComma(holder.operation?.value)
-        if (operationItem.operation.operationType == OperationType.OUTCOME) {
+        if (operationItem.operationType == OperationType.OUTCOME) {
             holder.valueTextView.setTextColor(Color.RED)
         } else {
             holder.valueTextView.setTextColor(Color.GREEN)
         }
     }
 
-    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: CategoryChild?) {
+    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: String?) {
         holder.operation?.other_category_id?.let {
             holder.categoryTextView.visibility = View.VISIBLE
-            holder.categoryTextView.text = operationItem?.category_title
+            holder.categoryTextView.text = operationItem
         } ?: run {
             holder.categoryTextView.visibility = View.GONE
         }

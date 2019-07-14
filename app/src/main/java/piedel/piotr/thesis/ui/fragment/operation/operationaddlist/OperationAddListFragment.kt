@@ -44,8 +44,20 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         setHasOptionsMenu(true)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        operationArrayList = arguments?.getParcelableArrayList(OPERATION_LIST_PASSED)
+                ?: arrayListOf() // temp
+        operationArrayList?.add(Operation("asfasf"))
+        operationArrayList?.add(Operation("asffas"))
+        operationArrayList?.add(Operation("asfas2eqw"))
+        operationArrayList?.add(Operation("asfas232"))
+        operationArrayList?.add(Operation("asfasfasfas232"))
+        operationAddListPresenter.initFragment(operationArrayList)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.fragment_operation_add_list_menu, menu);
+        inflater?.inflate(R.menu.fragment_operation_add_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -62,19 +74,13 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        operationArrayList = arguments?.getParcelableArrayList(OPERATION_LIST_PASSED)
-        operationAddListPresenter.initFragment(operationArrayList)
-
-    }
-
     override fun setOperationsRecyclerView() {
         operationsRecyclerView.layoutManager = LinearLayoutManager(context)
     }
 
     override fun setAdapter() {
         operationsRecyclerView.adapter = operationAddListAdapter
+        operationAddListAdapter.updateListOfOperations(operationArrayList?.toList())
 //        operationAdapter.setClickListener(this)
     }
 
