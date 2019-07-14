@@ -20,7 +20,7 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
     override fun initFragment(operationArrayList: ArrayList<Operation>?) {
         checkViewAttached()
         view?.setOperationsRecyclerView()
-//        view?.setAdapter()
+        view?.setAdapter()
     }
 
 }
