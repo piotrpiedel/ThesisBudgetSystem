@@ -14,7 +14,7 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
 
-class OperationAddListFragment : BaseFragment(), OperationAddListContract.OperationView {
+class OperationAddListFragment : BaseFragment(), OperationAddListContract.OperationView, OperationAddListAdapter.OperationAdapterListener {
 
     @Inject
     lateinit var operationAddListPresenter: OperationAddListPresenter
@@ -81,7 +81,11 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     override fun setAdapter() {
         operationsRecyclerView.adapter = operationAddListAdapter
         operationAddListAdapter.updateListOfOperations(operationArrayList?.toList())
-//        operationAdapter.setClickListener(this)
+        operationAddListAdapter.setClickListener(this)
+    }
+
+    override fun onOperationItemClicked() {
+
     }
 
     override fun showError(throwable: Throwable) {
