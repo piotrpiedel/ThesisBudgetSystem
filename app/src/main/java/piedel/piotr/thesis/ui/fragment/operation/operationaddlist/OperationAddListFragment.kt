@@ -5,6 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -25,7 +29,9 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     @BindView(R.id.recycler_view_operations)
     lateinit var operationsRecyclerView: RecyclerView
 
-    private var operationArrayList: ArrayList<Operation>? = null
+    private var operationArrayList: ArrayList<Operation> = arrayListOf()
+
+    var tracker: SelectionTracker<Long>? = null
 
     override val toolbarTitle: String
         get() = context?.getString(R.string.operations_list).toString()
@@ -48,12 +54,12 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         super.onViewCreated(view, savedInstanceState)
         operationArrayList = arguments?.getParcelableArrayList(OPERATION_LIST_PASSED)
                 ?: arrayListOf() // temp
-        operationArrayList?.add(Operation("asfasf"))
-        operationArrayList?.add(Operation("asffas"))
-        operationArrayList?.add(Operation("asfas2eqw"))
-        operationArrayList?.add(Operation("asfas232"))
-        operationArrayList?.add(Operation("asfasfasfas232"))
-        operationAddListPresenter.initFragment(operationArrayList)
+        operationArrayList.add(Operation("asfasf"))
+        operationArrayList.add(Operation("asffas"))
+        operationArrayList.add(Operation("asfas2eqw"))
+        operationArrayList.add(Operation("asfas232"))
+        operationArrayList.add(Operation("asfasfasfas232"))
+        operationAddListPresenter.initFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -80,8 +86,20 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     override fun setAdapter() {
         operationsRecyclerView.adapter = operationAddListAdapter
-        operationAddListAdapter.updateListOfOperations(operationArrayList?.toList())
-        operationAddListAdapter.setClickListener(this)
+        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
+        operationAddListAdapter.notifyDataSetChanged()
+        tracker = SelectionTracker.Builder<Long>(
+                "mySelection",
+                operationsRecyclerView,
+                StableIdKeyProvider(operationsRecyclerView),
+                MyItemDetailsLookup(operationsRecyclerView),
+                StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+                SelectionPredicates.createSelectAnything()
+        ).build()
+        operationAddListAdapter.tracker = tracker
+//        operationAddListAdapter.updateListOfOperations(operationArrayList.toList())
+//        operationAddListAdapter.setClickListener(this)
     }
 
     override fun onOperationItemClicked() {
