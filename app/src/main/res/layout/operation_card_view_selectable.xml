@@ -8,14 +8,14 @@
     android:layout_marginStart="@dimen/operation_card_view_margin"
     android:layout_marginTop="@dimen/operation_card_view_margin"
     android:layout_marginEnd="@dimen/operation_card_view_margin"
-    android:background="@drawable/recycle_view_operation_item_selector"
     app:cardCornerRadius="@dimen/operations_card_view_card_corner_radius">
 
     <RelativeLayout
+
         android:id="@+id/operation_card_view_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:background="@drawable/recycle_view_operation_item_selector">
 
         <TextView
             android:id="@+id/operations_value"
