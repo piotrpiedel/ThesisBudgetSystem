@@ -1,6 +1,7 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,6 +14,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -56,6 +58,7 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         val operationItem = operationWithCategoryList[position]
         holder.bind(operationItem)
         tracker?.let {
+            Timber.d("onBindViewHolder() tracker.let ${it.selection}")
             holder.bind(operationItem, it.isSelected(position.toLong()))
         }
     }
@@ -65,14 +68,24 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
     }
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+//        override fun onClick(v: View?) {
+//            if (tracker?.hasSelection() == true) {
+//                tracker?.select(itemId); }
+//        }
+
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
                 object : ItemDetailsLookup.ItemDetails<Long>() {
                     override fun getPosition(): Int = adapterPosition
                     override fun getSelectionKey(): Long? = itemId
+                    override fun inSelectionHotspot(e: MotionEvent): Boolean {
+                        return true
+                    }
                 }
 
         fun bind(operationItem: Operation, isActivated: Boolean = false) {
             itemView.isActivated = isActivated
+            Timber.d("bind() isActivated %s", isActivated)
             setCategoryTextView(this, operationItem)
             setDateTextView(this, operationItem)
             titleTextView.text = operationItem.title
@@ -111,7 +124,7 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
 
         init {
             ButterKnife.bind(this, itemView)
-            itemView.setOnClickListener { adapterAddListListener.onOperationItemClicked() }
+//            itemView.setOnClickListener { adapterAddListListener.onOperationItemClicked() }
         }
     }
 }

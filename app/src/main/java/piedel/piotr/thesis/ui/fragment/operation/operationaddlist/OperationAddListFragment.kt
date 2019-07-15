@@ -16,6 +16,7 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
+import timber.log.Timber
 import javax.inject.Inject
 
 class OperationAddListFragment : BaseFragment(), OperationAddListContract.OperationView, OperationAddListAdapter.OperationAdapterListener {
@@ -88,6 +89,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         operationsRecyclerView.adapter = operationAddListAdapter
         operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
         operationAddListAdapter.notifyDataSetChanged()
+        Timber.d("setAdapter()")
         tracker = SelectionTracker.Builder<Long>(
                 "mySelection",
                 operationsRecyclerView,
@@ -97,6 +99,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         ).withSelectionPredicate(
                 SelectionPredicates.createSelectAnything()
         ).build()
+
         operationAddListAdapter.tracker = tracker
 //        operationAddListAdapter.updateListOfOperations(operationArrayList.toList())
 //        operationAddListAdapter.setClickListener(this)
