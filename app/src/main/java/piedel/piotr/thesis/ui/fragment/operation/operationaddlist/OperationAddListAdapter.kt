@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -16,9 +18,15 @@ import javax.inject.Inject
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
-    private var operationWithCategoryList: MutableList<Operation> = mutableListOf()
+    var tracker: SelectionTracker<Long>? = null
+
+    var operationWithCategoryList: MutableList<Operation> = mutableListOf()
 
     private lateinit var adapterAddListListener: OperationAdapterListener
+
+    init {
+        setHasStableIds(true)
+    }
 
     fun updateListOfOperations(operationListOther: List<Operation>?) {
         operationWithCategoryList.clear()
@@ -32,7 +40,7 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.operation_card_view, parent, false)
+                .inflate(R.layout.operation_card_view_selectable, parent, false)
         return OperationViewHolder(view)
     }
 
@@ -40,29 +48,15 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         return operationWithCategoryList.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
         val operationItem = operationWithCategoryList[position]
-        setCategoryTextView(holder, operationItem)
-        setDateTextView(holder, operationItem)
-        holder.titleTextView.text = operationItem.title
-        holder.valueTextView.text = doubleToStringInTwoPlacesAfterComma(operationItem.value)
-    }
-
-    private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Operation?) {
-        operationItem?.other_category_id?.let {
-            holder.categoryTextView.visibility = View.VISIBLE
-            holder.categoryTextView.text = operationItem.other_category_id.toString()
-        } ?: run {
-            holder.categoryTextView.visibility = View.GONE
-        }
-    }
-
-    private fun setDateTextView(holder: OperationViewHolder, operationItem: Operation?) {
-        operationItem?.date?.let {
-            holder.dateTextView.visibility = View.VISIBLE
-            holder.dateTextView.text = operationItem?.date?.let { date -> dateToDayMonthYearFormatString(date) }
-        } ?: run {
-            holder.dateTextView.visibility = View.GONE
+        holder.bind(operationItem)
+        tracker?.let {
+            holder.bind(operationItem, it.isSelected(position.toLong()))
         }
     }
 
@@ -71,6 +65,38 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
     }
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+                object : ItemDetailsLookup.ItemDetails<Long>() {
+                    override fun getPosition(): Int = adapterPosition
+                    override fun getSelectionKey(): Long? = itemId
+                }
+
+        fun bind(operationItem: Operation, isActivated: Boolean = false) {
+            itemView.isActivated = isActivated
+            setCategoryTextView(this, operationItem)
+            setDateTextView(this, operationItem)
+            titleTextView.text = operationItem.title
+            valueTextView.text = doubleToStringInTwoPlacesAfterComma(operationItem.value)
+        }
+
+        private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Operation?) {
+            operationItem?.other_category_id?.let {
+                holder.categoryTextView.visibility = View.VISIBLE
+                holder.categoryTextView.text = operationItem.other_category_id.toString()
+            } ?: run {
+                holder.categoryTextView.visibility = View.GONE
+            }
+        }
+
+        private fun setDateTextView(holder: OperationViewHolder, operationItem: Operation?) {
+            operationItem?.date?.let {
+                holder.dateTextView.visibility = View.VISIBLE
+                holder.dateTextView.text = operationItem.date?.let { date -> dateToDayMonthYearFormatString(date) }
+            } ?: run {
+                holder.dateTextView.visibility = View.GONE
+            }
+        }
+
         @BindView(R.id.operations_title)
         lateinit var titleTextView: TextView
 

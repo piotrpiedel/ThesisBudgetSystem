@@ -34,6 +34,7 @@ ext {
             cardView         : "androidx.cardview:cardview:$versions.androidx",
             appcompat        : "androidx.appcompat:appcompat:$versions.androidx",
             recyclerView     : "androidx.recyclerview:recyclerview:$versions.androidx",
+            recyclerViewSelection : "androidx.recyclerview:recyclerview-selection:$versions.androidx",
             supportAnnotation: "androidx.annotation:annotation:$versions.androidx",
             multiDex         : "androidx.multidex:multidex:$versions.multiDex"
     ]

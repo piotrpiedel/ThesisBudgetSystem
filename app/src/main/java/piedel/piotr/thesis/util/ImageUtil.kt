@@ -47,6 +47,20 @@ fun Bitmap.autoBrightnessUsingRenderScript(context: Context): Bitmap {
 }
 
 // context may be activity, baseApplicationContext or Fragment
+fun Bitmap.applyGaussianBlur(context: Context): Bitmap {
+    val processorInterface = ProcessorInterface.getProcessorInterfaceInstance(context)
+    try {
+        Timber.d("bitmap got blurred with Gaussian Blur using Image Util")
+        return processorInterface.processBitmapWithImageProcessor(this, GAUSSIAN_BLUR)
+    } catch (e: ProcessorException) {
+        e.printStackTrace()
+        Timber.e(e, "applyGaussianBlur()")
+        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        return this
+    }
+}
+
+// context may be activity, baseApplicationContext or Fragment
 fun Bitmap.thresholdAdaptiveUsingRenderScript(context: Context): Bitmap {
     val processorInterface = ProcessorInterface.getProcessorInterfaceInstance(context)
     try {
