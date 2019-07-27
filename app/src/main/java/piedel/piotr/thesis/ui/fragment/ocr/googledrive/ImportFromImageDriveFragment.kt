@@ -45,15 +45,15 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
 
     @OnClick(R.id.fragment_import_drive_button_load)
     fun onLoadButtonClicked() {
-        checkIfSignInWithAccount()
+        signInWithAccount()
+    }
+
+    private fun signInWithAccount() {
+        importFromImageDrivePresenter.signWithAccountAndLoadImage()
     }
 
     override fun checkPermissionsAndOpenFilePicker() {
         importFromImageDrivePresenter.checkPermissions(requireActivity())
-    }
-
-    private fun checkIfSignInWithAccount() {
-        importFromImageDrivePresenter.signWithAccount()
     }
 
     override fun requestSignIn(signInOptions: GoogleSignInOptions) {
@@ -69,7 +69,7 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
         return GoogleAccountCredential.usingOAuth2(requireContext(), listOf(DriveScopes.DRIVE_FILE))
     }
 
-    override fun getAlreadySignedAccount(): GoogleSignInAccount? {
+    override fun getAccountIfAlreadySigned(): GoogleSignInAccount? {
         return GoogleSignIn.getLastSignedInAccount(requireContext())
     }
 

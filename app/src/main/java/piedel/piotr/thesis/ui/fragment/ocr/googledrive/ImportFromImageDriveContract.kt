@@ -18,7 +18,7 @@ interface ImportFromImageDriveContract {
 
         fun getGoogleAccountCredentialUsingOAuth2(): GoogleAccountCredential
 
-        fun getAlreadySignedAccount(): GoogleSignInAccount?
+        fun getAccountIfAlreadySigned(): GoogleSignInAccount?
 
         fun errorNetworkConnection()
 
@@ -38,7 +38,7 @@ interface ImportFromImageDriveContract {
     interface PresenterContract<T : BaseView> : Presenter<T> {
         fun checkPermissions(fragmentActivity: FragmentActivity)
 
-        fun signWithAccount()
+        fun signWithAccountAndLoadImage()
 
         fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     }

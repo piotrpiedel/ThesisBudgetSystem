@@ -35,7 +35,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
 
     private var mDriveServiceHelper: DriveServiceHelper? = null
     private var disposable: Disposable? = null
-
+    private var signedAccountInstance: GoogleSignInAccount? = null
 
     override fun checkPermissions(fragmentActivity: FragmentActivity) {
         showImagePickerOptions()
@@ -69,7 +69,6 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     }
 
     private fun createObservableOfOCRResult(stringPath: String?) {
-
         disposable = mDriveServiceHelper?.uploadImageFileToRootFolder(stringPath)
                 ?.flatMap { fileLocatedOnGoogleDrive ->
                     mDriveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
@@ -118,17 +117,18 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                 })
     }
 
-    override fun signWithAccount() {
-        val signedAccount: GoogleSignInAccount? = view?.getAlreadySignedAccount()
-        signedAccount?.let {
-            createDriveServiceHelper(signedAccount) // with already signed account
-        } ?: run {
-            view?.requestSignIn(getSignInOptions()) // request sign in and handle result
+    override fun signWithAccountAndLoadImage() {
+        signedAccountInstance = view?.getAccountIfAlreadySigned()
+        if (signedAccountInstance == null) {
+            // request sign in and handle result
             // in handleSignInRequestResult(result: Intent) function
+            view?.requestSignIn(getGoogleDriveSignInOptions())
+        } else {
+            createDriveServiceHelper(signedAccountInstance)
         }
     }
 
-    private fun getSignInOptions(): GoogleSignInOptions {
+    private fun getGoogleDriveSignInOptions(): GoogleSignInOptions {
         return GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -139,7 +139,8 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     private fun handleSignInRequestResult(result: Intent) {
         GoogleSignIn.getSignedInAccountFromIntent(result)
                 .addOnSuccessListener { googleAccount ->
-                    createDriveServiceHelper(googleAccount)
+                    signedAccountInstance = googleAccount
+                    createDriveServiceHelper(signedAccountInstance)
                 }
                 .addOnFailureListener { exception ->
                     Timber.e(exception, "Unable to sign in ")
