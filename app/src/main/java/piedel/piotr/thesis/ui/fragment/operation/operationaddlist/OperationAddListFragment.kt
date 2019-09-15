@@ -32,8 +32,6 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     private var operationArrayList: ArrayList<Operation> = arrayListOf()
 
-    var tracker: SelectionTracker<Long>? = null
-
     override val toolbarTitle: String
         get() = context?.getString(R.string.operations_list).toString()
 
@@ -90,17 +88,6 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
         operationAddListAdapter.notifyDataSetChanged()
         Timber.d("setAdapter()")
-        tracker = SelectionTracker.Builder<Long>(
-                "mySelection",
-                operationsRecyclerView,
-                StableIdKeyProvider(operationsRecyclerView),
-                MyItemDetailsLookup(operationsRecyclerView),
-                StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-                SelectionPredicates.createSelectAnything()
-        ).build()
-
-        operationAddListAdapter.tracker = tracker
 //        operationAddListAdapter.updateListOfOperations(operationArrayList.toList())
 //        operationAddListAdapter.setClickListener(this)
     }

@@ -69,12 +69,6 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> = object : ItemDetailsLookup.ItemDetails<Long>() {
-            override fun getPosition(): Int = adapterPosition
-            override fun getSelectionKey(): Long? = itemId
-            override fun inSelectionHotspot(e: MotionEvent): Boolean = true
-        }
-
         fun bind(operationItem: Operation, isActivated: Boolean = false) {
             itemView.isActivated = isActivated
             Timber.d("bind() isActivated %s", isActivated)
