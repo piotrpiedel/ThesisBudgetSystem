@@ -1,26 +1,23 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
+import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
-import timber.log.Timber
 import javax.inject.Inject
 
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
-    var operationWithCategoryList: MutableList<Operation> = mutableListOf()
+    var operationWithCategoryList: MutableList<OperationSelectable> = mutableListOf()
 
     private lateinit var adapterAddListListener: OperationAdapterListener
 
@@ -28,7 +25,7 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         setHasStableIds(true)
     }
 
-    fun updateListOfOperations(operationListOther: List<Operation>?) {
+    fun updateListOfOperations(operationListOther: List<OperationSelectable>?) {
         operationWithCategoryList.clear()
         operationListOther?.let { operationWithCategoryList.addAll(it) }
         notifyDataSetChanged()
@@ -63,14 +60,15 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(operationItem: Operation, isActivated: Boolean = false) {
+        fun bind(operationItem: OperationSelectable) {
+            operationItem.selected = false
             setCategoryTextView(this, operationItem)
             setDateTextView(this, operationItem)
             titleTextView.text = operationItem.title
             valueTextView.text = doubleToStringInTwoPlacesAfterComma(operationItem.value)
         }
 
-        private fun setCategoryTextView(holder: OperationViewHolder, operationItem: Operation?) {
+        private fun setCategoryTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
             operationItem?.other_category_id?.let {
                 holder.categoryTextView.visibility = View.VISIBLE
                 holder.categoryTextView.text = operationItem.other_category_id.toString()
@@ -79,7 +77,7 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
             }
         }
 
-        private fun setDateTextView(holder: OperationViewHolder, operationItem: Operation?) {
+        private fun setDateTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
             operationItem?.date?.let {
                 holder.dateTextView.visibility = View.VISIBLE
                 holder.dateTextView.text = operationItem.date?.let { date -> dateToDayMonthYearFormatString(date) }

@@ -13,11 +13,11 @@ import java.util.*
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
         )])
-data class Operation(var value: Double = 123456.1,
-                     var title: String? = "Empty Constructor",
-                     var operationType: OperationType = OperationType.OUTCOME,
-                     var date: Date? = Date(),
-                     var other_category_id: Int? = 1) : Parcelable { //null without category
+data class Operation(override var value: Double = 123456.1,
+                     override var title: String? = "Empty Constructor",
+                     override var operationType: OperationType = OperationType.OUTCOME,
+                     override var date: Date? = Date(),
+                     override var other_category_id: Int? = 1) : Parcelable, OperationBase { //null without category
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -61,7 +61,6 @@ data class Operation(var value: Double = 123456.1,
         }
     }
 }
-
 
 data class OperationValueOperationType(var value: Double, var operationType: OperationType)
 
