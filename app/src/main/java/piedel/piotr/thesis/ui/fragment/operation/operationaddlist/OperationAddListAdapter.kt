@@ -20,8 +20,6 @@ import javax.inject.Inject
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
-    var tracker: SelectionTracker<Long>? = null
-
     var operationWithCategoryList: MutableList<Operation> = mutableListOf()
 
     private lateinit var adapterAddListListener: OperationAdapterListener
@@ -57,10 +55,6 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
         val operationItem = operationWithCategoryList[position]
         holder.bind(operationItem)
-        tracker?.let {
-            Timber.d("onBindViewHolder() tracker.let ${it.selection}")
-            holder.bind(operationItem, it.isSelected(position.toLong()))
-        }
     }
 
     interface OperationAdapterListener {
@@ -70,8 +64,6 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(operationItem: Operation, isActivated: Boolean = false) {
-            itemView.isActivated = isActivated
-            Timber.d("bind() isActivated %s", isActivated)
             setCategoryTextView(this, operationItem)
             setDateTextView(this, operationItem)
             titleTextView.text = operationItem.title

@@ -9,10 +9,10 @@ import piedel.piotr.thesis.util.readDate
 import java.util.*
 
 @Entity(tableName = "operation_table",
-        foreignKeys = arrayOf(ForeignKey(entity = CategoryChild::class,
+        foreignKeys = [ForeignKey(entity = CategoryChild::class,
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
-        )))
+        )])
 data class Operation(var value: Double = 123456.1,
                      var title: String? = "Empty Constructor",
                      var operationType: OperationType = OperationType.OUTCOME,
@@ -60,8 +60,8 @@ data class Operation(var value: Double = 123456.1,
             return arrayOfNulls(size)
         }
     }
-
 }
+
 
 data class OperationValueOperationType(var value: Double, var operationType: OperationType)
 
