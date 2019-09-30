@@ -85,7 +85,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     override fun setAdapter() {
         operationsRecyclerView.adapter = operationAddListAdapter
-        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
+//        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
         operationAddListAdapter.notifyDataSetChanged()
         Timber.d("setAdapter()")
 //        operationAddListAdapter.updateListOfOperations(operationArrayList.toList())
