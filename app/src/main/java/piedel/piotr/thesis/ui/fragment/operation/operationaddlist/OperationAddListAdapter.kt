@@ -3,17 +3,15 @@ package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
-import butterknife.ButterKnife
 import piedel.piotr.thesis.R
-import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
 import javax.inject.Inject
-
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
@@ -58,10 +56,17 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         fun onOperationItemClicked()
     }
 
-    inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+     class OperationViewHolder(itemView: View, val onItemSelectedListener: AdapterView.OnItemSelectedListener) : RecyclerView.ViewHolder(itemView) {
+
+         companion object {
+             private val MULTI_SELECTION = 2
+             val SINGLE_SELECTION = 1
+         }
+
+        var selectable: OperationSelectable? = null
 
         fun bind(operationItem: OperationSelectable) {
-            operationItem.selected = false
+            selectable = operationItem
             setCategoryTextView(this, operationItem)
             setDateTextView(this, operationItem)
             titleTextView.text = operationItem.title
@@ -98,9 +103,18 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         @BindView(R.id.operations_date)
         lateinit var dateTextView: TextView
 
-        init {
-            ButterKnife.bind(this, itemView)
-//            itemView.setOnClickListener { adapterAddListListener.onOperationItemClicked() }
-        }
+
+//        init {
+//            ButterKnife.bind(this, itemView)
+//            itemView.setOnClickListener(View.OnClickListener {
+//                if (mItem.isSelected() && itemViewType === MULTI_SELECTION) {
+//                    setChecked(false)
+//                } else {
+//                    setChecked(true)
+//                }
+//                itemSelectedListener.onItemSelected(mItem)
+//            })
+//        }
     }
+
 }
