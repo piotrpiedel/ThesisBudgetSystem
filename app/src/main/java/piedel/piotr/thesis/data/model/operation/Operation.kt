@@ -17,7 +17,7 @@ data class Operation(override var value: Double = 123456.1,
                      override var title: String? = "Empty Constructor",
                      override var operationType: OperationType = OperationType.OUTCOME,
                      override var date: Date? = Date(),
-                     override var other_category_id: Int? = 1) : Parcelable, OperationBase { //null without category
+                     override var other_category_id: Int? = getRandomCategory()) : Parcelable, OperationBase {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -36,9 +36,6 @@ data class Operation(override var value: Double = 123456.1,
     //this is for development
     @Ignore
     constructor(value: Double, title: String?, operationType: OperationType, date: Date?) : this(value, title, operationType, date, getRandomCategory())
-
-//    @Ignore
-//    constructor(value: Double, title: String?, operationType: OperationType, date: Date?, other_category_id: Int? = null) : this(value, title, operationType, date, other_category_id ?: 1)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeDouble(value)

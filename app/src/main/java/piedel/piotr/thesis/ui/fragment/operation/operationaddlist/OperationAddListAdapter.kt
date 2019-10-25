@@ -8,25 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.jakewharton.rxbinding2.widget.color
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
-import timber.log.Timber
 import javax.inject.Inject
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
     var operationWithCategoryList: MutableList<OperationSelectable> = mutableListOf()
-
-    fun updateListOfOperations(operationListOther: List<OperationSelectable>?) {
-        operationWithCategoryList.clear()
-        if (operationListOther != null) {
-            operationWithCategoryList.addAll(operationListOther)
-        }
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -13,7 +13,6 @@ import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
-import timber.log.Timber
 import javax.inject.Inject
 
 class OperationAddListFragment : BaseFragment(), OperationAddListContract.OperationView {
@@ -65,6 +64,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.save_action -> {
+                operationAddListPresenter.saveSelectedOperations(operationArrayList)
                 true
             }
             R.id.cancel_action -> {
@@ -81,11 +81,8 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     override fun setAdapter() {
         operationsRecyclerView.adapter = operationAddListAdapter
-//        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
+        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
         operationAddListAdapter.notifyDataSetChanged()
-        Timber.d("setAdapter()")
-        operationAddListAdapter.updateListOfOperations(operationArrayList.toList())
-//        operationAddListAdapter.setClickListener(this)
     }
 
     override fun showError(throwable: Throwable) {

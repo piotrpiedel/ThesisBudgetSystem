@@ -91,6 +91,4 @@ constructor(private val operationRepository: OperationRepository) : BasePresente
                     }
                 })
     }
-
-
 }
