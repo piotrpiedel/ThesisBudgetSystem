@@ -30,8 +30,8 @@ class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAda
         notifyDataSetChanged()
     }
 
-    fun setClickListener(operationAdapteListener: OperationAdapteListener) {
-        adapterListener = operationAdapteListener
+    fun setClickListener(operationAdapterListener: OperationAdapteListener) {
+        adapterListener = operationAdapterListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {

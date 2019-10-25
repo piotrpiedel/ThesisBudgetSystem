@@ -1,36 +1,31 @@
 package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
+import butterknife.ButterKnife
+import com.jakewharton.rxbinding2.widget.color
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
+import timber.log.Timber
 import javax.inject.Inject
 
 class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
 
     var operationWithCategoryList: MutableList<OperationSelectable> = mutableListOf()
 
-    private lateinit var adapterAddListListener: OperationAdapterListener
-
-    init {
-        setHasStableIds(true)
-    }
-
     fun updateListOfOperations(operationListOther: List<OperationSelectable>?) {
         operationWithCategoryList.clear()
-        operationListOther?.let { operationWithCategoryList.addAll(it) }
+        if (operationListOther != null) {
+            operationWithCategoryList.addAll(operationListOther)
+        }
         notifyDataSetChanged()
-    }
-
-    fun setClickListener(operationAdapterListener: OperationAdapterListener) {
-        adapterAddListListener = operationAdapterListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
@@ -43,53 +38,11 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         return operationWithCategoryList.size
     }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
-        val operationItem = operationWithCategoryList[position]
-        holder.bind(operationItem)
+        holder.bind(operationWithCategoryList[position], holder)
     }
 
-    interface OperationAdapterListener {
-        fun onOperationItemClicked()
-    }
-
-     class OperationViewHolder(itemView: View, val onItemSelectedListener: AdapterView.OnItemSelectedListener) : RecyclerView.ViewHolder(itemView) {
-
-         companion object {
-             private val MULTI_SELECTION = 2
-             val SINGLE_SELECTION = 1
-         }
-
-        var selectable: OperationSelectable? = null
-
-        fun bind(operationItem: OperationSelectable) {
-            selectable = operationItem
-            setCategoryTextView(this, operationItem)
-            setDateTextView(this, operationItem)
-            titleTextView.text = operationItem.title
-            valueTextView.text = doubleToStringInTwoPlacesAfterComma(operationItem.value)
-        }
-
-        private fun setCategoryTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
-            operationItem?.other_category_id?.let {
-                holder.categoryTextView.visibility = View.VISIBLE
-                holder.categoryTextView.text = operationItem.other_category_id.toString()
-            } ?: run {
-                holder.categoryTextView.visibility = View.GONE
-            }
-        }
-
-        private fun setDateTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
-            operationItem?.date?.let {
-                holder.dateTextView.visibility = View.VISIBLE
-                holder.dateTextView.text = operationItem.date?.let { date -> dateToDayMonthYearFormatString(date) }
-            } ?: run {
-                holder.dateTextView.visibility = View.GONE
-            }
-        }
+    inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         @BindView(R.id.operations_title)
         lateinit var titleTextView: TextView
@@ -103,18 +56,42 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
         @BindView(R.id.operations_date)
         lateinit var dateTextView: TextView
 
+        private lateinit var selectableOperationItem: OperationSelectable
 
-//        init {
-//            ButterKnife.bind(this, itemView)
-//            itemView.setOnClickListener(View.OnClickListener {
-//                if (mItem.isSelected() && itemViewType === MULTI_SELECTION) {
-//                    setChecked(false)
-//                } else {
-//                    setChecked(true)
-//                }
-//                itemSelectedListener.onItemSelected(mItem)
-//            })
-//        }
+        init {
+            ButterKnife.bind(this, itemView)
+            itemView.setOnClickListener {
+                selectableOperationItem.selected = !selectableOperationItem.isSelected()
+                titleTextView.setBackgroundColor((if (selectableOperationItem.selected) Color.CYAN else Color.WHITE))
+            }
+        }
+
+        fun bind(operationItem: OperationSelectable, holder: OperationViewHolder) {
+            selectableOperationItem = operationItem
+            holder.itemView.setBackgroundColor(if (selectableOperationItem.isSelected()) Color.CYAN else Color.WHITE)
+            setCategoryTextView(this, operationItem)
+            setDateTextView(this, operationItem)
+            titleTextView.text = operationItem.title
+            valueTextView.text = doubleToStringInTwoPlacesAfterComma(operationItem.value)
+        }
+
+        private fun setCategoryTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
+            if (operationItem?.other_category_id != null) {
+                holder.categoryTextView.visibility = View.VISIBLE
+                holder.categoryTextView.text = operationItem.other_category_id.toString()
+            } else {
+                holder.categoryTextView.visibility = View.GONE
+            }
+        }
+
+        private fun setDateTextView(holder: OperationViewHolder, operationItem: OperationSelectable?) {
+            if (operationItem?.date != null) {
+                holder.dateTextView.visibility = View.VISIBLE
+                holder.dateTextView.text = operationItem.date?.let { date -> dateToDayMonthYearFormatString(date) }
+            } else {
+                holder.dateTextView.visibility = View.GONE
+            }
+        }
     }
 
 }
