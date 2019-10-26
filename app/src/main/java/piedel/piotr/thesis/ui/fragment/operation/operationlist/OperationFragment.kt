@@ -48,12 +48,12 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.fragment_operation_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.delete_all_operations -> {
                 operationPresenter.deleteAllOperationsAction()

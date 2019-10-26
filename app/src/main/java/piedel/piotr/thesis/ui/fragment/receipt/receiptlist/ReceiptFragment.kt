@@ -42,13 +42,13 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.fragment_receipt_list_menu, menu);
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_receipt_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.delete_all_receipts -> {
                 receiptPresenter.deleteAllReceiptsAction()
                 true

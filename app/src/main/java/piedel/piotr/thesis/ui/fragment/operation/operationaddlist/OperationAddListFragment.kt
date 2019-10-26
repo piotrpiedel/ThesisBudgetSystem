@@ -56,13 +56,13 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
         operationAddListPresenter.initFragment()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.fragment_operation_add_list_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_operation_add_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.save_action -> {
                 operationAddListPresenter.saveSelectedOperations(operationArrayList)
                 true

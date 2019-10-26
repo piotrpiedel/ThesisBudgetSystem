@@ -147,7 +147,7 @@ dependencies {
     implementation 'com.github.stfalcon:stfalcon-imageviewer:0.1.0'
 
     //Ucrop - library for cropping image after picking
-    implementation 'com.github.yalantis:ucrop:2.2.3'
+    implementation 'com.github.yalantis:ucrop:2.2.4'
 
     // ButterKnife library
     implementation "com.jakewharton:butterknife:$versions.butterKnife"
