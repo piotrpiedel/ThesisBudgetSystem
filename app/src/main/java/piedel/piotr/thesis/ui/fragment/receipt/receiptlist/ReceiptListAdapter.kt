@@ -18,7 +18,7 @@ import piedel.piotr.thesis.util.glide.glideLoadAsSmallBitmap
 import javax.inject.Inject
 
 
-class ReceiptAdapter @Inject constructor(@ActivityContext val context: Context) : RecyclerView.Adapter<ReceiptAdapter.ReceiptViewHolder>() {
+class ReceiptListAdapter @Inject constructor(@ActivityContext val context: Context) : RecyclerView.Adapter<ReceiptListAdapter.ReceiptViewHolder>() {
 
     private val listOfReceipt: MutableList<Receipt> = mutableListOf()
 

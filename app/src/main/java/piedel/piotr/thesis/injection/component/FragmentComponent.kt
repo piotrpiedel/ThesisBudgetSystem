@@ -4,18 +4,18 @@ import dagger.Subcomponent
 import piedel.piotr.thesis.injection.module.FragmentModule
 import piedel.piotr.thesis.injection.scopes.PerFragment
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
-import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
+import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryListFragment
+import piedel.piotr.thesis.ui.fragment.category.categoryselectlablelist.CategorySelectableListFragment
 import piedel.piotr.thesis.ui.fragment.chart.barchart.BarChartFragment
 import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.chart.piechart.PieCharFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationaddlist.OperationAddListFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
-import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
-import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationselectablelist.OperationSelectableListFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationListFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddNewFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptListFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewFragment
 
 /**
@@ -27,19 +27,19 @@ interface FragmentComponent {
 
     fun inject(baseFragment: BaseFragment)
 
-    fun inject(operationFragment: OperationFragment)
+    fun inject(operationListFragment: OperationListFragment)
 
-    fun inject(addOperationFragment: AddOperationFragment)
+    fun inject(operationAddNewFragment: OperationAddNewFragment)
 
-    fun inject(categoriesFragment: CategoryFragment)
+    fun inject(categoriesListFragment: CategoryListFragment)
 
     fun inject(importExportFragment: ImportExportFragment)
 
-    fun inject(categorySelectListFragment: CategorySelectListFragment)
+    fun inject(categorySelectableListFragment: CategorySelectableListFragment)
 
-    fun inject(receiptFragment: ReceiptFragment)
+    fun inject(receiptListFragment: ReceiptListFragment)
 
-    fun inject(receiptAddFragment: ReceiptAddFragment)
+    fun inject(receiptAddNewFragment: ReceiptAddNewFragment)
 
     fun inject(receiptPreviewFragment: ReceiptPreviewFragment)
 
@@ -51,6 +51,6 @@ interface FragmentComponent {
 
     fun inject(importFromImageDriveFragment: ImportFromImageDriveFragment)
 
-    fun inject(operationAddListFragment: OperationAddListFragment)
+    fun inject(operationSelectableListFragment: OperationSelectableListFragment)
 
 }

@@ -10,7 +10,7 @@ import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 
-interface ReceiptAddContract {
+interface ReceiptAddNewContract {
     interface ReceiptAddView : BaseView, CameraAndStoragePermissionListener.CameraAndStorageViewInterface {
 
         fun showError()

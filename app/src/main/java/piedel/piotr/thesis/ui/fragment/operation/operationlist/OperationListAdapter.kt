@@ -18,7 +18,7 @@ import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
 import javax.inject.Inject
 
 
-class OperationAdapter @Inject constructor() : RecyclerView.Adapter<OperationAdapter.OperationViewHolder>() {
+class OperationListAdapter @Inject constructor() : RecyclerView.Adapter<OperationListAdapter.OperationViewHolder>() {
 
     private var operationWithCategoryList: MutableList<OperationCategoryTuple> = mutableListOf()
 

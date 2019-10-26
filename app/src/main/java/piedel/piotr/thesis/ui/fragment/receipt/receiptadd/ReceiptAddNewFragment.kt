@@ -27,10 +27,10 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
+class ReceiptAddNewFragment : BaseFragment(), ReceiptAddNewContract.ReceiptAddView {
 
     @Inject
-    lateinit var receiptAddPresenter: ReceiptAddPresenter
+    lateinit var receiptAddNewPresenter: ReceiptAddNewPresenter
 
     @BindView(R.id.receipt_picture)
     lateinit var receiptPicture: ImageView
@@ -61,22 +61,22 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        receiptAddPresenter.attachView(this)
+        receiptAddNewPresenter.attachView(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         receipt = arguments?.getParcelable(RECEIPT_ADD_KEY)
         initInputObservers()
-        receiptAddPresenter.initFragment(receipt)
+        receiptAddNewPresenter.initFragment(receipt)
     }
 
     private fun initInputObservers() {
-        receiptAddPresenter.observeTheInputValue(receiptTitle, receiptDate, valueInput)
+        receiptAddNewPresenter.observeTheInputValue(receiptTitle, receiptDate, valueInput)
     }
 
     override fun checkPermissions() {
-        receiptAddPresenter.checkPermissionsForStorageAndCamera(requireActivity())
+        receiptAddNewPresenter.checkPermissionsForStorageAndCamera(requireActivity())
     }
 
 
@@ -104,7 +104,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        receiptAddPresenter.handleOnActivityResult(requestCode, resultCode, data, requireActivity())
+        receiptAddNewPresenter.handleOnActivityResult(requestCode, resultCode, data, requireActivity())
     }
 
     override fun setOnCalendarClickListener() {
@@ -138,7 +138,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
 
     @OnClick(R.id.receipt_button_save)
     fun onSaveButtonClick() {
-        receiptAddPresenter.onSaveOperationButtonClicked()
+        receiptAddNewPresenter.onSaveOperationButtonClicked()
     }
 
     override fun setReceiptImageFromResource(bitmapImage: Bitmap) {
@@ -149,7 +149,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
 
     //for autogeneration purposes
     override fun startCreatingReceipt() {
-        receiptAddPresenter.generateEmptyReceipt()
+        receiptAddNewPresenter.generateEmptyReceipt()
     }
 
     override fun createReceipt(receiptId: Long, receipt: Receipt) {
@@ -160,7 +160,7 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
             date = dateFromStringNullCheck(receiptDate.text.toString())
             value = valueInput.text.toString().trim().toDouble()
         }
-        receiptAddPresenter.updateReceipt(receipt)
+        receiptAddNewPresenter.updateReceipt(receipt)
     }
 
     override fun returnFromFragment() {
@@ -179,11 +179,11 @@ class ReceiptAddFragment : BaseFragment(), ReceiptAddContract.ReceiptAddView {
     companion object {
 
         private const val RECEIPT_ADD_KEY: String = "RECEIPT_ADD_KEY"
-        const val FRAGMENT_TAG: String = "ReceiptAddFragment"
+        const val FRAGMENT_TAG: String = "ReceiptAddNewFragment"
 
 
-        fun newInstance(receipt: Receipt): ReceiptAddFragment {
-            val addReceiptFragment = ReceiptAddFragment()
+        fun newInstance(receipt: Receipt): ReceiptAddNewFragment {
+            val addReceiptFragment = ReceiptAddNewFragment()
             val args = Bundle()
             args.putParcelable(RECEIPT_ADD_KEY, receipt)
             addReceiptFragment.arguments = args

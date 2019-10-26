@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddview
+package piedel.piotr.thesis.ui.fragment.operation.operationaddnew
 
 import android.annotation.SuppressLint
 import android.widget.EditText
@@ -12,8 +12,8 @@ import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.AddOperationView
-import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewContract.AddOperationView
+import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewContract.PresenterContract
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import piedel.piotr.thesis.util.stringToDate
 import timber.log.Timber
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ConfigPersistent
-class AddOperationPresenter @Inject
+class OperationAddNewPresenter @Inject
 constructor(private val operationsRepository: OperationRepository, private val categoryRepository: CategoryRepository) : BasePresenter<AddOperationView>(), PresenterContract<AddOperationView> {
 
     private var disposable: Disposable? = null

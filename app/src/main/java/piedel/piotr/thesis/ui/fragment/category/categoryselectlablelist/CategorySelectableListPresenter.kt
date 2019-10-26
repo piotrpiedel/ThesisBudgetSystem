@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.category.categoryselectlist
+package piedel.piotr.thesis.ui.fragment.category.categoryselectlablelist
 
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -13,7 +13,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class CategorySelectListPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategorySelectListContract.CategorySelectListView>(), CategorySelectListContract.PresenterContract<CategorySelectListContract.CategorySelectListView> {
+class CategorySelectableListPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategorySelectableListContract.CategorySelectListView>(), CategorySelectableListContract.PresenterContract<CategorySelectableListContract.CategorySelectListView> {
 
 
     private var disposable: Disposable? = null
@@ -49,8 +49,8 @@ class CategorySelectListPresenter @Inject constructor(private val categoryReposi
                             }
                             view?.updateList(categoryExpandableGroupList)
                         },
-                                { Timber.d("categoryPresenter loadCategories exception:  %s", it.toString()) },
-                                { Timber.d("categoryPresenter loadCategories onComplete") }
+                                { Timber.d("categoryListPresenter loadCategories exception:  %s", it.toString()) },
+                                { Timber.d("categoryListPresenter loadCategories onComplete") }
                         )
         addDisposable(disposable)
     }

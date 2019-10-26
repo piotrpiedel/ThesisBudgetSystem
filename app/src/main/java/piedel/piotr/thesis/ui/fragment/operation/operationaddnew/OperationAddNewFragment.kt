@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddview
+package piedel.piotr.thesis.ui.fragment.operation.operationaddnew
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -18,7 +18,7 @@ import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.category.categoryselectlist.CategorySelectListFragment
+import piedel.piotr.thesis.ui.fragment.category.categoryselectlablelist.CategorySelectableListFragment
 import piedel.piotr.thesis.ui.fragment.category.view.CategorySelectionLayout
 import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import java.lang.Math.abs
@@ -26,10 +26,10 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationView {
+class OperationAddNewFragment : BaseFragment(), OperationAddNewContract.AddOperationView {
 
     @Inject
-    lateinit var addOperationPresenter: AddOperationPresenter
+    lateinit var operationAddNewPresenter: OperationAddNewPresenter
 
     @BindView(R.id.operation_input_value)
     lateinit var editTextInputValue: EditText
@@ -68,13 +68,13 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        addOperationPresenter.attachView(this)
+        operationAddNewPresenter.attachView(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         operation = arguments?.getParcelable(OPERATION_KEY)
-        addOperationPresenter.fillTheData(operation)
+        operationAddNewPresenter.fillTheData(operation)
         setDatePickerDialog()
         setOnCategoryListener()
         setCategory()
@@ -82,7 +82,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
     }
 
     private fun initInputObserver() {
-        addOperationPresenter.observeTheInputValue(editTextInputValue)
+        operationAddNewPresenter.observeTheInputValue(editTextInputValue)
     }
 
     override fun enableSaveButton(isEnabled: Boolean) {
@@ -97,11 +97,11 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
 
     private fun setOnCategoryListener() {
         categorySelection.setOnClickListener {
-            val categorySelectListFragment = CategorySelectListFragment()
+            val categorySelectListFragment = CategorySelectableListFragment()
             categorySelectListFragment.setTargetFragment(this, addOperationTargetFragmentRequestCode)
             getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
                     categorySelectListFragment,
-                    CategorySelectListFragment.FRAGMENT_TAG)
+                    CategorySelectableListFragment.FRAGMENT_TAG)
         }
     }
 
@@ -113,7 +113,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == addOperationTargetFragmentRequestCode && resultCode == Activity.RESULT_OK) {
-            operationCategoryChild = data?.getParcelableExtra(CategorySelectListFragment.FRAGMENT_INTENT_CATEGORY)
+            operationCategoryChild = data?.getParcelableExtra(CategorySelectableListFragment.FRAGMENT_INTENT_CATEGORY)
         }
     }
 
@@ -153,7 +153,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
             operationCategoryChild?.let { it1 -> categorySelection.setView(it1) }
             editTextTitle.setText(operation.title)
             textViewDate.text = dateToDayMonthYearFormatString(operation.date)
-            addOperationPresenter.setRadioButtonChecked()
+            operationAddNewPresenter.setRadioButtonChecked()
         }
 
     }
@@ -168,7 +168,7 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
 
     @OnClick(R.id.operation_input_button_save)
     fun saveOperation() {
-        addOperationPresenter.onSaveOperationButtonClicked(operation, editTextInputValue.text.toString(), editTextTitle.text.toString(),
+        operationAddNewPresenter.onSaveOperationButtonClicked(operation, editTextInputValue.text.toString(), editTextTitle.text.toString(),
                 radioButtonChecked(),
                 textViewDate.text.toString(),
                 operationCategoryChild)
@@ -192,8 +192,8 @@ class AddOperationFragment : BaseFragment(), AddOperationContract.AddOperationVi
 
         const val FRAGMENT_TAG: String = "Add Operation Fragment"
 
-        fun newInstance(operation: Operation): AddOperationFragment {
-            val addOperationFragment = AddOperationFragment()
+        fun newInstance(operation: Operation): OperationAddNewFragment {
+            val addOperationFragment = OperationAddNewFragment()
             val args = Bundle()
             args.putParcelable(OPERATION_KEY, operation)
             addOperationFragment.arguments = args

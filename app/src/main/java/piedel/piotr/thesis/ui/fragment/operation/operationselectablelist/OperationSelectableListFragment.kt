@@ -1,32 +1,31 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
+package piedel.piotr.thesis.ui.fragment.operation.operationselectablelist
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
-import piedel.piotr.thesis.data.model.operation.OperationSelectable
 import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
 
-class OperationAddListFragment : BaseFragment(), OperationAddListContract.OperationView {
+class OperationSelectableListFragment : BaseFragment(), OperationSelectableListContract.OperationView {
 
     @Inject
-    lateinit var operationAddListPresenter: OperationAddListPresenter
+    lateinit var operationSelectableListPresenter: OperationSelectableListPresenter
 
     @Inject
-    lateinit var operationAddListAdapter: OperationAddListAdapter
+    lateinit var operationSelectableListAdapter: OperationSelectableListAdapter
 
     @BindView(R.id.recycler_view_operations)
     lateinit var operationsRecyclerView: RecyclerView
 
-    private var operationArrayList: ArrayList<OperationSelectable> = arrayListOf()
 
     override val toolbarTitle: String
         get() = context?.getString(R.string.operations_list).toString()
@@ -37,7 +36,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        operationAddListPresenter.attachView(this)
+        operationSelectableListPresenter.attachView(this)
         setMenuEnabled()
     }
 
@@ -47,13 +46,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        operationArrayList = arguments?.getParcelableArrayList(OPERATION_LIST_PASSED)
-                ?: arrayListOf() // temp
-        operationArrayList.add(OperationSelectable(Operation("asfasf")))
-        operationArrayList.add(OperationSelectable(Operation("asfas2eqw")))
-        operationArrayList.add(OperationSelectable(Operation("asfas232")))
-        operationArrayList.add(OperationSelectable(Operation("asfasfasfas232")))
-        operationAddListPresenter.initFragment()
+        operationSelectableListPresenter.initFragment(arguments?.getParcelableArrayList(OPERATION_LIST_PASSED) ?: arrayListOf())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -64,7 +57,7 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.save_action -> {
-                operationAddListPresenter.saveSelectedOperations(operationArrayList)
+                operationSelectableListPresenter.saveSelectedOperations(operationSelectableListPresenter.operationArrayList)
                 true
             }
             R.id.cancel_action -> {
@@ -80,23 +73,27 @@ class OperationAddListFragment : BaseFragment(), OperationAddListContract.Operat
     }
 
     override fun setAdapter() {
-        operationsRecyclerView.adapter = operationAddListAdapter
-        operationAddListAdapter.operationWithCategoryList = operationArrayList.toMutableList()
-        operationAddListAdapter.notifyDataSetChanged()
+        operationsRecyclerView.adapter = operationSelectableListAdapter
+        operationSelectableListAdapter.listOfOperationSelectable = operationSelectableListPresenter.operationArrayList
+        operationSelectableListAdapter.notifyDataSetChanged()
     }
 
     override fun showError(throwable: Throwable) {
         showToast(requireContext(), getString(R.string.there_is_problem_with_operations_tr_again_later))
     }
 
+    override fun showInsertCompleteToast() {
+        Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
+    }
+
     companion object {
-        const val FRAGMENT_TAG: String = "OperationAddListFragment"
+        const val FRAGMENT_TAG: String = "OperationSelectableListFragment"
         const val OPERATION_LIST_PASSED: String = "OPERATION_KEY"
 
-        fun newInstance(operationList: ArrayList<OperationSelectable>): OperationAddListFragment {
-            val operationAddListFragment = OperationAddListFragment()
+        fun newInstance(operationList: List<Operation>): OperationSelectableListFragment {
+            val operationAddListFragment = OperationSelectableListFragment()
             val args = Bundle().apply {
-                putParcelableArrayList(OPERATION_LIST_PASSED, operationList)
+                putParcelableArrayList(OPERATION_LIST_PASSED, ArrayList(operationList))
             }
             operationAddListFragment.arguments = args
             return operationAddListFragment
