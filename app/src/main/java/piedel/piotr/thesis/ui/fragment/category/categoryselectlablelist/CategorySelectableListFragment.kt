@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.category.categoryselectlist
+package piedel.piotr.thesis.ui.fragment.category.categoryselectlablelist
 
 import android.app.Activity
 import android.content.Intent
@@ -15,13 +15,13 @@ import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
 
-class CategorySelectListFragment : BaseFragment(), CategorySelectListContract.CategorySelectListView, CategorySelectListAdapter.CategorySelectListAdapterOnClickHandler {
+class CategorySelectableListFragment : BaseFragment(), CategorySelectableListContract.CategorySelectListView, CategorySelectableListAdapter.CategorySelectListAdapterOnClickHandler {
 
 
-    private lateinit var categorySelectListAdapter: CategorySelectListAdapter
+    private lateinit var categorySelectableListAdapter: CategorySelectableListAdapter
 
     @Inject
-    lateinit var categorySelectListPresenter: CategorySelectListPresenter
+    lateinit var categorySelectableListPresenter: CategorySelectableListPresenter
 
     @BindView(R.id.categories_list_view)
     lateinit var categoriesListView: RecyclerView
@@ -35,7 +35,7 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListContract.Ca
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        categorySelectListPresenter.attachView(this)
+        categorySelectableListPresenter.attachView(this)
         getMainActivity().hideKeyboard()
     }
 
@@ -47,7 +47,7 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListContract.Ca
     }
 
     private fun initFragment() {
-        categorySelectListPresenter.loadCategories()
+        categorySelectableListPresenter.loadCategories()
     }
 
     override fun onChildClick(childCategoryChild: CategoryChild) {
@@ -64,9 +64,9 @@ class CategorySelectListFragment : BaseFragment(), CategorySelectListContract.Ca
     }
 
     override fun updateList(listCategories: MutableList<CategoryExpandableGroup>) {
-        categorySelectListAdapter = CategorySelectListAdapter(listCategories)
-        categorySelectListAdapter.setOnChildClickListener(this)
-        categoriesListView.adapter = categorySelectListAdapter
+        categorySelectableListAdapter = CategorySelectableListAdapter(listCategories)
+        categorySelectableListAdapter.setOnChildClickListener(this)
+        categoriesListView.adapter = categorySelectableListAdapter
     }
 
     companion object {

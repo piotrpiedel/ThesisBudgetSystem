@@ -4,7 +4,7 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 
-interface ReceiptContract {
+interface ReceiptListContract {
     interface ReceiptView : BaseView {
 
         fun setReceiptListRecyclerView()

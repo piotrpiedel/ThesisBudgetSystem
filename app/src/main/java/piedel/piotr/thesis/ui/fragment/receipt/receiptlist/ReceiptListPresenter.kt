@@ -5,14 +5,14 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptContract.PresenterContract
-import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptContract.ReceiptView
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptListContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptListContract.ReceiptView
 import piedel.piotr.thesis.util.rxutils.subscriber.CompletableObserverMain
 import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class ReceiptPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptView>(), PresenterContract<ReceiptView> {
+class ReceiptListPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptView>(), PresenterContract<ReceiptView> {
 
     private var disposable: Disposable? = null
 

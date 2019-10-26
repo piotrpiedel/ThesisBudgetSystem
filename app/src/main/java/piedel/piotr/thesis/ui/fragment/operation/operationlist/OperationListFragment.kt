@@ -17,17 +17,17 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationaddview.AddOperationFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewFragment
 import piedel.piotr.thesis.util.showToast
 import javax.inject.Inject
 
-class OperationFragment : BaseFragment(), OperationContract.OperationView, OperationAdapter.OperationAdapteListener {
+class OperationListFragment : BaseFragment(), OperationListContract.OperationView, OperationListAdapter.OperationAdapteListener {
 
     @Inject
-    lateinit var operationPresenter: OperationPresenter
+    lateinit var operationListPresenter: OperationListPresenter
 
     @Inject
-    lateinit var operationAdapter: OperationAdapter
+    lateinit var operationListAdapter: OperationListAdapter
 
     @BindView(R.id.recycler_view_operations)
     lateinit var operationsRecyclerView: RecyclerView
@@ -44,7 +44,7 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        operationPresenter.attachView(this)
+        operationListPresenter.attachView(this)
         setHasOptionsMenu(true)
     }
 
@@ -54,9 +54,9 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.delete_all_operations -> {
-                operationPresenter.deleteAllOperationsAction()
+                operationListPresenter.deleteAllOperationsAction()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -65,12 +65,12 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        operationPresenter.initFragment()
+        operationListPresenter.initFragment()
     }
 
     override fun setAdapter() {
-        operationsRecyclerView.adapter = operationAdapter
-        operationAdapter.setClickListener(this)
+        operationsRecyclerView.adapter = operationListAdapter
+        operationListAdapter.setClickListener(this)
     }
 
     override fun setOperationsRecyclerView() {
@@ -79,7 +79,7 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
     }
 
     override fun openAddOperationFragment() {
-        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment(), AddOperationFragment.FRAGMENT_TAG)
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, OperationAddNewFragment(), OperationAddNewFragment.FRAGMENT_TAG)
     }
 
     override fun updateSummary(summary: Double) {
@@ -95,15 +95,15 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
 
     @OnClick(R.id.fragment_operation_button_add)
     fun addOperationButtonClicked() {
-        operationPresenter.addOperation()
+        operationListPresenter.addOperation()
     }
 
     override fun updateList(operationsList: List<OperationCategoryTuple>) {
-        operationAdapter.updateListOfOperations(operationsList)
+        operationListAdapter.updateListOfOperations(operationsList)
     }
 
     override fun notifyItemRemoved(itemPosition: Int) {
-        operationAdapter.updateList(itemPosition)
+        operationListAdapter.updateList(itemPosition)
     }
 
     override fun showError(throwable: Throwable) {
@@ -111,14 +111,14 @@ class OperationFragment : BaseFragment(), OperationContract.OperationView, Opera
     }
 
     override fun onOperationListViewClicked(operation: Operation) {
-        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, AddOperationFragment.newInstance(operation), AddOperationFragment.FRAGMENT_TAG)
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, OperationAddNewFragment.newInstance(operation), OperationAddNewFragment.FRAGMENT_TAG)
     }
 
     override fun onOperationsLongClick(operation: Operation, position: Int) {
         val alertDialog = AlertDialog.Builder(context)
                 .setTitle(getString(R.string.do_you_want_to_delete_operation))
                 .setPositiveButton(getString(R.string.YES)) { _, _ ->
-                    operationPresenter.deleteActionOperation(operation, position)
+                    operationListPresenter.deleteActionOperation(operation, position)
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create()

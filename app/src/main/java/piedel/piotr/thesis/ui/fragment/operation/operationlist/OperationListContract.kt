@@ -5,7 +5,7 @@ import piedel.piotr.thesis.data.model.operation.OperationCategoryTuple
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 
-interface OperationContract {
+interface OperationListContract {
     interface OperationView : BaseView {
 
         fun openAddOperationFragment()

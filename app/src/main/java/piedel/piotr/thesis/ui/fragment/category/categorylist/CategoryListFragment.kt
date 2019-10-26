@@ -10,12 +10,12 @@ import piedel.piotr.thesis.ui.base.BaseFragment
 import piedel.piotr.thesis.util.hideKeyboard
 import javax.inject.Inject
 
-class CategoryFragment : BaseFragment(), CategoryContract.CategoryView {
+class CategoryListFragment : BaseFragment(), CategoryListContract.CategoryView {
 
-    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var categoryListAdapter: CategoryListAdapter
 
     @Inject
-    lateinit var categoryPresenter: CategoryPresenter
+    lateinit var categoryListPresenter: CategoryListPresenter
 
     @BindView(R.id.categories_list_view)
     lateinit var categoriesListView: RecyclerView
@@ -29,7 +29,7 @@ class CategoryFragment : BaseFragment(), CategoryContract.CategoryView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        categoryPresenter.attachView(this)
+        categoryListPresenter.attachView(this)
         getMainActivity().hideKeyboard()
     }
 
@@ -40,7 +40,7 @@ class CategoryFragment : BaseFragment(), CategoryContract.CategoryView {
     }
 
     private fun initFragment() {
-        categoryPresenter.loadCategories()
+        categoryListPresenter.loadCategories()
     }
 
     private fun setLayoutManager() {
@@ -48,8 +48,8 @@ class CategoryFragment : BaseFragment(), CategoryContract.CategoryView {
     }
 
     override fun updateList(listCategories: MutableList<CategoryExpandableGroup>) {
-        categoryAdapter = CategoryAdapter(listCategories)
-        categoriesListView.adapter = categoryAdapter
+        categoryListAdapter = CategoryListAdapter(listCategories)
+        categoriesListView.adapter = categoryListAdapter
     }
 
     companion object {

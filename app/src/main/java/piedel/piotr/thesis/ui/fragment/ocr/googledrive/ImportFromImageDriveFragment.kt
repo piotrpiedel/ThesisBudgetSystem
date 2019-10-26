@@ -15,8 +15,11 @@ import piedel.piotr.thesis.R
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
 import piedel.piotr.thesis.configuration.START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE
 import piedel.piotr.thesis.data.buildier.ImagePickerActivityOptions
+import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity
 import piedel.piotr.thesis.ui.base.BaseFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationselectablelist.OperationSelectableListFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewFragment
 import piedel.piotr.thesis.util.showToastLong
 import javax.inject.Inject
 
@@ -73,6 +76,10 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
         return GoogleSignIn.getLastSignedInAccount(requireContext())
     }
 
+    override fun passListToOperationSelectionFragment(listOfOperations: List<Operation>) {
+        getBaseActivity().replaceFragmentWithoutBackStack(R.id.fragment_container_activity_main, OperationSelectableListFragment.newInstance(listOfOperations), OperationAddNewFragment.FRAGMENT_TAG)
+    }
+
     override fun showError() {
         Toast.makeText(context, getString(R.string.something_went_wrong_try_again_later), Toast.LENGTH_SHORT).show()
     }
@@ -88,10 +95,6 @@ class ImportFromImageDriveFragment : BaseFragment(), ImportFromImageDriveContrac
     override fun errorParsingReceipt() {
         showToastLong(requireContext(), "Can't proceed OCR for receipt - " +
                 "not recognized format of receipt input or not containing operations - please send us report with image of receipt")
-    }
-
-    override fun showInsertCompleteToast() {
-        Toast.makeText(context, getString(R.string.loading_operation_from_html_success), Toast.LENGTH_SHORT).show()
     }
 
     override fun setImportedTextFromImage(plainTextFromOutputStream: String) {

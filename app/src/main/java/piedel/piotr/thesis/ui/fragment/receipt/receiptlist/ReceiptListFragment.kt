@@ -14,17 +14,17 @@ import butterknife.OnClick
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.ui.base.BaseFragment
-import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddNewFragment
 import piedel.piotr.thesis.ui.fragment.receipt.receiptpreview.ReceiptPreviewFragment
 import javax.inject.Inject
 
-class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdapter.ReceiptAdapterListener {
+class ReceiptListFragment : BaseFragment(), ReceiptListContract.ReceiptView, ReceiptListAdapter.ReceiptAdapterListener {
 
     @Inject
-    lateinit var receiptPresenter: ReceiptPresenter
+    lateinit var receiptListPresenter: ReceiptListPresenter
 
     @Inject
-    lateinit var receiptAdapter: ReceiptAdapter
+    lateinit var receiptListAdapter: ReceiptListAdapter
 
     @BindView(R.id.recycler_view_receipt_list)
     lateinit var receiptListRecyclerView: RecyclerView
@@ -38,7 +38,7 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getFragmentComponent().inject(this)
-        receiptPresenter.attachView(this)
+        receiptListPresenter.attachView(this)
         setHasOptionsMenu(true)
     }
 
@@ -50,7 +50,7 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete_all_receipts -> {
-                receiptPresenter.deleteAllReceiptsAction()
+                receiptListPresenter.deleteAllReceiptsAction()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -59,16 +59,16 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        receiptPresenter.initFragment()
+        receiptListPresenter.initFragment()
     }
 
     @OnClick(R.id.fragment_receipt_button_add)
     fun onAddNewReceiptButtonClicked() {
-        receiptPresenter.onAddNewReceiptClicked()
+        receiptListPresenter.onAddNewReceiptClicked()
     }
 
     override fun replaceWithAddReceiptFragment() {
-        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, ReceiptAddFragment(), ReceiptAddFragment.FRAGMENT_TAG)
+        getBaseActivity().replaceFragmentWithBackStack(R.id.fragment_container_activity_main, ReceiptAddNewFragment(), ReceiptAddNewFragment.FRAGMENT_TAG)
     }
 
     override fun setReceiptListRecyclerView() {
@@ -77,19 +77,19 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
     }
 
     override fun setAdapter() {
-        receiptListRecyclerView.adapter = receiptAdapter
-        receiptAdapter.setClickListener(this)
+        receiptListRecyclerView.adapter = receiptListAdapter
+        receiptListAdapter.setClickListener(this)
     }
 
     override fun updateList(receipts: MutableList<Receipt>) {
-        receiptAdapter.updateListOfReceipt(receipts)
+        receiptListAdapter.updateListOfReceipt(receipts)
     }
 
     override fun onReceiptLongClick(receiptItem: Receipt, position: Int) {
         val alertDialog = AlertDialog.Builder(context)
                 .setTitle(getString(R.string.do_you_want_to_delete_receipt))
                 .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                    receiptPresenter.deleteActionReceipt(receiptItem, position)
+                    receiptListPresenter.deleteActionReceipt(receiptItem, position)
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create()
@@ -97,7 +97,7 @@ class ReceiptFragment : BaseFragment(), ReceiptContract.ReceiptView, ReceiptAdap
     }
 
     override fun notifyItemRemoved(itemPosition: Int) {
-        receiptAdapter.notifyAboutItemRemoved(itemPosition)
+        receiptListAdapter.notifyAboutItemRemoved(itemPosition)
     }
 
     override fun onClickListener(receiptItem: Receipt) {

@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
+package piedel.piotr.thesis.ui.fragment.operation.operationselectablelist
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -14,9 +14,9 @@ import piedel.piotr.thesis.util.dateToDayMonthYearFormatString
 import piedel.piotr.thesis.util.doubleToStringInTwoPlacesAfterComma
 import javax.inject.Inject
 
-class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<OperationAddListAdapter.OperationViewHolder>() {
+class OperationSelectableListAdapter @Inject constructor() : RecyclerView.Adapter<OperationSelectableListAdapter.OperationViewHolder>() {
 
-    var operationWithCategoryList: MutableList<OperationSelectable> = mutableListOf()
+    var listOfOperationSelectable: MutableList<OperationSelectable> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -25,11 +25,11 @@ class OperationAddListAdapter @Inject constructor() : RecyclerView.Adapter<Opera
     }
 
     override fun getItemCount(): Int {
-        return operationWithCategoryList.size
+        return listOfOperationSelectable.size
     }
 
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
-        holder.bind(operationWithCategoryList[position], holder)
+        holder.bind(listOfOperationSelectable[position], holder)
     }
 
     inner class OperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

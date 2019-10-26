@@ -23,8 +23,8 @@ import piedel.piotr.thesis.data.model.receipt.Receipt
 import piedel.piotr.thesis.data.model.receipt.ReceiptRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.base.BasePresenter
-import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.PresenterContract
-import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddContract.ReceiptAddView
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddNewContract.PresenterContract
+import piedel.piotr.thesis.ui.fragment.receipt.receiptadd.ReceiptAddNewContract.ReceiptAddView
 import piedel.piotr.thesis.util.glide.glideLoadAsBitmap
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 
 @ConfigPersistent
-class ReceiptAddPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptAddView>(), PresenterContract<ReceiptAddView> {
+class ReceiptAddNewPresenter @Inject constructor(private val receiptRepository: ReceiptRepository) : BasePresenter<ReceiptAddView>(), PresenterContract<ReceiptAddView> {
 
     private var disposable: Disposable? = null
 

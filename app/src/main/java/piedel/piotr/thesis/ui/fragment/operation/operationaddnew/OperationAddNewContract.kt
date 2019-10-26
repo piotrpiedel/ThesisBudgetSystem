@@ -1,4 +1,4 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddview
+package piedel.piotr.thesis.ui.fragment.operation.operationaddnew
 
 import android.widget.EditText
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
@@ -7,7 +7,7 @@ import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 
-interface AddOperationContract {
+interface OperationAddNewContract {
     interface AddOperationView : BaseView {
 
         fun returnFromFragment()

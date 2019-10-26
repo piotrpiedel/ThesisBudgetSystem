@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
-class CategoryPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategoryContract.CategoryView>(), CategoryContract.PresenterContract<CategoryContract.CategoryView> {
+class CategoryListPresenter @Inject constructor(private val categoryRepository: CategoryRepository) : BasePresenter<CategoryListContract.CategoryView>(), CategoryListContract.PresenterContract<CategoryListContract.CategoryView> {
 
     private var disposable: Disposable? = null
 
@@ -47,8 +47,8 @@ class CategoryPresenter @Inject constructor(private val categoryRepository: Cate
                             }
                             view?.updateList(categoryExpandableGroupList)
                         },
-                                { Timber.d("categoryPresenter loadCategories exception:  %s", it.toString()) },
-                                { Timber.d("categoryPresenter loadCategories onComplete") }
+                                { Timber.d("categoryListPresenter loadCategories exception:  %s", it.toString()) },
+                                { Timber.d("categoryListPresenter loadCategories onComplete") }
                         )
         addDisposable(disposable)
     }

@@ -10,7 +10,7 @@ import com.bumptech.glide.request.target.Target
 import timber.log.Timber
 
 
-class HolderGlideRequestListener(private val context: Context, private val holder: ReceiptAdapter.ReceiptViewHolder) : RequestListener<Bitmap> {
+class HolderGlideRequestListener(private val context: Context, private val holder: ReceiptListAdapter.ReceiptViewHolder) : RequestListener<Bitmap> {
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
         Timber.d("loadPictureFromGallery onLoadFailed")
         return true

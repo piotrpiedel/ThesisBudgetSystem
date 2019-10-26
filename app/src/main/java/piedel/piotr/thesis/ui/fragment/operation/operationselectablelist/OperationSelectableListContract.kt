@@ -1,9 +1,10 @@
-package piedel.piotr.thesis.ui.fragment.operation.operationaddlist
+package piedel.piotr.thesis.ui.fragment.operation.operationselectablelist
 
+import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 
-interface OperationAddListContract {
+interface OperationSelectableListContract {
     interface OperationView : BaseView {
 
         fun showError(throwable: Throwable)
@@ -12,9 +13,10 @@ interface OperationAddListContract {
 
         fun setAdapter()
 
+        fun showInsertCompleteToast()
     }
 
     interface PresenterContract<T : BaseView> : Presenter<T> {
-        fun initFragment()
+        fun initFragment(operationArrayList: ArrayList<Operation>)
     }
 }

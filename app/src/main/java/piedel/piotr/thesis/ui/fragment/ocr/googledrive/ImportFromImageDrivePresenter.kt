@@ -84,8 +84,9 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                             //Fix if not operations contain itd; need to block some of operations on my app
                             val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
                             view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
-                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty())
-                                insertOperation(*googleDriveResponseParser.listOfOperations.toTypedArray())
+                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()){
+                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
+                            }
                             else view?.errorParsingReceipt()
                         },
                         { e ->
@@ -96,25 +97,6 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                         }
                 )
         addDisposable(disposable)
-    }
-
-    private fun insertOperation(vararg operation: Operation) {
-        operationsRepository.insertOperation(*operation)
-                .subscribe(object : CompletableObserver {
-                    override fun onComplete() {
-                        Timber.d("onComplete insertOperation ")
-
-                        view?.showInsertCompleteToast()
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                        Timber.d("onComplete insertOperation ")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Timber.d(e, "onError insertOperation")
-                    }
-                })
     }
 
     override fun signWithAccountAndLoadImage() {
