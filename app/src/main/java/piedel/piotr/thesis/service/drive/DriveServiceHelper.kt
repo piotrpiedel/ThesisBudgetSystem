@@ -5,14 +5,14 @@ import com.google.api.client.http.FileContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.google.api.services.drive.model.FileList
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import piedel.piotr.thesis.configuration.TYPE_GOOGLE_DOCS
-import piedel.piotr.thesis.configuration.TYPE_PHOTO
-import piedel.piotr.thesis.configuration.TYPE_TEXT_PLAIN
+import piedel.piotr.thesis.configuration.*
 import piedel.piotr.thesis.data.model.drive.GoogleDriveFileHolder
 import piedel.piotr.thesis.data.model.drive.GoogleDriveResponseHolder
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -155,17 +155,44 @@ class DriveServiceHelper(private val mDriveService: Drive) {
     }
 
     private fun uploadImageFile(pathFile: String?, folderId: String?): Single<GoogleDriveFileHolder> {
+        return createAppFolderInGoogleDrive()
+//        return Single.fromCallable {
+//            val createdFileFromPath: java.io.File? = createFileFromPathOrReturnNull(pathFile)
+//            val metadata = getMetadataForImageFile(getFolderList(folderId), createdFileFromPath)  // it decide how document will be called;
+//            val fileMeta = getFileMeta(metadata, createdFileFromPath)
+//            return@fromCallable GoogleDriveFileHolder(fileMeta?.id, fileMeta?.name)
+//        }
+//                .timeout(20, TimeUnit.SECONDS)
+//                .compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
+    }
+
+    private fun createAppFolderInGoogleDrive(): Single<GoogleDriveFileHolder> {
         return Single.fromCallable {
-            val createdFileFromPath: java.io.File? = createFileFromPathOrReturnNull(pathFile)
-            val metadata = getMetadataForImageFile(getFolderList(folderId), createdFileFromPath)  // it decide how document will be called;
-            val fileMeta = getFileMeta(metadata, createdFileFromPath)
+            val metadata: File = getMetadataForRootFolder()
+            val fileMeta = getFolderMeta(metadata)
+            Timber.d(" createAppFolderInGoogleDrive metadata %s", metadata.toString())
+            Timber.d(" createAppFolderInGoogleDrive file meta %s", fileMeta.toString())
             return@fromCallable GoogleDriveFileHolder(fileMeta?.id, fileMeta?.name)
         }
                 .timeout(20, TimeUnit.SECONDS)
                 .compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
 
-
     }
+
+    private fun getMetadataForRootFolder(): File {
+        return File()
+                .setParents(listOf(DEFAULT_GOOGLE_DRIVE_UPLOAD_LOCATION_ROOT))
+                .setMimeType(TYPE_GOOGLE_DRIVE_FOLDER) // uploading image to google docs;
+                .setName(DEFAULT_GOOGLE_DRIVE_UPLOAD_FOLDER_NAME)
+    }
+
+    private fun getFolderMeta(metadata: File?): File? {
+        return mDriveService.files()
+                .create(metadata)
+//                .setFields("id, parents")
+                .execute()
+    }
+
 
     private fun getFileMeta(metadata: File?, createdFileFromPath: java.io.File?): File? {
         return mDriveService.files()
@@ -181,6 +208,7 @@ class DriveServiceHelper(private val mDriveService: Drive) {
         return createdFileFromPath
     }
 
+
     private fun getMetadataForImageFile(root: List<String>, createdFileFromPath: java.io.File?): File? {
         return File()
                 .setParents(root)
@@ -190,25 +218,38 @@ class DriveServiceHelper(private val mDriveService: Drive) {
 
     private fun getFolderList(folderId: String?): List<String> {
         return if (folderId == null) {
-            listOf("root")
+            listOf(DEFAULT_GOOGLE_DRIVE_UPLOAD_LOCATION_ROOT)
         } else {
             listOf(folderId)
         }
     }
 
-    fun searchFile(fileName: String, mimeType: String): Observable<GoogleDriveFileHolder> {
-        return Observable.fromCallable {
+
+    fun searchForRootFolder() {
+        searchFileGenericFunction(DEFAULT_GOOGLE_DRIVE_UPLOAD_FOLDER_NAME, TYPE_GOOGLE_DRIVE_FOLDER)
+                .subscribe({
+                    Timber.d(it.toString())
+                },
+                        {
+                            Timber.d(it.toString())
+                        })
+    }
+
+    fun searchFileGenericFunction(fileName: String, mimeType: String): Maybe<GoogleDriveFileHolder> {
+        return Maybe.fromCallable {
+            val pageToken: String? = null
             val result = mDriveService.files().list()
                     .setQ("name = '$fileName' and mimeType ='$mimeType'")
                     .setSpaces("drive")
-                    .setFields("files(id, name,size,createdTime,modifiedTime,starred)")
+                    .setFields("nextPageToken, files(id, name)")
+                    .setPageToken(pageToken)
                     .execute()
+            for (file in result.files) {
+                Timber.d("Found file: %s (%s)\n", file.name, file.id)
+            }
             if (result.files.size > 0) {
-                return@fromCallable GoogleDriveFileHolder(result.files[0].id,
-                        result.files[0].name,
-                        result.files[0].modifiedTime,
-                        result.files[0].getSize(),
-                        null, null)
+                return@fromCallable GoogleDriveFileHolder(result.files[0].id, result.files[0].name,
+                        result.files[0].modifiedTime, result.files[0].getSize(), null, null)
             } else {
                 return@fromCallable GoogleDriveFileHolder()
             }
