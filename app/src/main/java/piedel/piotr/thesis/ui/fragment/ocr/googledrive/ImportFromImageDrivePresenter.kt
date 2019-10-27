@@ -12,11 +12,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
 import piedel.piotr.thesis.configuration.START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE
-import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.service.drive.DriveServiceHelper
@@ -24,16 +22,14 @@ import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity.Companion
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
-import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParser
 import timber.log.Timber
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 
 @ConfigPersistent
 class ImportFromImageDrivePresenter @Inject constructor(private val operationsRepository: OperationRepository) : BasePresenter<ImportFromImageDriveView>(), PresenterContract<ImportFromImageDriveView> {
 
-    private var mDriveServiceHelper: DriveServiceHelper? = null
+    private var driveServiceHelper: DriveServiceHelper? = null
     private var disposable: Disposable? = null
     private var signedAccountInstance: GoogleSignInAccount? = null
 
@@ -69,34 +65,35 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     }
 
     private fun createObservableOfOCRResult(stringPath: String?) {
-        disposable = mDriveServiceHelper?.uploadImageFileToRootFolder(stringPath)
-                ?.flatMap { fileLocatedOnGoogleDrive ->
-                    mDriveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
-                }
-                ?.subscribe(
-                        { googleDriveResponseHolder ->
-                            if (googleDriveResponseHolder.plainTextFromOutputStream.isEmpty()
-                                    || googleDriveResponseHolder.plainTextFromOutputStream.isBlank()) {
-                                view?.showImageContainsNoText()
-                                return@subscribe
-                            }
-                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
-                            //Fix if not operations contain itd; need to block some of operations on my app
-                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
-                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
-                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()){
-                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
-                            }
-                            else view?.errorParsingReceipt()
-                        },
-                        { e ->
-                            if (e is UnknownHostException) {
-                                view?.errorNetworkConnection()
-                            }
-                            Timber.d("onError:  %s", e.toString())
-                        }
-                )
-        addDisposable(disposable)
+        driveServiceHelper?.uploadImageFileToRootFolder("as")?.subscribe()
+
+//        disposable = driveServiceHelper?.uploadImageFileToRootFolder(stringPath)
+//                ?.flatMap { fileLocatedOnGoogleDrive ->
+//                    driveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
+//                }
+//                ?.subscribe(
+//                        { googleDriveResponseHolder ->
+//                            if (googleDriveResponseHolder.plainTextFromOutputStream.isEmpty()
+//                                    || googleDriveResponseHolder.plainTextFromOutputStream.isBlank()) {
+//                                view?.showImageContainsNoText()
+//                                return@subscribe
+//                            }
+//                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
+//                            //Fix if not operations contain itd; need to block some of operations on my app
+//                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
+//                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
+//                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()) {
+//                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
+//                            } else view?.errorParsingReceipt()
+//                        },
+//                        { error ->
+//                            if (error is UnknownHostException || error is SocketException) {
+//                                view?.errorNetworkConnection()
+//                            }
+//                            Timber.d("onError:  %s", error.toString())
+//                        }
+//                )
+//        addDisposable(disposable)
     }
 
     override fun signWithAccountAndLoadImage() {
@@ -144,7 +141,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
 
     private fun createDriveHelper(googleDriveService: Drive) {
         Timber.d("fun createDriveHelper")
-        mDriveServiceHelper = DriveServiceHelper.getInstance(googleDriveService) // TODO: refactor this somehow
+        driveServiceHelper = DriveServiceHelper.getInstance(googleDriveService) // TODO: refactor this somehow
         importFile()
     }
 
