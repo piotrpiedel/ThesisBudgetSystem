@@ -21,6 +21,7 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
         parseStringFromOcrToListOfOperations(substringAfterWordsFiscalReceiptOrDefault())
     }
 
+    //TODO: podzeielic to na mniejsze klasy
     private fun parseStringFromOcrToListOfOperations(responseString: String) {
         addResultToOperationList(createOperationsFromListOfPairTitleValue(createPairsTitleValueUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D(responseString)))
         addResultToOperationList(createOperationsFromListOfPairTitleValue(createPairsTitleValueUsingRegexOneToTenDigitsDotWhiteSpaceAndLetterA_D(responseString)))
