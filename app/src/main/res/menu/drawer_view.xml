@@ -27,9 +27,9 @@
             android:id="@+id/navigation_drive_ocr"
             android:icon="@drawable/ic_round_photo_camera_24px"
             android:title="@string/google_drive_ocr" />
-        <item
-            android:id="@+id/navigation_drive_temp"
-            android:icon="@drawable/ic_round_photo_camera_24px"
-            android:title="@string/google_drive_ocr" />
+<!--        <item-->
+<!--            android:id="@+id/navigation_drive_temp"-->
+<!--            android:icon="@drawable/ic_round_photo_camera_24px"-->
+<!--            android:title="@string/google_drive_ocr" />-->
     </group>
 </menu>

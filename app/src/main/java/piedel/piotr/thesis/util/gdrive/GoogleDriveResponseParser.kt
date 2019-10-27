@@ -16,43 +16,28 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     var listOfOperations: MutableList<Operation> = mutableListOf()
         private set
 
+
+    //TODO: work in here is to add new regex, refactor this, code to better understandability
+    // TODO: replace all those functions with functions passing as paramter
+
     init {
         date = getAnyDateIfStringContainsDate(responseString)?.stringToDate() ?: Date()
-        responseString = substringAfterWordsFiscalReceiptOrDefault()
-        var dividedString: List<String> = firstRegex()
-        // return result only if first regex fail, because this may cause problems and first one is more secure way
-        // if not empty return default
-        //TODO: invent some other way?
-        dividedString = secondRegexIfFirstFails(dividedString)
-
-        //return result only if first&&second regex fail, because this will probably split in wrong way, but still better to try
-        // if not empty return default
-        //TODO: invent some other way?
-        dividedString = thirdRegexOnlyIfSecondAndFirstFails(dividedString)
-
-        dividedStringPublicForDebugging = dividedString
-        val operationList = parseOCRDriveOutputToOperations(dividedString)
-        addResultToOperationList(operationList)
+        val responseStringSubstring = substringAfterWordsFiscalReceiptOrDefault()
+        addResultToOperationList(parseOCRDriveOutputToOperations(firstRegex(responseStringSubstring)))
+        addResultToOperationList(parseOCRDriveOutputToOperations(secondRegexIfFirstFails(responseStringSubstring)))
+        addResultToOperationList(parseOCRDriveOutputToOperations(thirdRegexOnlyIfSecondAndFirstFails(responseStringSubstring)))
     }
 
-    private fun firstRegex(): List<String> {
-        return splitToListWithRegexPattern(responseString, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D())
+    private fun firstRegex(responseStringSubstring: String): List<String> {
+        return splitToListWithRegexPattern(responseStringSubstring, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D())
     }
 
-    private fun secondRegexIfFirstFails(dividedString: List<String>): List<String> {
-        return splitIfPassedListEmptyOrReturnOrigin(dividedString, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D())
+    private fun secondRegexIfFirstFails(responseStringSubstring: String): List<String> {
+        return splitToListWithRegexPattern(responseStringSubstring, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D())
     }
 
-    private fun thirdRegexOnlyIfSecondAndFirstFails(dividedString: List<String>): List<String> {
-        return splitIfPassedListEmptyOrReturnOrigin(dividedString, regexOneToTenDigitsDotOrCommaWThreeDigits())
-    }
-
-    private fun splitIfPassedListEmptyOrReturnOrigin(dividedListOfStrings: List<String>, regex: Regex): List<String> {
-        if (dividedListOfStrings.isEmpty()) {
-            //TODO: invent some other workaround
-            return splitToListWithRegexPattern(responseString, regex)
-        }
-        return dividedListOfStrings
+    private fun thirdRegexOnlyIfSecondAndFirstFails(responseStringSubstring: String): List<String> {
+        return splitToListWithRegexPattern(responseStringSubstring, regexOneToTenDigitsDotOrCommaWThreeDigits())
     }
 
     private fun splitToListWithRegexPattern(responseString: String, regex: Regex): List<String> {
