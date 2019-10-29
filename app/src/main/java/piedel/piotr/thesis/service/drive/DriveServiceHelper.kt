@@ -9,7 +9,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import piedel.piotr.thesis.configuration.*
-import piedel.piotr.thesis.data.model.drive.GoogleDriveFileHolder
+import piedel.piotr.thesis.data.model.drive.GoogleDriveFileMetadataHolder
 import piedel.piotr.thesis.data.model.drive.GoogleDriveResponseHolder
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
@@ -25,13 +25,13 @@ import java.util.concurrent.TimeUnit
  * A utility for performing read/write operations on Drive files via the REST API and opening a
  * file picker UI via Storage Access Framework.
  */
-class DriveServiceHelper(private val mDriveService: Drive) {
+class DriveServiceHelper(private val googleDriveClient: Drive) {
 
     /**
      * Creates a text file in the user's My Drive folder and returns its file ID.
      */
 
-    fun createTextFile(fileName: String, content: String, folderId: String?): Observable<GoogleDriveFileHolder> {
+    fun createTextFile(fileName: String, content: String, folderId: String?): Observable<GoogleDriveFileMetadataHolder> {
         return Observable.fromCallable {
 
             val root: List<String> = if (folderId == null) {
@@ -45,16 +45,16 @@ class DriveServiceHelper(private val mDriveService: Drive) {
                     .setName("TEST 1 Untitled file")
             val contentStream = ByteArrayContent.fromString("text/plain", content)
 
-            val googleFile = mDriveService.files().create(metadata, contentStream).execute()
+            val googleFile = googleDriveClient.files().create(metadata, contentStream).execute()
                     ?: throw IOException("Null result when requesting file creation.")
-            val googleDriveFileHolder = GoogleDriveFileHolder()
+            val googleDriveFileHolder = GoogleDriveFileMetadataHolder()
             googleDriveFileHolder.id = googleFile.id
             return@fromCallable googleDriveFileHolder
-        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
+        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
 
 
-    fun createAndUploadImageFile(fileName: String, content: String, folderId: String?): Observable<GoogleDriveFileHolder> {
+    fun createAndUploadImageFile(fileName: String, content: String, folderId: String?): Observable<GoogleDriveFileMetadataHolder> {
         return Observable.fromCallable {
 
             val root: List<String> = if (folderId == null) {
@@ -68,12 +68,12 @@ class DriveServiceHelper(private val mDriveService: Drive) {
                     .setName("TEST 1 Untitled file")
             val contentStream = ByteArrayContent.fromString("text/plain", content)
 
-            val googleFile = mDriveService.files().create(metadata, contentStream).execute()
+            val googleFile = googleDriveClient.files().create(metadata, contentStream).execute()
                     ?: throw IOException("Null result when requesting file creation.")
-            val googleDriveFileHolder = GoogleDriveFileHolder()
+            val googleDriveFileHolder = GoogleDriveFileMetadataHolder()
             googleDriveFileHolder.id = googleFile.id
             return@fromCallable googleDriveFileHolder
-        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
+        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
 
     /**
@@ -83,11 +83,11 @@ class DriveServiceHelper(private val mDriveService: Drive) {
     fun readFile(fileId: String): Observable<Pair<String, String>> {
         return Observable.fromCallable {
             // Retrieve the metadata as a File object.
-            val metadata = mDriveService.files().get(fileId).execute()
+            val metadata = googleDriveClient.files().get(fileId).execute()
             val name = metadata.name
 
             // Stream the file contents to a String.
-            mDriveService.files().get(fileId).executeMediaAsInputStream().use { inputStream ->
+            googleDriveClient.files().get(fileId).executeMediaAsInputStream().use { inputStream ->
                 BufferedReader(InputStreamReader(inputStream)).use { reader ->
                     val stringBuilder = StringBuilder()
                     var line: String
@@ -113,7 +113,7 @@ class DriveServiceHelper(private val mDriveService: Drive) {
             // Convert content to an AbstractInputStreamContent instance.
             val contentStream = ByteArrayContent.fromString("text/plain", content)
             // Update the metadata and contents.
-            mDriveService.files().update(fileId, metadata, contentStream).execute()
+            googleDriveClient.files().update(fileId, metadata, contentStream).execute()
             return@fromCallable Unit
         }.compose(SchedulerUtils.ioToMain<Unit>())
     }
@@ -130,12 +130,12 @@ class DriveServiceHelper(private val mDriveService: Drive) {
 
     fun queryFiles(): Observable<FileList> {
         return Observable.fromCallable {
-            return@fromCallable mDriveService.files().list().setSpaces("drive").execute()
+            return@fromCallable googleDriveClient.files().list().setSpaces("drive").execute()
         }.compose(SchedulerUtils.ioToMain<FileList>())
     }
 
 
-    fun uploadFile(localFile: java.io.File, mimeType: String, folderId: String?): Observable<GoogleDriveFileHolder> {
+    fun uploadFile(localFile: java.io.File, mimeType: String, folderId: String?): Observable<GoogleDriveFileMetadataHolder> {
         return Observable.fromCallable {
             val metadata = File()
                     .setParents(getFolderList(folderId))
@@ -144,58 +144,32 @@ class DriveServiceHelper(private val mDriveService: Drive) {
 
             val fileContent = FileContent(mimeType, localFile)
 
-            val fileMeta = mDriveService.files().create(metadata, fileContent).execute()
-            return@fromCallable GoogleDriveFileHolder(fileMeta.id, fileMeta.name)
-        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
+            val fileMeta = googleDriveClient.files().create(metadata, fileContent).execute()
+            return@fromCallable GoogleDriveFileMetadataHolder(fileMeta.id, fileMeta.name)
+        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
 
     }
 
-    fun uploadImageFileToRootFolder(pathFile: String?): Single<GoogleDriveFileHolder> { // TODO: upload to custom folder
+    fun uploadImageFileToRootFolder(pathFile: String?): Single<GoogleDriveFileMetadataHolder> { // TODO: upload to custom folder
         return uploadImageFile(pathFile, null)
     }
 
-    private fun uploadImageFile(pathFile: String?, folderId: String?): Single<GoogleDriveFileHolder> {
-        return createAppFolderInGoogleDrive()
-//        return Single.fromCallable {
-//            val createdFileFromPath: java.io.File? = createFileFromPathOrReturnNull(pathFile)
-//            val metadata = getMetadataForImageFile(getFolderList(folderId), createdFileFromPath)  // it decide how document will be called;
-//            val fileMeta = getFileMeta(metadata, createdFileFromPath)
-//            return@fromCallable GoogleDriveFileHolder(fileMeta?.id, fileMeta?.name)
-//        }
-//                .timeout(20, TimeUnit.SECONDS)
-//                .compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
-    }
-
-    private fun createAppFolderInGoogleDrive(): Single<GoogleDriveFileHolder> {
+    private fun uploadImageFile(pathFile: String?, folderId: String?): Single<GoogleDriveFileMetadataHolder> {
+//        return createFolderInGoogleDrive()
         return Single.fromCallable {
-            val metadata: File = getMetadataForRootFolder()
-            val fileMeta = getFolderMeta(metadata)
-            Timber.d(" createAppFolderInGoogleDrive metadata %s", metadata.toString())
-            Timber.d(" createAppFolderInGoogleDrive file meta %s", fileMeta.toString())
-            return@fromCallable GoogleDriveFileHolder(fileMeta?.id, fileMeta?.name)
+            val createdFileFromPath: java.io.File? = createFileFromPathOrReturnNull(pathFile)
+            val metadata = getMetadataForImageFile(getFolderList(folderId), createdFileFromPath)  // it decide how document will be called;
+            val fileMeta = getFileMeta(metadata, createdFileFromPath)
+            return@fromCallable GoogleDriveFileMetadataHolder(fileMeta?.id, fileMeta?.name)
         }
                 .timeout(20, TimeUnit.SECONDS)
-                .compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
-
+                .compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
 
-    private fun getMetadataForRootFolder(): File {
-        return File()
-                .setParents(listOf(DEFAULT_GOOGLE_DRIVE_UPLOAD_LOCATION_ROOT))
-                .setMimeType(TYPE_GOOGLE_DRIVE_FOLDER) // uploading image to google docs;
-                .setName(DEFAULT_GOOGLE_DRIVE_UPLOAD_FOLDER_NAME)
-    }
-
-    private fun getFolderMeta(metadata: File?): File? {
-        return mDriveService.files()
-                .create(metadata)
-//                .setFields("id, parents")
-                .execute()
-    }
 
 
     private fun getFileMeta(metadata: File?, createdFileFromPath: java.io.File?): File? {
-        return mDriveService.files()
+        return googleDriveClient.files()
                 .create(metadata, FileContent(TYPE_PHOTO, createdFileFromPath))
                 .execute()
     }
@@ -235,10 +209,10 @@ class DriveServiceHelper(private val mDriveService: Drive) {
                         })
     }
 
-    fun searchFileGenericFunction(fileName: String, mimeType: String): Maybe<GoogleDriveFileHolder> {
+    fun searchFileGenericFunction(fileName: String, mimeType: String): Maybe<GoogleDriveFileMetadataHolder> {
         return Maybe.fromCallable {
             val pageToken: String? = null
-            val result = mDriveService.files().list()
+            val result = googleDriveClient.files().list()
                     .setQ("name = '$fileName' and mimeType ='$mimeType'")
                     .setSpaces("drive")
                     .setFields("nextPageToken, files(id, name)")
@@ -248,18 +222,18 @@ class DriveServiceHelper(private val mDriveService: Drive) {
                 Timber.d("Found file: %s (%s)\n", file.name, file.id)
             }
             if (result.files.size > 0) {
-                return@fromCallable GoogleDriveFileHolder(result.files[0].id, result.files[0].name,
+                return@fromCallable GoogleDriveFileMetadataHolder(result.files[0].id, result.files[0].name,
                         result.files[0].modifiedTime, result.files[0].getSize(), null, null)
             } else {
-                return@fromCallable GoogleDriveFileHolder()
+                return@fromCallable GoogleDriveFileMetadataHolder()
             }
-        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileHolder>())
+        }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
 
     fun downloadConvertedFileToString(fileId: String): Single<GoogleDriveResponseHolder> {
         return Single.fromCallable {
             val outputStream = ByteArrayOutputStream()
-            mDriveService.files()
+            googleDriveClient.files()
                     .export(fileId, TYPE_TEXT_PLAIN)   // Retrieve the data as a plain text;
                     .executeMediaAndDownloadTo(outputStream)
             return@fromCallable GoogleDriveResponseHolder(outputStream)
