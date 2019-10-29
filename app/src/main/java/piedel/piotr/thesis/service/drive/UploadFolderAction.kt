@@ -3,8 +3,8 @@ package piedel.piotr.thesis.service.drive
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import io.reactivex.Single
-import piedel.piotr.thesis.configuration.DEFAULT_GOOGLE_DRIVE_UPLOAD_FOLDER_NAME
-import piedel.piotr.thesis.configuration.DEFAULT_GOOGLE_DRIVE_UPLOAD_LOCATION_ROOT
+import piedel.piotr.thesis.configuration.DEFAULT_GOOGLE_DRIVE_APP_UPLOAD_FOLDER_NAME
+import piedel.piotr.thesis.configuration.DEFAULT_GOOGLE_DRIVE__ACCOUNT_UPLOAD_FOLDER_ROOT
 import piedel.piotr.thesis.configuration.TYPE_GOOGLE_DRIVE_FOLDER
 import piedel.piotr.thesis.data.model.drive.GoogleDriveFileMetadataHolder
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit
 
 class UploadFolderAction(private val googleDriveClient: Drive) {
 
-    fun createAppFolderInGoogleDrive(): Single<GoogleDriveFileMetadataHolder> {
-        return createFolderInGoogleDrive(DEFAULT_GOOGLE_DRIVE_UPLOAD_FOLDER_NAME)
+    fun createAppFolderInRootFolderInGoogleDrive(): Single<GoogleDriveFileMetadataHolder> {
+        return createFolderInGoogleDrive(DEFAULT_GOOGLE_DRIVE_APP_UPLOAD_FOLDER_NAME)
     }
 
     fun createFolderInGoogleDrive(folderName: String): Single<GoogleDriveFileMetadataHolder> {
@@ -31,7 +31,7 @@ class UploadFolderAction(private val googleDriveClient: Drive) {
 
     private fun createMetadataForFolderInRootDrivePath(folderName: String): File {
         return File()
-                .setParents(listOf(DEFAULT_GOOGLE_DRIVE_UPLOAD_LOCATION_ROOT))
+                .setParents(listOf(DEFAULT_GOOGLE_DRIVE__ACCOUNT_UPLOAD_FOLDER_ROOT))
                 .setMimeType(TYPE_GOOGLE_DRIVE_FOLDER)
                 .setName(folderName)
     }
