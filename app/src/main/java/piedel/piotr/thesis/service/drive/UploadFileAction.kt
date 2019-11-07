@@ -10,6 +10,7 @@ import piedel.piotr.thesis.configuration.TYPE_GOOGLE_DOCS
 import piedel.piotr.thesis.configuration.TYPE_PHOTO
 import piedel.piotr.thesis.data.model.drive.GoogleDriveFileMetadataHolder
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class UploadFileAction(private val googleDriveClient: Drive) {
@@ -42,6 +43,8 @@ class UploadFileAction(private val googleDriveClient: Drive) {
                     getFolderListOrGetDefaultRootDriveFolder(folderId), fileFromPath) // it decide how document will be called;
 
             val metadataResponseFromGoogleDriveForCreatedFile = uploadFileToGoogleDrive(metadataForGoogleGoogleDocs, fileFromPath)
+            Timber.d("Uploaded file from image with id: %s, name: %s, folderId: %s", metadataResponseFromGoogleDriveForCreatedFile?.id,
+                    metadataResponseFromGoogleDriveForCreatedFile?.name, folderId)
             return@fromCallable GoogleDriveFileMetadataHolder(metadataResponseFromGoogleDriveForCreatedFile?.id,
                     metadataResponseFromGoogleDriveForCreatedFile?.name)
         }

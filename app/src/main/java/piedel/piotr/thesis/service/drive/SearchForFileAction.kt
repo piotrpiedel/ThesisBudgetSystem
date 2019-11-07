@@ -2,16 +2,17 @@ package piedel.piotr.thesis.service.drive
 
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.FileList
-import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import piedel.piotr.thesis.data.model.drive.GoogleDriveFileMetadataHolder
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
 import timber.log.Timber
+import java.io.FileNotFoundException
 
 class SearchForFileAction(private val googleDriveClient: Drive) {
 
-    fun searchForFileFunction(fileName: String, mimeType: String): Maybe<GoogleDriveFileMetadataHolder> {
-        return Maybe.fromCallable {
+    fun searchForFileFunction(fileName: String, mimeType: String): Single<GoogleDriveFileMetadataHolder> {
+        return Single.fromCallable {
             val pageToken: String? = null
             val result = googleDriveClient.files().list()
                     .setQ("name = '$fileName' and mimeType ='$mimeType'")
@@ -26,7 +27,7 @@ class SearchForFileAction(private val googleDriveClient: Drive) {
                 return@fromCallable GoogleDriveFileMetadataHolder(result.files[0].id, result.files[0].name,
                         result.files[0].modifiedTime, result.files[0].getSize(), null, null)
             } else {
-                return@fromCallable GoogleDriveFileMetadataHolder()
+                throw FileNotFoundException()
             }
         }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
