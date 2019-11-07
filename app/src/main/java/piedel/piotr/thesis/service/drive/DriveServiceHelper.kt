@@ -2,7 +2,6 @@ package piedel.piotr.thesis.service.drive
 
 import android.annotation.SuppressLint
 import com.google.api.services.drive.Drive
-import io.reactivex.Maybe
 import io.reactivex.Single
 import piedel.piotr.thesis.data.model.drive.GoogleDriveFileMetadataHolder
 import timber.log.Timber
@@ -17,17 +16,25 @@ class DriveServiceHelper(private val googleDriveClient: Drive) {
     @SuppressLint("CheckResult")
     fun uploadImageFileAsGoogleDocsToAppRootFolder(pathFile: String?): Single<GoogleDriveFileMetadataHolder> {
         return getAppFolderFromGoogleDrive()
-                .flatMapSingle { folder ->
-                    UploadFileAction(googleDriveClient).uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
+                .flatMap { folder ->
+                    Timber.d("flatMapSingle when folder was found: %s (%s)", folder.name, folder.id)
+                    UploadFileAction(googleDriveClient)
+                            .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
                 }
-                .doOnError { Timber.d("uploadImageFileAsGoogleDocsToAppRootFolder error message: %s ", it.localizedMessage) }
-                .onErrorResumeNext(UploadFolderAction(googleDriveClient).createAppFolderInRootFolderInGoogleDrive()
+                .doOnError {
+                    Timber.d("uploadImageFileAsGoogleDocsToAppRootFolder error message: %s ", it.localizedMessage)
+                }
+                .onErrorResumeNext(
+                        UploadFolderAction(googleDriveClient)
+                                .createAppFolderInRootFolderInGoogleDrive()
                         .flatMap { folder ->
-                            UploadFileAction(googleDriveClient).uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
+                            Timber.d("flatMapSingle when folder was created (not found for first time) : %s (%s)", folder.name, folder.id)
+                            UploadFileAction(googleDriveClient)
+                                    .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
                         })
     }
 
-    private fun getAppFolderFromGoogleDrive(): Maybe<GoogleDriveFileMetadataHolder> {
+    private fun getAppFolderFromGoogleDrive(): Single<GoogleDriveFileMetadataHolder> {
         val searchForFolderAction = SearchForFolderAction(googleDriveClient)
         return searchForFolderAction.searchForAppRootFolder()
     }
