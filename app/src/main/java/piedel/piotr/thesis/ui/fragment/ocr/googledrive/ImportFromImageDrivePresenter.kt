@@ -65,7 +65,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     }
 
     private fun createObservableOfOCRResult(stringPath: String?) {
-        driveServiceHelper?.uploadImageFileToRootFolder("as")?.subscribe()
+        driveServiceHelper?.uploadImageFileAsGoogleDocsToAppRootFolder(stringPath)?.subscribe()
 
 //        disposable = driveServiceHelper?.uploadImageFileToRootFolder(stringPath)
 //                ?.flatMap { fileLocatedOnGoogleDrive ->
