@@ -19,23 +19,28 @@ class DriveServiceHelper(private val googleDriveClient: Drive) {
         return getAppFolderFromGoogleDrive()
                 .flatMap { folder ->
                     Timber.d("flatMapSingle when folder was found - folder name: %s, folderID: (%s)", folder.name, folder.id)
-                    return@flatMap UploadFileAction(googleDriveClient)
-                            .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
+                    return@flatMap uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder)
                 }
                 .doOnError {
                     Timber.d("uploadImageFileAsGoogleDocsToAppRootFolder error message is: %s ", it.localizedMessage)
                 }
-                .onErrorResumeNext(
-                        UploadFolderAction(googleDriveClient)
-                                .createAppFolderInRootFolderInGoogleDrive()
-                                .flatMap { folder ->
-                                    Timber.d("flatMapSingle when folder was created (not found for first time) : folder name: %s, folderID: (%s)"
-                                            , folder.name, folder.id)
-
-                                    return@flatMap UploadFileAction(googleDriveClient)
-                                            .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
-                                })
+                .onErrorResumeNext(retryUploadFilActionWithCreatingNewAppFolder(pathFile))
     }
+
+    private fun retryUploadFilActionWithCreatingNewAppFolder(pathFile: String?): Single<GoogleDriveFileMetadataHolder> {
+        return UploadFolderAction(googleDriveClient)
+                .createAppFolderInRootFolderInGoogleDrive()
+                .flatMap { folder ->
+                    Timber.d("flatMapSingle when folder was created (not found for first time) : folder name: %s, folderID: (%s)"
+                            , folder.name, folder.id)
+
+                    return@flatMap uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder)
+                }
+    }
+
+    private fun uploadImageFileAsGoogleDocsToAppRootFolder(pathFile: String?, folder: GoogleDriveFileMetadataHolder) =
+            UploadFileAction(googleDriveClient)
+                    .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
 
     fun downloadConvertedFileToString(fileId: String): Single<GoogleDriveResponseHolder> {
         return DownloadFileAction(googleDriveClient).downloadConvertedFileToString(fileId)
