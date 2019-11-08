@@ -15,9 +15,11 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     var dividedStringPublicForDebugging: List<String> = mutableListOf()
     val googleDriveResponseParsedOperationsHolder = GoogleDriveResponseParsedOperationsHolder()
 
-    fun parseStringFromOcrToListOfOperations() {
+
+    fun parseStringFromOcrToListOfOperations(): MutableList<Operation> {
         dateOnReceipt = getDateFromStringOrReturnTodayDate()
         parseStringFromOcrToListOfOperations(substringAfterWordsFiscalReceiptOrDefault())
+        return googleDriveResponseParsedOperationsHolder.listOfParsedOperationsFromOCRString
     }
 
     private fun parseStringFromOcrToListOfOperations(responseString: String) {

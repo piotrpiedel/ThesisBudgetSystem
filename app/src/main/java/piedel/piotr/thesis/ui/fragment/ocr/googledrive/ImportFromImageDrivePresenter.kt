@@ -15,6 +15,7 @@ import com.google.api.services.drive.DriveScopes
 import io.reactivex.disposables.Disposable
 import piedel.piotr.thesis.configuration.REQUEST_CODE_SIGN_IN
 import piedel.piotr.thesis.configuration.START_IMAGE_PICKER_ACTIVITY_REQUEST_CODE
+import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.data.model.operation.OperationRepository
 import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.service.drive.DriveServiceHelper
@@ -79,18 +80,18 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                                 view?.showImageContainsNoText()
                                 return@subscribe
                             }
-                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
+                            Timber.d("Response of text OCRed from image by GoogleDrive: %s",
+                                    googleDriveResponseHolder.plainTextFromOutputStream)
+
                             //Fix if not operations contain itd; need to block some of operations on my app
                             val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
-
-                            googleDriveResponseParser.parseStringFromOcrToListOfOperations()
+                            val listOfParsedOperationsFromOCRString = googleDriveResponseParser
+                                    .parseStringFromOcrToListOfOperations()
 
                             setTextViewWithUnParsedTextFromOCR(googleDriveResponseParser)  // TODO: delete this before official relaease
 
-                            if (isGoogleDriveResponseParserContainingOperations(googleDriveResponseParser)) {
-                                view?.passListToOperationSelectionFragment(googleDriveResponseParser
-                                        .googleDriveResponseParsedOperationsHolder
-                                        .listOfParsedOperationsFromOCRString)
+                            if (isGoogleDriveResponseParserContainingOperations(listOfParsedOperationsFromOCRString)) {
+                                view?.passListToOperationSelectionFragment(listOfParsedOperationsFromOCRString)
                             } else showErrorDuringParsingReceipt()
                         },
                         { error ->
@@ -103,14 +104,12 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
         addDisposable(disposable)
     }
 
-    private fun isGoogleDriveResponseParserContainingOperations(
-            googleDriveResponseParser: GoogleDriveResponseParser) = !googleDriveResponseParser
-            .googleDriveResponseParsedOperationsHolder
-            .listOfParsedOperationsFromOCRString
-            .isNullOrEmpty()
+    private fun isGoogleDriveResponseParserContainingOperations(listOfParsedOperationsFromOCRString: MutableList<Operation>) =
+            !listOfParsedOperationsFromOCRString
+                    .isNullOrEmpty()
 
     private fun setTextViewWithUnParsedTextFromOCR(googleDriveResponseParser: GoogleDriveResponseParser) {
-        view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging)
+        Timber.d("setDividedStringOnlyForDebuggingPurpose: %s", googleDriveResponseParser.dividedStringPublicForDebugging)
     }
 
     private fun showErrorDuringParsingReceipt() {
