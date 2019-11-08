@@ -104,7 +104,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
         addDisposable(disposable)
     }
 
-    private fun isGoogleDriveResponseParserContainingOperations(listOfParsedOperationsFromOCRString: MutableList<Operation>) =
+    private fun isGoogleDriveResponseParserContainingOperations(listOfParsedOperationsFromOCRString: List<Operation>) =
             !listOfParsedOperationsFromOCRString
                     .isNullOrEmpty()
 
