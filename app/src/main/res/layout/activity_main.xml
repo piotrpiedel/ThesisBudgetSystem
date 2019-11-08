@@ -15,27 +15,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.main.MainActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/activity_bar_container"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="4dp"
-                android:theme="@style/AppTheme.ToolbarStyle"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        <include layout="@layout/app_bar_layout" />
 
         <RelativeLayout
             android:id="@+id/fragment_container_activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/activity_bar_container" />
+            android:layout_below="@+id/main_activity_bar_container" />
 
 
         <ProgressBar

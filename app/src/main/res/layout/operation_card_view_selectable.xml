@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/operation_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/operation_card_view_margin"
+    android:layout_marginTop="@dimen/operation_card_view_margin"
+    android:layout_marginEnd="@dimen/operation_card_view_margin"
+    app:cardCornerRadius="@dimen/operations_card_view_card_corner_radius">
+
+    <RelativeLayout
+
+        android:id="@+id/operation_card_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recycle_view_operation_item_selector">
+
+        <TextView
+            android:id="@+id/operations_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/operations_title"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/operation_card_view_value_margin"
+            android:ellipsize="end"
+            android:maxLength="10"
+            tools:text="3023213123123132213321"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/operations_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/operation_card_view_title_margin"
+            android:layout_toStartOf="@id/operations_value"
+            android:ellipsize="end"
+            android:gravity="center"
+            tools:text="operations_title" />
+
+        <TextView
+            android:id="@+id/operations_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operations_title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:text="@string/lorem_ipsum_short"
+            tools:visibility="visible" />
+
+
+        <TextView
+            android:id="@+id/operations_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/operations_category"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/operation_card_view_date_margin"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:text="@string/lorem_ipsum_short"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

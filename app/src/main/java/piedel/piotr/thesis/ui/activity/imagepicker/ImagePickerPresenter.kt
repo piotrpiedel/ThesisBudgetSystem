@@ -12,10 +12,8 @@ import piedel.piotr.thesis.injection.scopes.ConfigPersistent
 import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerContract.ImagePickerView
 import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerContract.PresenterContract
 import piedel.piotr.thesis.ui.base.BasePresenter
+import piedel.piotr.thesis.util.*
 import piedel.piotr.thesis.util.listener.CameraAndStoragePermissionListener
-import piedel.piotr.thesis.util.saveBitmapReturnOnlyPathToFile
-import piedel.piotr.thesis.util.suffixAppendToFileNameBeforeExtension
-import piedel.piotr.thesis.util.toGrayScaleUsingRenderScript
 import java.io.File
 import java.io.FileInputStream
 import javax.inject.Inject
@@ -55,7 +53,15 @@ class ImagePickerPresenter @Inject constructor() : BasePresenter<ImagePickerView
             bitmapOriginal.recycle() // release original bitmap immediately
             return BitmapFactory
                     .decodeStream(FileInputStream(originalPickedImageFile), null, bitmapOptions)
-                    ?.toGrayScaleUsingRenderScript(context) as Bitmap
+                    ?.autoBrightnessUsingRenderScript(context)
+                    ?.toGrayScaleUsingRenderScript(context)
+                    ?.applyGaussianBlur(context) as Bitmap
+//               TODO:
+//                    ?.thresholdAdaptiveUsingRenderScript(context) as Bitmap
+//                    ?.binarizeBitmapUsingRenderScriptTempFunctionName(context) as Bitmap
+//                    should split in two methods
+//                    and should in one time grayscale&& brightness in one renderscript
+//                    this approach should be faster than separate functions
         } else return bitmapOriginal.toGrayScaleUsingRenderScript(context)
     }
 
