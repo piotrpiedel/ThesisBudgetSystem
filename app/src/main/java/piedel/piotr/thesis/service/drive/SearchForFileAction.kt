@@ -27,7 +27,7 @@ class SearchForFileAction(private val googleDriveClient: Drive) {
                 return@fromCallable GoogleDriveFileMetadataHolder(result.files[0].id, result.files[0].name,
                         result.files[0].modifiedTime, result.files[0].getSize(), null, null)
             } else {
-                throw FileNotFoundException()
+                throw FileNotFoundException("File not found on google drive account")
             }
         }.compose(SchedulerUtils.ioToMain<GoogleDriveFileMetadataHolder>())
     }
