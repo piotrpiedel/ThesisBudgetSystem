@@ -18,18 +18,18 @@ class DriveServiceHelper(private val googleDriveClient: Drive) {
     fun uploadImageFileAsGoogleDocsToAppRootFolder(pathFile: String?): Single<GoogleDriveFileMetadataHolder> {
         return getAppFolderFromGoogleDrive()
                 .flatMap { folder ->
-                    Timber.d("flatMapSingle when folder was found: %s (%s)", folder.name, folder.id)
+                    Timber.d("flatMapSingle when folder was found - folder name: %s, folderID: (%s)", folder.name, folder.id)
                     return@flatMap UploadFileAction(googleDriveClient)
                             .uploadImageFileAsGoogleDocsToAppRootFolder(pathFile, folder.id)
                 }
                 .doOnError {
-                    Timber.d("uploadImageFileAsGoogleDocsToAppRootFolder error message: %s ", it.localizedMessage)
+                    Timber.d("uploadImageFileAsGoogleDocsToAppRootFolder error message is: %s ", it.localizedMessage)
                 }
                 .onErrorResumeNext(
                         UploadFolderAction(googleDriveClient)
                                 .createAppFolderInRootFolderInGoogleDrive()
                                 .flatMap { folder ->
-                                    Timber.d("flatMapSingle when folder was created (not found for first time) : %s (%s)"
+                                    Timber.d("flatMapSingle when folder was created (not found for first time) : folder name: %s, folderID: (%s)"
                                             , folder.name, folder.id)
 
                                     return@flatMap UploadFileAction(googleDriveClient)
