@@ -2,23 +2,22 @@ package piedel.piotr.thesis.data.model.operation
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import androidx.room.*
 import piedel.piotr.thesis.data.model.category.categorychild.CategoryChild
 import piedel.piotr.thesis.util.getRandomCategory
 import piedel.piotr.thesis.util.readDate
-import piedel.piotr.thesis.util.writeDate
-import java.util.Date
+import java.util.*
 
 @Entity(tableName = "operation_table",
-        foreignKeys = arrayOf(ForeignKey(entity = CategoryChild::class,
+        foreignKeys = [ForeignKey(entity = CategoryChild::class,
                 parentColumns = ["categoryId"],
                 childColumns = ["other_category_id"]
-        )))
-data class Operation(var value: Double, var title: String?, var operationType: OperationType, var date: Date?, var other_category_id: Int?) : Parcelable { //null without category
+        )])
+data class Operation(override var value: Double = 123456.1,
+                     override var title: String? = "Empty Constructor",
+                     override var operationType: OperationType = OperationType.OUTCOME,
+                     override var date: Date? = Date(),
+                     override var other_category_id: Int? = getRandomCategory()) : Parcelable, OperationBase {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -27,23 +26,21 @@ data class Operation(var value: Double, var title: String?, var operationType: O
             parcel.readString(),
             OperationType.valueOf(parcel.readString() as String),
             parcel.readDate(),
-            parcel.readValue(Int::class.java.classLoader) as? Int) {
+            parcel.readInt()) {
         id = parcel.readInt()
     }
 
     @Ignore
-    constructor(value: Double, title: String?, operationType: OperationType, date: Date?) : this(value, title, operationType, date, getRandomCategory())
+    constructor(title: String?) : this(123456.1, title)
 
-
+    //this is for development
     @Ignore
-    constructor() : this(123456.1, "Empty Constructor", OperationType.OUTCOME, Date())
+    constructor(value: Double, title: String?, operationType: OperationType, date: Date?) : this(value, title, operationType, date, getRandomCategory())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeDouble(value)
         parcel.writeString(title)
-        parcel.writeString(operationType.name)
-        parcel.writeDate(date)
-        parcel.writeValue(other_category_id)
+        other_category_id?.let { parcel.writeInt(it) }
         parcel.writeInt(id)
     }
 

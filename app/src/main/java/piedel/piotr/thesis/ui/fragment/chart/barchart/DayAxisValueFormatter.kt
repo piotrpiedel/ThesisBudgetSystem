@@ -3,11 +3,12 @@ package piedel.piotr.thesis.ui.fragment.chart.barchart
 import com.github.mikephil.charting.charts.BarLineChartBase
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.util.Calendar
 import java.util.Date
 
 
-class DayAxisValueFormatter(private val chart: BarLineChartBase<*>, private val chosenDate: Date?) : IAxisValueFormatter {
+class DayAxisValueFormatter(private val chart: BarLineChartBase<*>, private val chosenDate: Date?) : ValueFormatter() {
 
     override fun getFormattedValue(value: Float, axis: AxisBase?): String {
 

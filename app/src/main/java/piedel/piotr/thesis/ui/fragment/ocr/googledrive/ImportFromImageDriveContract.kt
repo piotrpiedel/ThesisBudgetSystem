@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import piedel.piotr.thesis.data.model.operation.Operation
 import piedel.piotr.thesis.ui.base.BaseView
 import piedel.piotr.thesis.ui.base.Presenter
 
@@ -18,7 +19,7 @@ interface ImportFromImageDriveContract {
 
         fun getGoogleAccountCredentialUsingOAuth2(): GoogleAccountCredential
 
-        fun getAlreadySignedAccount(): GoogleSignInAccount?
+        fun getAccountIfAlreadySigned(): GoogleSignInAccount?
 
         fun errorNetworkConnection()
 
@@ -26,19 +27,19 @@ interface ImportFromImageDriveContract {
 
         fun errorParsingReceipt()
 
-        fun showInsertCompleteToast()
-
         fun startImagePickerActivity()
 
         fun setImportedTextFromImage(plainTextFromOutputStream: String)
 
         fun setDividedStringOnlyForDebuggingPurposes(dividedStringPublicForDebugging: List<String>)
+
+        fun passListToOperationSelectionFragment(listOfOperations: List<Operation>)
     }
 
     interface PresenterContract<T : BaseView> : Presenter<T> {
         fun checkPermissions(fragmentActivity: FragmentActivity)
 
-        fun signWithAccount()
+        fun signWithAccountAndLoadImage()
 
         fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     }

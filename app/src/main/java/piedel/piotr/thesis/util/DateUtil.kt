@@ -9,8 +9,8 @@ import java.util.*
 fun String.stringToDate(): Date? {
     return if (this.isNotBlank() && this.isNotEmpty()) {
         when {
-            this.contains(regexDatePattern_YYYY_MM_DD()) -> simpleDate_YYYY_MM_DD().parse(this)
-            this.contains(regexDatePattern_DD_MM_YYYY()) ->
+            this.contains(regexDatePattern_YYYY_MM_DD) -> simpleDate_YYYY_MM_DD().parse(this)
+            this.contains(regexDatePattern_DD_MM_YYYY) ->
                 simpleDate_YYYY_MM_DD().parse( // parse return Date in desired pattern  yyyy-MM-DD
                         simpleDate_YYYY_MM_DD().format( // format return String in desired  pattern yyyy-MM-DD
                                 simpleDateFormat_DD_MM_YYYY().parse(this))) // parse return Date in current
@@ -48,8 +48,8 @@ fun fixNumberOfMonth(monthNumber: Int): String {
 }
 
 fun getAnyDateIfStringContainsDate(stringToCheck: String): String? {
-    val dateString_YYYY_MM_DD: String? = regexDatePattern_YYYY_MM_DD().find(stringToCheck)?.value
-    val dateString_DD_MM_YYYY: String? = regexDatePattern_DD_MM_YYYY().find(stringToCheck)?.value
+    val dateString_YYYY_MM_DD: String? = regexDatePattern_YYYY_MM_DD.find(stringToCheck)?.value
+    val dateString_DD_MM_YYYY: String? = regexDatePattern_DD_MM_YYYY.find(stringToCheck)?.value
     return when {
         dateString_YYYY_MM_DD != null -> dateString_YYYY_MM_DD
         dateString_DD_MM_YYYY != null -> dateString_DD_MM_YYYY

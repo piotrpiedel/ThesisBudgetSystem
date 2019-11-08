@@ -1,7 +1,6 @@
 package piedel.piotr.thesis.ui.activity.main
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
@@ -13,12 +12,12 @@ import butterknife.BindView
 import com.google.android.material.navigation.NavigationView
 import piedel.piotr.thesis.R
 import piedel.piotr.thesis.ui.base.BaseActivity
-import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryFragment
+import piedel.piotr.thesis.ui.fragment.category.categorylist.CategoryListFragment
 import piedel.piotr.thesis.ui.fragment.chart.choosechart.ChooseChartFragment
 import piedel.piotr.thesis.ui.fragment.importexport.importfromhtml.ImportExportFragment
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveFragment
-import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationFragment
-import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptFragment
+import piedel.piotr.thesis.ui.fragment.operation.operationlist.OperationListFragment
+import piedel.piotr.thesis.ui.fragment.receipt.receiptlist.ReceiptListFragment
 import piedel.piotr.thesis.util.showToast
 import timber.log.Timber
 import javax.inject.Inject
@@ -44,8 +43,6 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
     @BindView(R.id.fragment_container_activity_main)
     lateinit var fragmentContainer: View
 
-    var menu: Menu? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getActivityComponent().inject(this)
@@ -54,12 +51,6 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
         setOpenSideBarListener()
         navigationView.setNavigationItemSelectedListener(this)
         mainPresenter.initStartingFragment()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
-        menuInflater.inflate(R.menu.menu_options, menu);
-        return false;
     }
 
     fun getToolbarFromActivity(): Toolbar {
@@ -79,7 +70,7 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
     }
 
     override fun initFirstFragment() {
-        val operationsFragment = OperationFragment()
+        val operationsFragment = OperationListFragment()
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_activity_main, operationsFragment)
                 .commit()
@@ -89,14 +80,14 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
         when (item.itemId) {
             R.id.navigation_operations -> {
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
-                        OperationFragment(),
-                        OperationFragment.FRAGMENT_TAG
+                        OperationListFragment(),
+                        OperationListFragment.FRAGMENT_TAG
                 )
             }
             R.id.navigation_categories -> {
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
-                        CategoryFragment(),
-                        CategoryFragment.FRAGMENT_TAG)
+                        CategoryListFragment(),
+                        CategoryListFragment.FRAGMENT_TAG)
             }
             R.id.navigation_import -> {
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
@@ -105,8 +96,8 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
             }
             R.id.navigation_receipt_list -> {
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
-                        ReceiptFragment(),
-                        ReceiptFragment.FRAGMENT_TAG)
+                        ReceiptListFragment(),
+                        ReceiptListFragment.FRAGMENT_TAG)
             }
             R.id.navigation_chart -> {
                 replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
@@ -118,6 +109,11 @@ class MainActivity : BaseActivity(), MainContract.MainView, NavigationView.OnNav
                         ImportFromImageDriveFragment(),
                         ImportFromImageDriveFragment.FRAGMENT_TAG)
             }
+//            R.id.navigation_drive_temp -> {
+//                replaceFragmentWithBackStack(R.id.fragment_container_activity_main,
+//                        OperationSelectableListFragment(),
+//                        OperationSelectableListFragment.FRAGMENT_TAG)
+//            }
         }
         drawerActivity.closeDrawer(GravityCompat.START)
         return true
