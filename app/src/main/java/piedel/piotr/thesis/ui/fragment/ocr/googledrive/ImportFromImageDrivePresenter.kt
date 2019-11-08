@@ -22,7 +22,10 @@ import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity.Companion
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
+import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParser
 import timber.log.Timber
+import java.net.SocketException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -65,35 +68,33 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
     }
 
     private fun createObservableOfOCRResult(stringPath: String?) {
-        driveServiceHelper?.uploadImageFileAsGoogleDocsToAppRootFolder(stringPath)?.subscribe()
-
-//        disposable = driveServiceHelper?.uploadImageFileToRootFolder(stringPath)
-//                ?.flatMap { fileLocatedOnGoogleDrive ->
-//                    driveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
-//                }
-//                ?.subscribe(
-//                        { googleDriveResponseHolder ->
-//                            if (googleDriveResponseHolder.plainTextFromOutputStream.isEmpty()
-//                                    || googleDriveResponseHolder.plainTextFromOutputStream.isBlank()) {
-//                                view?.showImageContainsNoText()
-//                                return@subscribe
-//                            }
-//                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
-//                            //Fix if not operations contain itd; need to block some of operations on my app
-//                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
-//                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
-//                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()) {
-//                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
-//                            } else view?.errorParsingReceipt()
-//                        },
-//                        { error ->
-//                            if (error is UnknownHostException || error is SocketException) {
-//                                view?.errorNetworkConnection()
-//                            }
-//                            Timber.d("onError:  %s", error.toString())
-//                        }
-//                )
-//        addDisposable(disposable)
+        disposable = driveServiceHelper?.uploadImageFileAsGoogleDocsToAppRootFolder(stringPath)
+                ?.flatMap { fileLocatedOnGoogleDrive ->
+                    driveServiceHelper?.downloadConvertedFileToString(fileLocatedOnGoogleDrive.id.toString())
+                }
+                ?.subscribe(
+                        { googleDriveResponseHolder ->
+                            if (googleDriveResponseHolder.plainTextFromOutputStream.isEmpty()
+                                    || googleDriveResponseHolder.plainTextFromOutputStream.isBlank()) {
+                                view?.showImageContainsNoText()
+                                return@subscribe
+                            }
+                            view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
+                            //Fix if not operations contain itd; need to block some of operations on my app
+                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
+                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
+                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()) {
+                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
+                            } else view?.errorParsingReceipt()
+                        },
+                        { error ->
+                            if (error is UnknownHostException || error is SocketException) {
+                                view?.errorNetworkConnection()
+                            }
+                            Timber.d("onError:  %s", error.toString())
+                        }
+                )
+        addDisposable(disposable)
     }
 
     override fun signWithAccountAndLoadImage() {
