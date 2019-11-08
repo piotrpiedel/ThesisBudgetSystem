@@ -13,19 +13,27 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     private var responseStringAfterOCRFromGDrive: String = googleDriveResponseHolder.plainTextFromOutputStream
     private var dateOnReceipt: Date? = null
     var dividedStringPublicForDebugging: List<String> = mutableListOf()
-    var listOfOperations: MutableList<Operation> = mutableListOf()
-        private set
+    val googleDriveResponseParsedOperationsHolder = GoogleDriveResponseParsedOperationsHolder()
 
-    init {
+    fun parseStringFromOcrToListOfOperations() {
         dateOnReceipt = getDateFromStringOrReturnTodayDate()
         parseStringFromOcrToListOfOperations(substringAfterWordsFiscalReceiptOrDefault())
     }
 
-    //TODO: podzeielic to na mniejsze klasy
     private fun parseStringFromOcrToListOfOperations(responseString: String) {
-        addResultToOperationList(createOperationsFromListOfPairTitleValue(createPairsTitleValueUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D(responseString)))
-        addResultToOperationList(createOperationsFromListOfPairTitleValue(createPairsTitleValueUsingRegexOneToTenDigitsDotWhiteSpaceAndLetterA_D(responseString)))
-        addResultToOperationList(createOperationsFromListOfPairTitleValue(createPairsTitleValueUsingRegexOneToTenDigitsDotOrCommaThreeDigits(responseString)))
+
+        //TODO: Think how to redesign it?
+        googleDriveResponseParsedOperationsHolder.addResultToOperationList(
+                createOperationsFromListOfPairTitleValue(
+                        createPairsTitleValueUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D(responseString)))
+
+        googleDriveResponseParsedOperationsHolder.addResultToOperationList(
+                createOperationsFromListOfPairTitleValue(
+                        createPairsTitleValueUsingRegexOneToTenDigitsDotWhiteSpaceAndLetterA_D(responseString)))
+
+        googleDriveResponseParsedOperationsHolder.addResultToOperationList(
+                createOperationsFromListOfPairTitleValue(
+                        createPairsTitleValueUsingRegexOneToTenDigitsDotOrCommaThreeDigits(responseString)))
     }
 
     private fun createPairsTitleValueUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D(responseString: String): List<Pair<String, String>> =
@@ -74,11 +82,6 @@ class GoogleDriveResponseParser(googleDriveResponseHolder: GoogleDriveResponseHo
     private fun findSubstringBeforeCurrentMatch(stringToSplit: String, startPosition: Int, matchRegexResult: MatchResult) =
             stringToSplit.substring(startPosition, matchRegexResult.range.first())
 
-    private fun addResultToOperationList(operationList: List<Operation>) {
-        if (!operationList.isNullOrEmpty()) {
-            listOfOperations.addAll(operationList)
-        } else return
-    }
 
     private fun matchStringFromListToTitleValuePair(dividedString: List<String>): List<Pair<String, String>> {
         val pairTitleOperationValueOperation: List<Pair<String, String>>?

@@ -82,10 +82,16 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                             view?.setImportedTextFromImage(googleDriveResponseHolder.plainTextFromOutputStream)
                             //Fix if not operations contain itd; need to block some of operations on my app
                             val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
-                            view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging) // TODO: delete this before official relaease
-                            if (!googleDriveResponseParser.listOfOperations.isNullOrEmpty()) {
-                                view?.passListToOperationSelectionFragment(googleDriveResponseParser.listOfOperations)
-                            } else view?.errorParsingReceipt()
+
+                            googleDriveResponseParser.parseStringFromOcrToListOfOperations()
+
+                            setTextViewWithUnParsedTextFromOCR(googleDriveResponseParser)  // TODO: delete this before official relaease
+
+                            if (isGoogleDriveResponseParserContainingOperations(googleDriveResponseParser)) {
+                                view?.passListToOperationSelectionFragment(googleDriveResponseParser
+                                        .googleDriveResponseParsedOperationsHolder
+                                        .listOfParsedOperationsFromOCRString)
+                            } else showErrorDuringParsingReceipt()
                         },
                         { error ->
                             if (error is UnknownHostException || error is SocketException) {
@@ -95,6 +101,20 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                         }
                 )
         addDisposable(disposable)
+    }
+
+    private fun isGoogleDriveResponseParserContainingOperations(
+            googleDriveResponseParser: GoogleDriveResponseParser) = !googleDriveResponseParser
+            .googleDriveResponseParsedOperationsHolder
+            .listOfParsedOperationsFromOCRString
+            .isNullOrEmpty()
+
+    private fun setTextViewWithUnParsedTextFromOCR(googleDriveResponseParser: GoogleDriveResponseParser) {
+        view?.setDividedStringOnlyForDebuggingPurposes(googleDriveResponseParser.dividedStringPublicForDebugging)
+    }
+
+    private fun showErrorDuringParsingReceipt() {
+        view?.errorParsingReceipt()
     }
 
     override fun signWithAccountAndLoadImage() {
