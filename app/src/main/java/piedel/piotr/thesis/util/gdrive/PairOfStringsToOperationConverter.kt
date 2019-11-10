@@ -5,10 +5,10 @@ import piedel.piotr.thesis.data.model.operation.OperationType
 import piedel.piotr.thesis.util.parseStringWithCommaSeparatorToDouble
 import java.util.*
 
-class PairOfStringToOperationConverter {
+class PairOfStringsToOperationConverter {
 
-    fun matchPairTitleValueToListOfOperation(pairTitleOperationValueOperation: List<Pair<String, String>>, dateOnReceipt: Date?):
-            List<Operation> {
+    fun matchPairsWithTitleValueStringToListOfOperation(pairTitleOperationValueOperation:
+                                                        List<Pair<String, String>>, dateOnReceipt: Date?): List<Operation> {
         val operationList: MutableList<Operation> = mutableListOf()
         for (pair in pairTitleOperationValueOperation) {
             operationList.add(createOperationFromPair(pair, dateOnReceipt))

@@ -34,8 +34,8 @@ class GoogleDriveResponseParserHelper(googleDriveResponseHolder: GoogleDriveResp
     private fun addOperationsToResult(responseString: String, stringSplitterWithRegexFunction: (responseString: String) -> List<String>) {
         googleDriveResponseParsedOperationsHolder
                 .addResultToOperationList(
-                        PairOfStringToOperationConverter()
-                                .matchPairTitleValueToListOfOperation(
+                        PairOfStringsToOperationConverter()
+                                .matchPairsWithTitleValueStringToListOfOperation(
                                         ResponsePairsMatcher()
                                                 .matchStringFromListToTitleValuePair(stringSplitterWithRegexFunction(responseString))
                                         , dateOnReceipt))
