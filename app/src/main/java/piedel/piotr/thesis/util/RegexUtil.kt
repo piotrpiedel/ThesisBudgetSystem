@@ -6,6 +6,8 @@ package piedel.piotr.thesis.util
 // | -> or
 // (?i) -> ignore case of words to detect
 
+// (one letter [a-d][A-D])
+val regexLettersFromAtoDIgnoreCase = Regex("(?i)[a-d]")
 
 val regexReceiptWord: Regex = Regex("""\b(?i)(paragon fiskalny|fiskalny|paragon)\b""")
 

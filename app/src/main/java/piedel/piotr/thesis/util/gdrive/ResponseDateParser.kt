@@ -1,13 +1,12 @@
 package piedel.piotr.thesis.util.gdrive
 
 import piedel.piotr.thesis.util.getAnyDateIfStringContainsDate
-import piedel.piotr.thesis.util.stringToDate
+import piedel.piotr.thesis.util.stringAnyFormatToDefaultDateFormat
 import java.util.*
 
-class ResponseDateParser {
+class ResponseDateParser(private val stringToGetDateFrom: String) {
 
-    private fun getDateFromStringOrReturnTodayDate() =
-            getAnyDateIfStringContainsDate(responseStringAfterOCRFromGDrive)?.stringToDate()
+    fun getDateFromStringOrReturnTodayDate(): Date =
+            getAnyDateIfStringContainsDate(stringToGetDateFrom)?.stringAnyFormatToDefaultDateFormat()
                     ?: Date()
-
 }

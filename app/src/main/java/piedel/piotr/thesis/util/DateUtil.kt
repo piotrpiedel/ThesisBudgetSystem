@@ -6,7 +6,7 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String.stringToDate(): Date? {
+fun String.stringAnyFormatToDefaultDateFormat(): Date? {
     return if (this.isNotBlank() && this.isNotEmpty()) {
         when {
             this.contains(regexDatePattern_YYYY_MM_DD) -> simpleDate_YYYY_MM_DD().parse(this)
@@ -15,7 +15,7 @@ fun String.stringToDate(): Date? {
                         simpleDate_YYYY_MM_DD().format( // format return String in desired  pattern yyyy-MM-DD
                                 simpleDateFormat_DD_MM_YYYY().parse(this))) // parse return Date in current
             else -> {
-                Timber.e("DateUtil fun stringToDate() NOT SUPPORTED DATE PATTERN (Check and add it) ")
+                Timber.e("DateUtil fun stringAnyFormatToDefaultDateFormat() NOT SUPPORTED DATE PATTERN (Check and add it) ")
                 null
             }
         }
@@ -29,7 +29,7 @@ fun dateToString_DayFullMonthNameYearFormat(dateToFormat: Date): String {
 }
 
 fun dateFromStringNullCheck(value: String?): Date {
-    return value?.stringToDate() ?: Date()
+    return value?.stringAnyFormatToDefaultDateFormat() ?: Date()
 }
 
 fun dateToDayMonthYearFormatString(date: Date?): String? {

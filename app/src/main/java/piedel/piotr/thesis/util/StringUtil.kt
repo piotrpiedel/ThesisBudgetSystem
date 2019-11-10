@@ -5,9 +5,9 @@ import java.text.DecimalFormat
 import java.util.*
 
 fun String.suffixAppendToFileNameBeforeExtension(suffixToFile: String): String {
-    val dotIndex = this.lastIndexOf(".");
-    return if (dotIndex == -1) this + suffixToFile;
-    else this.substring(0, dotIndex) + suffixToFile + this.substring(dotIndex);
+    val dotIndex = this.lastIndexOf(".")
+    return if (dotIndex == -1) this + suffixToFile
+    else this.substring(0, dotIndex) + suffixToFile + this.substring(dotIndex)
 }
 
 fun doubleToStringInTwoPlacesAfterComma(doubleToFormat: Double?): String {
@@ -60,3 +60,13 @@ fun takeFirstEightWordsFromString(phraseToShorten: String): String {
     } while (counter < 8)
     return shortenedStringBuilder.toString()
 }
+
+// replacing value from #,## A -> #,## format
+fun deleteCharFromPriceValueString(priceValueMatchResult: MatchResult): String {
+    return deleteCharFromPriceValueString(priceValueMatchResult, regexLettersFromAtoDIgnoreCase)
+}
+
+fun deleteCharFromPriceValueString(matchRegexResult: MatchResult, regex: Regex): String {
+    return matchRegexResult.value.replace(regex, "")
+}
+

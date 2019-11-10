@@ -2,7 +2,7 @@ package piedel.piotr.thesis.data.model.converters
 
 import androidx.room.TypeConverter
 import piedel.piotr.thesis.util.dateToYearMonthDayFormatString
-import piedel.piotr.thesis.util.stringToDate
+import piedel.piotr.thesis.util.stringAnyFormatToDefaultDateFormat
 import java.util.*
 
 // desired format in app and database is yyyy-MM-DD
@@ -10,7 +10,7 @@ class DateConverter {
 
     @TypeConverter
     fun fromString(value: String?): Date? {
-        return value?.stringToDate()
+        return value?.stringAnyFormatToDefaultDateFormat()
     }
 
     @TypeConverter

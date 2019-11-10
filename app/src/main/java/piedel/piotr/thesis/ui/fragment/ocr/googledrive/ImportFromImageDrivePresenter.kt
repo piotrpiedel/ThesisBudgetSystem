@@ -23,7 +23,7 @@ import piedel.piotr.thesis.ui.activity.imagepicker.ImagePickerActivity.Companion
 import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.ImportFromImageDriveView
 import piedel.piotr.thesis.ui.fragment.ocr.googledrive.ImportFromImageDriveContract.PresenterContract
-import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParser
+import piedel.piotr.thesis.util.gdrive.GoogleDriveResponseParserHelper
 import timber.log.Timber
 import java.net.SocketException
 import java.net.UnknownHostException
@@ -84,7 +84,7 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
                                     googleDriveResponseHolder.plainTextFromOutputStream)
 
                             //Fix if not operations contain itd; need to block some of operations on my app
-                            val googleDriveResponseParser = GoogleDriveResponseParser(googleDriveResponseHolder)
+                            val googleDriveResponseParser = GoogleDriveResponseParserHelper(googleDriveResponseHolder)
                             val listOfParsedOperationsFromOCRString = googleDriveResponseParser
                                     .parseStringFromOcrToListOfOperations()
 
@@ -108,8 +108,8 @@ class ImportFromImageDrivePresenter @Inject constructor(private val operationsRe
             !listOfParsedOperationsFromOCRString
                     .isNullOrEmpty()
 
-    private fun setTextViewWithUnParsedTextFromOCR(googleDriveResponseParser: GoogleDriveResponseParser) {
-        Timber.d("setDividedStringOnlyForDebuggingPurpose: %s", googleDriveResponseParser.dividedStringPublicForDebugging)
+    private fun setTextViewWithUnParsedTextFromOCR(googleDriveResponseParserHelper: GoogleDriveResponseParserHelper) {
+        Timber.d("setDividedStringOnlyForDebuggingPurpose: %s", googleDriveResponseParserHelper.dividedStringPublicForDebugging)
     }
 
     private fun showErrorDuringParsingReceipt() {

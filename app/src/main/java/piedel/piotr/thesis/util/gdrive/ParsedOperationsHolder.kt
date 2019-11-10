@@ -2,7 +2,8 @@ package piedel.piotr.thesis.util.gdrive
 
 import piedel.piotr.thesis.data.model.operation.Operation
 
-class GoogleDriveResponseParsedOperationsHolder {
+class ParsedOperationsHolder {
+
     var listOfParsedOperationsFromOCRString: MutableList<Operation> = mutableListOf()
         private set
 

@@ -15,7 +15,7 @@ import piedel.piotr.thesis.ui.base.BasePresenter
 import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewContract.AddOperationView
 import piedel.piotr.thesis.ui.fragment.operation.operationaddnew.OperationAddNewContract.PresenterContract
 import piedel.piotr.thesis.util.rxutils.scheduler.SchedulerUtils
-import piedel.piotr.thesis.util.stringToDate
+import piedel.piotr.thesis.util.stringAnyFormatToDefaultDateFormat
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -103,7 +103,7 @@ constructor(private val operationsRepository: OperationRepository, private val c
             valueOfOperationOther *= -1
         }
 
-        val dateFromString = dateOtherString.stringToDate()
+        val dateFromString = dateOtherString.stringAnyFormatToDefaultDateFormat()
         return operationOther
                 ?.let(updateExistingOperation(valueOfOperationOther, textTitle, valueOfOperation, dateFromString, categoryChild))
                 ?: run {
