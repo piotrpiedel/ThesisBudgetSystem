@@ -1,9 +1,8 @@
+@file:Suppress("FunctionName")
+
 package piedel.piotr.thesis.util.gdrive
 
-import piedel.piotr.thesis.util.deleteCharFromPriceValueString
-import piedel.piotr.thesis.util.regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D
-import piedel.piotr.thesis.util.regexOneToTenDigitsDotOrCommaThreeDigits
-import piedel.piotr.thesis.util.regexOneToTenDigitsDotWhiteSpaceAndLetterA_D
+import piedel.piotr.thesis.util.*
 
 class ResponseRegexSplitter {
 
@@ -16,10 +15,28 @@ class ResponseRegexSplitter {
     fun splitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
             splitToStringListUsingRegexDelimiter(stringToSplit, regexOneToTenDigitsDotOrCommaThreeDigits)
 
-    private fun splitToStringListUsingRegexDelimiter(responseStringToSplit: String,
-                                                     priceFormatRegex: Regex,
-                                                     keepEmpty: Boolean = false,
-                                                     isAddStringAfterLastMatch: Boolean = false): List<String> {
+    fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
+            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsComma)
+
+    private fun splitToStringListUsingRegexDelimiter(listOfStringTokensFromResponse: List<String>, priceFormatRegex: Regex): List<String> {
+        val listOfFinallySplitStrings: MutableList<String> = mutableListOf()
+
+        val temporaryList: MutableList<String> = mutableListOf()
+        for (tokenFromList in listOfStringTokensFromResponse) {
+            if (tokenFromList.matches(priceFormatRegex)) {
+                listOfFinallySplitStrings.add(temporaryList.joinToString())
+                listOfFinallySplitStrings.add(tokenFromList)
+                temporaryList.clear()
+            } else {
+                temporaryList.add(tokenFromList)
+            }
+        }
+        return listOfFinallySplitStrings
+    }
+
+
+    private fun splitToStringListUsingRegexDelimiter(responseStringToSplit: String, priceFormatRegex: Regex,
+                                                     keepEmpty: Boolean = false, isAddStringAfterLastMatch: Boolean = false): List<String> {
         val listOfStringDividedByDelimiter = mutableListOf<String>()
         var startPosition = 0   // Define var for substring start position
         priceFormatRegex.findAll(responseStringToSplit).forEach { foundMatchForPriceRegex ->

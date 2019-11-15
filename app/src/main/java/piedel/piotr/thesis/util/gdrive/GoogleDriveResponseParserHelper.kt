@@ -13,13 +13,11 @@ class GoogleDriveResponseParserHelper(googleDriveResponseHolder: GoogleDriveResp
     var dividedStringPublicForDebugging: List<String> = mutableListOf()
     private val googleDriveResponseParsedOperationsHolder = ParsedOperationsHolder()
 
-
     fun parseStringFromOcrToListOfOperations(): List<Operation> {
         dateOnReceipt = ResponseDateParser(responseOCRedStringFromGDrive)
                 .getDateFromStringOrReturnTodayDate()
 
-        parseStringFromOcrToListOfOperations(ResponseRegexSubstringer(responseOCRedStringFromGDrive)
-                .substringAfterWordsFiscalReceiptOrReturnWholeString())
+        parseStringFromOcrToListOfOperations(ResponseRegexSubstringer(responseOCRedStringFromGDrive).substringAfterWordsFiscalReceiptOrReturnWholeString())
 
         return googleDriveResponseParsedOperationsHolder.listOfParsedOperationsFromOCRString
     }
@@ -31,14 +29,13 @@ class GoogleDriveResponseParserHelper(googleDriveResponseHolder: GoogleDriveResp
         addOperationsToResult(responseString, responseRegexSplitter::splitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits)
     }
 
-    private fun addOperationsToResult(responseString: String, stringSplitterWithRegexFunction: (responseString: String) -> List<String>) {
-        googleDriveResponseParsedOperationsHolder
-                .addResultToOperationList(
-                        PairOfStringsToOperationConverter()
-                                .matchPairsWithTitleValueStringToListOfOperation(
-                                        ResponsePairsMatcher()
-                                                .matchStringFromListToTitleValuePair(stringSplitterWithRegexFunction(responseString))
-                                        , dateOnReceipt))
+    private fun addOperationsToResult(responseString: String, stringSplitterWithRegexFunctionToTitleValueStrings: (responseString: String) -> List<String>) {
+        googleDriveResponseParsedOperationsHolder.addResultToOperationList(convertStringPairsTitleValueAndDateToListOfOperation(stringSplitterWithRegexFunctionToTitleValueStrings.invoke(responseString)))
     }
+
+    private fun convertStringPairsTitleValueAndDateToListOfOperation(stringSplitterWithRegexFunctionToTitleValueStrings: List<String>) =
+            PairOfStringsToOperationConverter().matchPairsWithTitleValueStringToListOfOperation(matchStringFromListToTitleValuePair(stringSplitterWithRegexFunctionToTitleValueStrings), dateOnReceipt)
+
+    private fun matchStringFromListToTitleValuePair(listOfString: List<String>) = ResponsePairsMatcher().matchStringFromListToTitleValuePair(listOfString)
 
 }

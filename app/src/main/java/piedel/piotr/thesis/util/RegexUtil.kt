@@ -17,6 +17,12 @@ val regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[
 // (1-10 digits)(,)(one or more spaces)(one letter A-D)
 val regexOneToTenDigitsDotWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[.]\d{2}\s*(?i)[A-D]{1}\b""")
 
+// (1-10 digits)(,)(one or more spaces)(one letter A-D)
+val regexOneToTenDigitsComma: Regex = Regex("""\b\d{1,10}[,]\d{2}""")
+
+// (1-10 digits)(,)(one or more spaces)(one letter A-D)
+val regexOneToTenDigitsDot: Regex = Regex("""\b\d{1,10}[.]\d{2}""")
+
 // (1-10 digits)(,|.)(3 digits)
 val regexOneToTenDigitsDotOrCommaThreeDigits: Regex = Regex("""\b\d{1,10}[.,]\d{3}\b""")
 

@@ -7,6 +7,6 @@ import java.util.*
 class ResponseDateParser(private val stringToGetDateFrom: String) {
 
     fun getDateFromStringOrReturnTodayDate(): Date =
-            getAnyDateIfStringContainsDate(stringToGetDateFrom)?.stringAnyFormatToDefaultDateFormat()
-                    ?: Date()
+            getAnyDateIfStringContainsDate(stringToGetDateFrom)
+                    ?.stringAnyFormatToDefaultDateFormat() ?: Date()
 }

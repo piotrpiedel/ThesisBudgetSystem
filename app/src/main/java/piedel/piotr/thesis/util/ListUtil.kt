@@ -11,3 +11,8 @@ fun <T> List<T>.toPair(): List<Pair<T, T>> {
         return listOfPairs
     } else return listOf(Pair(this[0], this[1]))
 }
+
+
+fun String.tokenize(): List<String> {
+    return this.split(" ").filter { it.isNotBlank() }.toList()
+}
