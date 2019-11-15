@@ -24,9 +24,12 @@ class GoogleDriveResponseParserHelper(googleDriveResponseHolder: GoogleDriveResp
 
     private fun parseStringFromOcrToListOfOperations(responseString: String) {
         val responseRegexSplitter = ResponseRegexSplitter()
-        addOperationsToResult(responseString, responseRegexSplitter::splitStringToListUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D)
+        addOperationsToResult(responseString, responseRegexSplitter::splitStringToListUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D) //TODO: remove those based on whole string cause they almost always not working
         addOperationsToResult(responseString, responseRegexSplitter::splitStringToListUsingRegexOneToTenDigitsDotWhiteSpaceAndLetterA_D)
         addOperationsToResult(responseString, responseRegexSplitter::splitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits)
+        addOperationsToResult(responseString, responseRegexSplitter::tokenizeAndSplitStringToListUsingRegexOneToTenDigitsComma)
+        addOperationsToResult(responseString, responseRegexSplitter::tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDot)
+        addOperationsToResult(responseString, responseRegexSplitter::tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits)
     }
 
     private fun addOperationsToResult(responseString: String, stringSplitterWithRegexFunctionToTitleValueStrings: (responseString: String) -> List<String>) {

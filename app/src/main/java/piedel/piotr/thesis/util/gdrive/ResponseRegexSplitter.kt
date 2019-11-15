@@ -15,17 +15,24 @@ class ResponseRegexSplitter {
     fun splitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
             splitToStringListUsingRegexDelimiter(stringToSplit, regexOneToTenDigitsDotOrCommaThreeDigits)
 
-    fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
+    fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsComma(stringToSplit: String): List<String> =
             splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsComma)
+
+    fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDot(stringToSplit: String): List<String> =
+            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsDot)
+
+    fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
+            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsDotOrCommaThreeDigits)
 
     private fun splitToStringListUsingRegexDelimiter(listOfStringTokensFromResponse: List<String>, priceFormatRegex: Regex): List<String> {
         val listOfFinallySplitStrings: MutableList<String> = mutableListOf()
 
         val temporaryList: MutableList<String> = mutableListOf()
         for (tokenFromList in listOfStringTokensFromResponse) {
-            if (tokenFromList.matches(priceFormatRegex)) {
+            if (tokenFromList.contains(priceFormatRegex)) {
                 listOfFinallySplitStrings.add(temporaryList.joinToString())
-                listOfFinallySplitStrings.add(tokenFromList)
+                listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
+
                 temporaryList.clear()
             } else {
                 temporaryList.add(tokenFromList)
