@@ -30,9 +30,10 @@ class ResponseRegexSplitter {
         val temporaryList: MutableList<String> = mutableListOf()
         for (tokenFromList in listOfStringTokensFromResponse) {
             if (tokenFromList.contains(priceFormatRegex)) {
-                listOfFinallySplitStrings.add(temporaryList.joinToString())
-                listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
-
+                if (temporaryList.isNotEmpty()) {
+                    listOfFinallySplitStrings.add(temporaryList.joinToString())
+                    listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
+                }
                 temporaryList.clear()
             } else {
                 temporaryList.add(tokenFromList)
