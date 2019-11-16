@@ -26,22 +26,41 @@ class ResponseRegexSplitter {
 
     private fun splitToStringListUsingRegexDelimiter(listOfStringTokensFromResponse: List<String>, priceFormatRegex: Regex): List<String> {
         val listOfFinallySplitStrings: MutableList<String> = mutableListOf()
-
         val temporaryList: MutableList<String> = mutableListOf()
-        for (tokenFromList in listOfStringTokensFromResponse) {
-            if (tokenFromList.contains(priceFormatRegex)) {
-                if (temporaryList.isNotEmpty()) {
-                    listOfFinallySplitStrings.add(temporaryList.joinToString())
-                    listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
-                }
-                temporaryList.clear()
-            } else {
-                temporaryList.add(tokenFromList)
-            }
-        }
+        var priceValueMatches: Int = computeHowManyPricesMatchesInList(listOfStringTokensFromResponse)
         return listOfFinallySplitStrings
     }
 
+    private fun computeHowManyPricesMatchesInList(listOfStringTokensFromResponse: List<String>): Int {
+        var priceValueMatches: Int = 0
+        for (tokenFromList in listOfStringTokensFromResponse) {
+            if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D)) {
+                priceValueMatches++
+            } else if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D)) {
+                priceValueMatches++
+            } else if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsDotOrCommaThreeDigits)) {
+                priceValueMatches++
+            }
+        }
+        return priceValueMatches
+    }
+
+    private fun isTokenMatchingPriceValueFormat(tokenFromList: String, priceFormatRegex: Regex) =
+            tokenFromList.contains(priceFormatRegex)
+
+
+//        for (tokenFromList in listOfStringTokensFromResponse) {
+//            if (tokenFromList.contains(priceFormatRegex)) {
+//                if (temporaryList.isNotEmpty()) {
+//                    listOfFinallySplitStrings.add(temporaryList.joinToString())
+//                    listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
+//                }
+//                temporaryList.clear()
+//            } else {
+//                temporaryList.add(tokenFromList)
+//            }
+//        }
+//        return listOfFinallySplitStrings
 
     private fun splitToStringListUsingRegexDelimiter(responseStringToSplit: String, priceFormatRegex: Regex,
                                                      keepEmpty: Boolean = false, isAddStringAfterLastMatch: Boolean = false): List<String> {
