@@ -9,19 +9,25 @@ package piedel.piotr.thesis.util
 // (one letter [a-d][A-D])
 val regexLettersFromAtoDIgnoreCase = Regex("(?i)[a-d]")
 
+// (one letter [a-d][A-D])
+val regexSingleDigitZeroToNine = Regex("[0-9]")
+
+// (one letter [a-d][A-D])
+val regexLetterOrDigit = Regex("[a-zA-Z0-9]")
+
 val regexReceiptWord: Regex = Regex("""\b(?i)(paragon fiskalny|fiskalny|paragon)\b""")
 
 // (1-10 digits)(,)(one or more spaces)(one letter A-D)
-val regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[,]\d{2}\s*(?i)[A-D]{1}\b""")
+val regexOneToTenDigitsCommaTwoDigitsWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[,]\d{2}\s*(?i)[A-D]{1}\b""")
 
 // (1-10 digits)(,)(one or more spaces)(one letter A-D)
-val regexOneToTenDigitsDotWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[.]\d{2}\s*(?i)[A-D]{1}\b""")
+val regexOneToTenDigitsDotTwoDigitsWhiteSpaceAndLetterA_D: Regex = Regex("""\b\d{1,10}[.]\d{2}\s*(?i)[A-D]{1}\b""")
 
 // (1-10 digits)(,)(one or more spaces)(one letter A-D)
-val regexOneToTenDigitsComma: Regex = Regex("""\b\d{1,10}[,]\d{2}""")
+val regexOneToTenDigitsCommaTwoDigits: Regex = Regex("""\b\d{1,10}[,]\d{2}""")
 
 // (1-10 digits)(,)(one or more spaces)(one letter A-D)
-val regexOneToTenDigitsDot: Regex = Regex("""\b\d{1,10}[.]\d{2}""")
+val regexOneToTenDigitsDotTwoDigits: Regex = Regex("""\b\d{1,10}[.]\d{2}""")
 
 // (1-10 digits)(,|.)(3 digits)
 val regexOneToTenDigitsDotOrCommaThreeDigits: Regex = Regex("""\b\d{1,10}[.,]\d{3}\b""")

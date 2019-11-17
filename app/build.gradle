@@ -186,6 +186,7 @@ dependencies {
     kapt roomCompiler
     kaptTest daggerLibs
     kaptAndroidTest daggerLibs
+    testImplementation testLibraries
 
 }
 

@@ -6,64 +6,48 @@ import piedel.piotr.thesis.util.*
 
 class ResponseRegexSplitter {
 
-    fun splitStringToListUsingRegexOneToTenDigitsCommaWhiteSpaceAndLetterA_D(stringToSplit: String): List<String> =
-            (splitToStringListUsingRegexDelimiter(stringToSplit, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D))
-
-    fun splitStringToListUsingRegexOneToTenDigitsDotWhiteSpaceAndLetterA_D(stringToSplit: String): List<String> =
-            splitToStringListUsingRegexDelimiter(stringToSplit, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D)
-
-    fun splitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
-            splitToStringListUsingRegexDelimiter(stringToSplit, regexOneToTenDigitsDotOrCommaThreeDigits)
-
     fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsComma(stringToSplit: String): List<String> =
-            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsComma)
+            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsCommaTwoDigits)
 
     fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDot(stringToSplit: String): List<String> =
-            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsDot)
+            splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsDotTwoDigits)
 
     fun tokenizeAndSplitStringToListUsingRegexOneToTenDigitsDotOrCommaThreeDigits(stringToSplit: String): List<String> =
             splitToStringListUsingRegexDelimiter(stringToSplit.tokenize(), regexOneToTenDigitsDotOrCommaThreeDigits)
 
-    private fun splitToStringListUsingRegexDelimiter(listOfStringTokensFromResponse: List<String>, priceFormatRegex: Regex): List<String> {
+    fun splitToStringListUsingRegexDelimiter(listOfStringTokensFromResponse: List<String>, priceFormatRegex: Regex): List<String> {
+        val filteredListRemovedLettersAD: List<String> = filterSingleCharTokensWhereLetterA_D(listOfStringTokensFromResponse)
         val listOfFinallySplitStrings: MutableList<String> = mutableListOf()
         val temporaryList: MutableList<String> = mutableListOf()
-        var priceValueMatches: Int = computeHowManyPricesMatchesInList(listOfStringTokensFromResponse)
+        for (tokenFromList in listOfStringTokensFromResponse) {
+            if (tokenFromList.contains(priceFormatRegex)) {
+                if (temporaryList.isNotEmpty()) {
+                    listOfFinallySplitStrings.add(temporaryList.joinToString())
+                    listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
+                }
+                temporaryList.clear()
+            } else {
+                temporaryList.add(tokenFromList)
+            }
+        }
         return listOfFinallySplitStrings
     }
 
-    private fun computeHowManyPricesMatchesInList(listOfStringTokensFromResponse: List<String>): Int {
-        var priceValueMatches: Int = 0
-        for (tokenFromList in listOfStringTokensFromResponse) {
-            if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsCommaWhiteSpaceAndLetterA_D)) {
-                priceValueMatches++
-            } else if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsDotWhiteSpaceAndLetterA_D)) {
-                priceValueMatches++
-            } else if (isTokenMatchingPriceValueFormat(tokenFromList, regexOneToTenDigitsDotOrCommaThreeDigits)) {
-                priceValueMatches++
-            }
-        }
-        return priceValueMatches
+    fun filterSingleCharTokensWhereLetterA_D(listOfStringTokensFromResponse: List<String>): List<String> {
+        return listOfStringTokensFromResponse
+                .filter { token -> !token.matches(regexLettersFromAtoDIgnoreCase) }
+                .filter { token -> !token.matches(regexSingleDigitZeroToNine) }
+                .filter { token -> token.isNotBlank() }
+//                .filter { token -> token.length > 1 }
     }
 
-    private fun isTokenMatchingPriceValueFormat(tokenFromList: String, priceFormatRegex: Regex) =
-            tokenFromList.contains(priceFormatRegex)
+
+    private fun isTokenMatchingPriceValueFormat(tokenFromList: String, priceFormatRegex: Regex) = priceFormatRegex.findAll(tokenFromList, 0).count()
+//    private fun isTokenMatchingPriceValueFormat(tokenFromList: String, priceFormatRegex: Regex) = tokenFromList.contains(priceFormatRegex)
 
 
-//        for (tokenFromList in listOfStringTokensFromResponse) {
-//            if (tokenFromList.contains(priceFormatRegex)) {
-//                if (temporaryList.isNotEmpty()) {
-//                    listOfFinallySplitStrings.add(temporaryList.joinToString())
-//                    listOfFinallySplitStrings.add(priceFormatRegex.find(tokenFromList)?.value.toString())
-//                }
-//                temporaryList.clear()
-//            } else {
-//                temporaryList.add(tokenFromList)
-//            }
-//        }
-//        return listOfFinallySplitStrings
-
-    private fun splitToStringListUsingRegexDelimiter(responseStringToSplit: String, priceFormatRegex: Regex,
-                                                     keepEmpty: Boolean = false, isAddStringAfterLastMatch: Boolean = false): List<String> {
+    private fun splitToStringListUsingRegexDelimiter2(responseStringToSplit: String, priceFormatRegex: Regex,
+                                                      keepEmpty: Boolean = false, isAddStringAfterLastMatch: Boolean = false): List<String> {
         val listOfStringDividedByDelimiter = mutableListOf<String>()
         var startPosition = 0   // Define var for substring start position
         priceFormatRegex.findAll(responseStringToSplit).forEach { foundMatchForPriceRegex ->

@@ -4,19 +4,13 @@ ext {
             firebase            : '17.2.0',
             okHttp              : "4.2.1",
             retrofit            : '2.6.2',
-            espresso            : '3.1.0',
-            espressoRunner      : '1.1.0',
             dagger              : '2.25.2',
             butterKnife         : '10.2.0',
             leakcanary          : '1.6.2',
-            robolectric         : '4.3.1',
-            assertj             : '1.1.1',
             dexter              : '6.0.0',
             glide               : '4.10.0',
             rxKotlin            : '2.4.0',
             rxAndroid           : '2.1.1',
-            mockito             : '3.1.2',
-            junit               : '4.12',
             timber              : '4.7.1',
             stethOkhttp         : '1.5.1',
             multiDex            : '2.0.1',
@@ -26,7 +20,15 @@ ext {
             monthyearpicker     : '0.0.1',
             MPAndroidChart      : 'v3.1.0',
             jsoup               : '1.12.1',
-            moshi               : '1.8.0'
+            moshi               : '1.8.0',
+
+            mockito             : '3.1.10',
+            robolectric         : '4.3.1',
+            junit               : '5.5.2',
+            mockK               : '1.9.3',
+            assertj             : '1.1.1',
+            espresso            : '3.1.0',
+            espressoRunner      : '1.1.0',
     ]
 
     supportDeps = [
@@ -66,9 +68,17 @@ ext {
 
     dagger = [
             daggerCompiler              : "com.google.dagger:dagger-compiler:$versions.dagger",
-            daggerAndroidCompiler       : "com.google.dagger:dagger-android:$versions.dagger",
+            daggerAndroidCompiler       : "com.google.dagger:dagger-android:junit",
             daggerAndroidSupportCompiler: "com.google.dagger:dagger-android-support:$versions.dagger", // if you use the support libraries
             daggerAndroidAnnotation     : "com.google.dagger:dagger-android-processor:$versions.dagger"
+    ]
+
+//    https://phauer.com/2018/best-practices-unit-testing-kotlin/#tl-dr
+    junit_androidCore_mockK = [
+            junit                         : "org.junit.jupiter:junit-jupiter-api:$versions.junit",  //JUnit5
+            androidxTestsCore            : "androidx.test:core:$versions.androidx",
+            mockK                         : "io.mockk:mockk-dsl-jvm:$versions.mockK"     // mockK to final classess
+//            mockito                       : "org.mockito:mockito-core:1.10.19",
     ]
 
     supportLibs = supportDeps.values()
@@ -78,6 +88,7 @@ ext {
     rxBindingsLibs = rxBindings.values()
     daggerLibs = dagger.values()
     glideLibs = glide.values()
+    testLibraries = junit_androidCore_mockK.values()
 
     leakCannary = "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
 
